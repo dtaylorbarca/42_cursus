@@ -1,40 +1,61 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dtaylor- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/14 12:16:41 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/14 17:47:45 by dtaylor-         ###   ########.fr       */
+/*   Created: 2026/01/14 13:54:26 by dtaylor-          #+#    #+#             */
+/*   Updated: 2026/01/14 18:03:33 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
+#include <stdlib.h>
 
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
+int	ft_strlen(unsigned char *str)
 {
-	size_t	i;
+	int	i;
+
+	i = 0;
+	while (str[i] != '\0')
+		i++;
+	return (i);
+}
+
+
+char	*ft_strjoin(char const *s1, char const *s2)
+{
 	unsigned char	*s1_new;
 	unsigned char	*s2_new;
+	unsigned char	*str;
+	int		len;
+	int		count;
 
 	s1_new = (unsigned char *) s1;
 	s2_new = (unsigned char *) s2;
-	if (n == 0)
+	len = ft_strlen(s1_new) + ft_strlen(s2_new);
+	str = malloc(len * sizeof(char));
+	if (str == NULL)
 		return (0);
-	i = 0;
-	while (s1_new[i] && s2_new[i] && s1_new[i] == s2_new[i] && i < n - 1)
-		i++;
-	if (i == n)
-		return (0);
-	return (s1_new[i] - s2_new[i]);
+	count = 0;
+	while (*s1_new)
+	{
+		str[count] = *s1_new;
+		count++;
+		s1_new++;
+	}
+	while (*s2_new)
+	{
+		str[count] = *s2_new;
+		count++;
+		s2_new++;
+	}
+	return ((char *) str);
 }
 
-int	main(void)
+/*int	main(void)
 {
-	char	s1[] = "\0";
-	char	s2[] = "adcd";
-
-	printf("%d",ft_strncmp(s1, s2, 2));
+	printf("%s", ft_strjoin("Hello", " Victor"));
 	return (0);
-}
+}*/

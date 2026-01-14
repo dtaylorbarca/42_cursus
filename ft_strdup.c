@@ -6,14 +6,14 @@
 /*   By: dtaylor- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 10:34:42 by dtaylor-          #+#    #+#             */
-/*   Updated: 2025/11/25 13:25:52 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/01/14 18:00:58 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <stdio.h>
 
-int	ft_strlen(char *src)
+int	ft_strlen(unsigned char *src)
 {
 	int	i;
 
@@ -23,7 +23,7 @@ int	ft_strlen(char *src)
 	return (i);
 }
 
-void	ft_strcpy(char *dest, char *src)
+void	ft_strcpy(unsigned char *dest, unsigned char *src)
 {
 	int	i;
 
@@ -36,15 +36,17 @@ void	ft_strcpy(char *dest, char *src)
 	dest[i] = '\0';
 }
 
-char	*ft_strdup(char *src)
+char	*ft_strdup(const char *src)
 {
 	int		len;
-	char	*dest;
+	unsigned char	*dest;
+	unsigned char	*src_new;
 
-	len = ft_strlen(src);
+	src_new = (unsigned char *) src;
+	len = ft_strlen(src_new);
 	dest = malloc(len * sizeof(char));
-	ft_strcpy(dest, src);
-	return (dest);
+	ft_strcpy(dest, src_new);
+	return ((char *) dest);
 }
 
 /*int	main(void)

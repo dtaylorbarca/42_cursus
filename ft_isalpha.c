@@ -6,7 +6,7 @@
 /*   By: dtaylor- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 10:00:50 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/12 16:21:39 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/01/14 17:18:41 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ft_isalpha(int c)
 	return (0);
 }
 
-int	main(void)
+/*int	main(void)
 {
 	char str = 'C';
 	int	value;
@@ -27,4 +27,4 @@ int	main(void)
 	value = ft_isalpha(str);
 	printf("%d", value);
 	return (0);
-}
+}*/

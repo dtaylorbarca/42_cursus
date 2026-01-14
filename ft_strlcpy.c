@@ -6,33 +6,36 @@
 /*   By: dtaylor- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 15:14:06 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/13 14:42:12 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/01/14 17:33:38 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
+#include <bsd/string.h>
 
-size_t	ft_strlcpy(char *dest, char *src, size_t size)
+size_t	ft_strlcpy(char *dest, const char *src, size_t size)
 {
 	size_t	i;
 	size_t	length;
+	unsigned char	*src_new;
 
 	i = 0;
 	length = 0;
-	while (src[length] != '\0')
+	src_new = (unsigned char *) src;
+	while (src_new[length] != '\0')
 		length++;
 	if (size == 0)
 		return (length);
-	while (src[i] != '\0' && i < size -1)
+	while (src_new[i] != '\0' && i < size -1)
 	{
-		dest[i] = src[i];
+		dest[i] = src_new[i];
 		i++;
 	}
 	dest[i] = '\0';
 	return (length);
 }
 
-int	main(void)
+/*int	main(void)
 {
 	char			dest[13];
 	char			src[] = "Hello world!";
@@ -41,5 +44,6 @@ int	main(void)
 	length = ft_strlcpy(dest, src, sizeof(dest));
 	printf("Returned length: %u\n", length);
 	printf("Dest: \"%s\"\n", dest);
+	printf("%lu\n", strlcpy(dest, src, sizeof(dest)));
 	return (0);
-}
+}*/

@@ -6,7 +6,7 @@
 /*   By: dtaylor- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 17:57:15 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/13 13:27:20 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/01/14 17:23:31 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ void	*ft_memset(void *str, int c, size_t len)
 	return (str);
 }
 
-int	main(void)
+/*int	main(void)
 {
-	/*int n = 10;
+	int n = 10;
     int arr_1[n];
 	int arr_2[n];
 	int	i = 0;
@@ -58,5 +58,5 @@ int	main(void)
 	ft_memset(str_2 + 13, '.', 8*sizeof(char));
 	printf("After memset():  %s\n", str_1);
 	printf("After ft_memset():  %s\n", str_2);
-	return (0);*/
-}
+	return (0);
+}*/

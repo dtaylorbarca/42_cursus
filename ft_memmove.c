@@ -6,7 +6,7 @@
 /*   By: dtaylor- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 14:18:39 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/13 15:01:52 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/01/14 17:26:36 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,32 +15,40 @@
 
 void	*ft_memmove(void *dest, const void *src, size_t n)
 {
-	char	*dest_mem;
-	char	*src_mem;
-	char	temp[100];
+	unsigned char	*dest_mem;
+	unsigned char	*src_mem;
 	size_t	i;
 
-	dest_mem = (char *) dest;
-	src_mem = (char *) src;
+	dest_mem = (unsigned char *) dest;
+	src_mem = (unsigned char *) src;
 	i = 0;
-	while (i < n)
+	if (dest_mem < src_mem)
 	{
-		temp[i] = src_mem[i];
-		i++;
+		while (i < n)
+		{
+			dest_mem[i] = src_mem[i];
+			i++;
+		}
+	
 	}
-	i = 0;
-	while (i < n)
+	else
 	{
-		dest_mem[i] = temp[i];
-		i++;
+		while (n > 0)
+		{
+			n--;
+			dest_mem[n] = src_mem[n];
+		}
 	}
 	return (dest);
 }
 
-int main() 
+/*int main() 
 { 
-	char csrc[100] = "Geeksfor"; 
-	ft_memmove(csrc+5, csrc, strlen(csrc)+1); 
-	printf("%s", csrc); 
+	char csrc1[100] = "Geeksfor";
+	char csrc2[100] = "Geeksfor";
+	memmove(csrc1+5, csrc1, strlen(csrc1)+1);  
+	ft_memmove(csrc2+5, csrc2, strlen(csrc2)+1); 
+	printf("memmove: %s\n", csrc1);
+	printf("ft_memmove: %s\n", csrc2);
 	return 0; 
-}
+}*/

@@ -6,13 +6,13 @@
 /*   By: dtaylor- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 18:40:19 by dtaylor-          #+#    #+#             */
-/*   Updated: 2025/11/12 20:18:06 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/01/14 17:22:49 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 
-int	ft_strlen(char *str)
+size_t	ft_strlen(char *str)
 {
 	int	i;
 
@@ -28,6 +28,6 @@ int	ft_strlen(char *str)
 	int	length;
 
 	length = ft_strlen(tab);
-	printf("The length of the string is %d", length);
+	printf("The length of the string is %z", length);
 	return (0);
 }*/

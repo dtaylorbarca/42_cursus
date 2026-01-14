@@ -6,7 +6,7 @@
 /*   By: dtaylor- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 16:09:38 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/12 16:46:21 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/01/14 17:19:39 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	ft_isalnum(int c)
 	return (0); 
 }
 
-int	main(void)
+/*int	main(void)
 {
 	char	string = '	';
 	int		number;
@@ -51,4 +51,4 @@ int	main(void)
   		printf("%d\n", number);
 	}
 	return (0);
-}
+}*/

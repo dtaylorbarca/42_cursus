@@ -6,7 +6,7 @@
 /*   By: dtaylor- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 16:52:25 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/12 17:02:25 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/01/14 17:20:22 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	ft_isascii(int c)
 	return (0);
 }
 
-int	main(void)
+/*int	main(void)
 {
 	int		string = 126;
 	int		number;
@@ -29,4 +29,4 @@ int	main(void)
 	printf("isascii = %d\n", isascii(string));
 	printf("ft_isascii = %d\n", number);
 	return (0);
-}
+}*/

@@ -1,37 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_bzero.c                                         :+:      :+:    :+:   */
+/*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dtaylor- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/12 18:58:29 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/14 17:24:03 by dtaylor-         ###   ########.fr       */
+/*   Created: 2026/01/14 17:12:02 by dtaylor-          #+#    #+#             */
+/*   Updated: 2026/01/14 17:18:13 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-
-void	ft_bzero(void *s, size_t n)
+char	*ft_strtrim(char const *s1, char const *set)
 {
-	size_t	i;
-	char	*p;
-
-	i = 0;
-	p = (char *)s; 
-	while (i < n)
-	{
-		*p = '\0';
-		p++;
-		i++;
-	}
+	
 }
-
-/*int	main() {
-	char s[] = "meow";
-	size_t n = 0;
-
-	ft_bzero(s, n);
-	for (size_t i = 0; i < n; i++)
-		printf("%d ", s[i]); 
-}*/

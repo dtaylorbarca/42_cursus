@@ -1,32 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isprint.c                                       :+:      :+:    :+:   */
+/*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dtaylor- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/13 13:24:12 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/14 17:21:39 by dtaylor-         ###   ########.fr       */
+/*   Created: 2026/01/14 14:02:41 by dtaylor-          #+#    #+#             */
+/*   Updated: 2026/01/14 18:02:12 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
 #include <stdio.h>
-#include <ctype.h>
 
-int	ft_isprint(int c)
+char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	if (c <= 33 && c <= 126)
-			return (0);
-	return (1);
+	unsigned char	*s1;
+	unsigned char	*new;
+	size_t	count;
+
+	s1 = (unsigned char *) s;
+	new = malloc(len * sizeof(char));
+	if (new == NULL)
+		return (0);
+	count = 0;
+	while (count < len)
+	{
+		new[count] = s1[start];
+		count++;
+		start++;
+	}
+	return ((char *) new);
 }
 
 /*int	main(void)
 {
-	int		string = 20;
-	int		number;
+	char	s[] = "Hello my name is Dylan";
+	int		start = 6;
+	size_t 	len = 34;
 
-	number = ft_isprint(string);
-	printf("isprint = %d\n", isprint(string));
-	printf("ft_isprint = %d\n", number);
+	printf("%s\n", ft_substr(s, start, len));
 	return (0);
 }*/

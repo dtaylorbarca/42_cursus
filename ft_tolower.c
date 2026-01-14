@@ -6,7 +6,7 @@
 /*   By: dtaylor- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 15:03:31 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/13 15:06:37 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/01/14 17:37:27 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ int	ft_tolower(int c)
 	return (c);
 }
 
-int	main(void)
+/*int	main(void)
 {
 	char c = 'C';
 
 	printf("%c", ft_tolower(c));
 	return (0);
-}
+}*/
