@@ -83,7 +83,7 @@ char	**ft_split(char const *s, char c)
 
 int	main(void)
 {
-	char	**split = ft_split("Hello world how are you doing?", ' ');
+	char	**split = ft_split("Hello adios?", ' ');
 
 	while (*split)
 	{

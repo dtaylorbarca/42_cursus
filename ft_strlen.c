@@ -14,10 +14,10 @@
 
 size_t	ft_strlen(const char *str)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
-	while (str[i] != '\0')
+	while (str[i])
 		i++;
 	return (i);
 }
@@ -25,9 +25,9 @@ size_t	ft_strlen(const char *str)
 /*int	main(void)
 {
 	char	tab[] = "String";
-	int	length;
+	size_t	length;
 
 	length = ft_strlen(tab);
-	printf("The length of the string is %z", length);
+	printf("The length of the string is %zu", length);
 	return (0);
 }*/
