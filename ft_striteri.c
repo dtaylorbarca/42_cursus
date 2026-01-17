@@ -1,37 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_bzero.c                                         :+:      :+:    :+:   */
+/*   ft_striteri.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dtaylor- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/12 18:58:29 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/14 18:58:18 by dtaylor-         ###   ########.fr       */
+/*   Created: 2026/01/15 18:30:50 by dtaylor-          #+#    #+#             */
+/*   Updated: 2026/01/15 19:12:35 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 
-void	ft_bzero(void *s, size_t n)
+void	ft_striteri(char *s, void (*f)(unsigned int, char *))
 {
-	size_t	i;
-	char	*p;
+	int		count;
 
-	i = 0;
-	p = (char *)s;
-	while (i < n)
+	count = 0;
+	while (s[count])
 	{
-		*p = '\0';
-		p++;
-		i++;
+		f(count, &s[count]);
+		count ++;
 	}
+	printf("%s", s);
 }
 
-/*int	main() {
-	char s[] = "meow";
-	size_t n = 0;
+void	ft_toupper(unsigned int i, char *c)
+{
+	i = 0;
+	if (97 <= *c && *c <= 122)
+		*c -= 32;
+}
 
-	ft_bzero(s, n);
-	for (size_t i = 0; i < n; i++)
-		printf("%d ", s[i]); 
-}*/
+int	main(void)
+{
+	char	str[] = "hello";
+	ft_striteri(str, ft_toupper);
+	return (0);
+}

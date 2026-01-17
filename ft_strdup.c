@@ -6,7 +6,7 @@
 /*   By: dtaylor- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 10:34:42 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/14 18:00:58 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/01/14 19:02:13 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	ft_strcpy(unsigned char *dest, unsigned char *src)
 
 char	*ft_strdup(const char *src)
 {
-	int		len;
+	int				len;
 	unsigned char	*dest;
 	unsigned char	*src_new;
 

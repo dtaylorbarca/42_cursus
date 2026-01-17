@@ -6,7 +6,7 @@
 /*   By: dtaylor- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 16:09:38 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/14 17:19:39 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/01/14 19:03:31 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	ft_isalpha(int c)
 int	ft_isdigit(int c)
 {
 	if (!(c >= '0' && c <= '9'))
-			return (0);
+		return (0);
 	return (1);
 }
 
@@ -31,7 +31,7 @@ int	ft_isalnum(int c)
 {
 	if (ft_isalpha(c) || ft_isdigit(c))
 		return (1);
-	return (0); 
+	return (0);
 }
 
 /*int	main(void)

@@ -6,7 +6,7 @@
 /*   By: dtaylor- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 15:43:00 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/14 17:41:24 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/01/14 19:03:52 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 char	*ft_strchr(const char *s, int c)
 {
-	unsigned char *i;
+	unsigned char	*i;
 
 	i = (unsigned char *) s;
 	if (c == '\0')

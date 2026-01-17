@@ -6,7 +6,7 @@
 /*   By: dtaylor- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 15:14:06 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/14 17:33:38 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/01/14 19:05:46 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 size_t	ft_strlcpy(char *dest, const char *src, size_t size)
 {
-	size_t	i;
-	size_t	length;
+	size_t			i;
+	size_t			length;
 	unsigned char	*src_new;
 
 	i = 0;

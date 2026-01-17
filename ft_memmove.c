@@ -6,7 +6,7 @@
 /*   By: dtaylor- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 14:18:39 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/14 17:26:36 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/01/14 19:05:31 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	*ft_memmove(void *dest, const void *src, size_t n)
 {
 	unsigned char	*dest_mem;
 	unsigned char	*src_mem;
-	size_t	i;
+	size_t			i;
 
 	dest_mem = (unsigned char *) dest;
 	src_mem = (unsigned char *) src;
@@ -29,7 +29,6 @@ void	*ft_memmove(void *dest, const void *src, size_t n)
 			dest_mem[i] = src_mem[i];
 			i++;
 		}
-	
 	}
 	else
 	{

@@ -6,7 +6,7 @@
 /*   By: dtaylor- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 13:54:26 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/14 18:03:33 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/01/14 19:04:17 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,13 @@ int	ft_strlen(unsigned char *str)
 	return (i);
 }
 
-
 char	*ft_strjoin(char const *s1, char const *s2)
 {
 	unsigned char	*s1_new;
 	unsigned char	*s2_new;
 	unsigned char	*str;
-	int		len;
-	int		count;
+	int				len;
+	int				count;
 
 	s1_new = (unsigned char *) s1;
 	s2_new = (unsigned char *) s2;

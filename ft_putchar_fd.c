@@ -1,37 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_bzero.c                                         :+:      :+:    :+:   */
+/*   ft_putchar_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dtaylor- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/12 18:58:29 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/14 18:58:18 by dtaylor-         ###   ########.fr       */
+/*   Created: 2026/01/15 19:13:43 by dtaylor-          #+#    #+#             */
+/*   Updated: 2026/01/15 19:16:01 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
+#include <unistd.h>
 
-void	ft_bzero(void *s, size_t n)
+void ft_putchar_fd(char c, int fd)
 {
-	size_t	i;
-	char	*p;
-
-	i = 0;
-	p = (char *)s;
-	while (i < n)
-	{
-		*p = '\0';
-		p++;
-		i++;
-	}
+	write(fd, &c, sizeof(char));
 }
 
-/*int	main() {
-	char s[] = "meow";
-	size_t n = 0;
-
-	ft_bzero(s, n);
-	for (size_t i = 0; i < n; i++)
-		printf("%d ", s[i]); 
-}*/
+int	main(void)
+{
+	ft_putchar_fd('c', 0);
+}

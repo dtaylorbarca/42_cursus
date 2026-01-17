@@ -1,37 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_bzero.c                                         :+:      :+:    :+:   */
+/*   ft_lstdelone.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dtaylor- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/12 18:58:29 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/14 18:58:18 by dtaylor-         ###   ########.fr       */
+/*   Created: 2026/01/16 17:20:16 by dtaylor-          #+#    #+#             */
+/*   Updated: 2026/01/16 17:27:38 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
+#include <stdlib.h>
 
-void	ft_bzero(void *s, size_t n)
+typedef struct		s_list
 {
-	size_t	i;
-	char	*p;
+	void			*content;
+	struct s_list	*next;
+}					t_list;
 
-	i = 0;
-	p = (char *)s;
-	while (i < n)
-	{
-		*p = '\0';
-		p++;
-		i++;
-	}
+void	ft_lstdelone(t_list *lst, void (*del)(void *))
+{
+	
 }
-
-/*int	main() {
-	char s[] = "meow";
-	size_t n = 0;
-
-	ft_bzero(s, n);
-	for (size_t i = 0; i < n; i++)
-		printf("%d ", s[i]); 
-}*/

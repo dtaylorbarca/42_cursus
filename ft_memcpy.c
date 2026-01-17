@@ -6,18 +6,18 @@
 /*   By: dtaylor- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 13:43:29 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/14 17:25:41 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/01/14 18:58:57 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include <string.h>
 
-void	*ft_memcpy(void *dest, const void *src, size_t  n)
+void	*ft_memcpy(void *dest, const void *src, size_t n)
 {
 	unsigned char	*dest_mem;
 	unsigned char	*src_mem;
-	size_t	i;
+	size_t			i;
 
 	dest_mem = (unsigned char *) dest;
 	src_mem = (unsigned char *) src;

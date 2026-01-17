@@ -6,7 +6,7 @@
 /*   By: dtaylor- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 14:02:41 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/14 18:02:12 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/01/14 19:00:31 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	unsigned char	*s1;
 	unsigned char	*new;
-	size_t	count;
+	size_t			count;
 
 	s1 = (unsigned char *) s;
 	new = malloc(len * sizeof(char));

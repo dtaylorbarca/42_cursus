@@ -6,7 +6,7 @@
 /*   By: dtaylor- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 17:57:15 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/14 17:23:31 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/01/14 19:05:08 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 #include <string.h>
 
 void	*ft_memset(void *str, int c, size_t len)
-{ 
+{
 	char	*p;
 
-	p = (char*) str;
+	p = (char *) str;
 	while (len > 0)
 	{
 		*p = c;

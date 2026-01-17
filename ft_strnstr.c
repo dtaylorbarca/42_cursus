@@ -6,7 +6,7 @@
 /*   By: dtaylor- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 10:42:41 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/14 17:55:09 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/01/15 12:44:03 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,18 +20,20 @@ char	*ft_strnstr(const char *s1, const char *s2, size_t n)
 	size_t	j;
 	size_t	c;
 
+	if (!s2[0])
+		return ((char *) s1);
+	if (n == 0)
+		return (0);
 	i = 0;
-	if ((char)s2[0] == '\0' || n == 0)
-		return ((char *)s1);
-	while ((char)s1[i] != '\0' && i < n)
+	while (i < n && s1[i])
 	{
 		j = 0;
 		c = i;
-		while ((char) s1[c] == (char) s2[j])
+		while (c < n && s1[c] == s2[j])
 		{
 			j++;
 			c++;
-			if ((char) s2[j] == '\0')
+			if (s2[j] == '\0')
 				return ((char *) &s1[i]);
 		}
 		i++;
@@ -41,11 +43,11 @@ char	*ft_strnstr(const char *s1, const char *s2, size_t n)
 
 /*int	main(void)
 {
-	char	str1[] = "Hello world!";
-	char	str2[] = "Hello world!";
-	char	to_find[] = "lo";
+	char	str1[] = "hola-mundo";
+	char	str2[] = "hola-mundo";
+	char	to_find[] = "elo";
 
-	printf("%s\n", ft_strnstr(str1, to_find, 4));
-	printf("%s\n", strnstr(str2, to_find, 5));
+	printf("%s\n", ft_strnstr(str1, to_find, 8));
+	printf("%s\n", strnstr(str2, to_find, 8));
 	return (0);
 }*/
