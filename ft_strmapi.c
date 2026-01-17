@@ -12,13 +12,14 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <ctype.h>
 
 size_t	ft_strlen(const char *str)
 {
 	int	i;
 
 	i = 0;
-	while (str[i] != '\0')
+	while (str[i])
 		i++;
 	return (i);
 }
@@ -29,8 +30,10 @@ char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 	size_t			len;
 	size_t			count;
 
+	if (!s || !f)
+		return (0);
 	len = ft_strlen(s);
-	new_str = malloc(len * sizeof(char));
+	new_str = malloc((len + 1) * sizeof(char));
 	count = 0;
 	if (new_str == NULL)
 		return (0);
@@ -39,19 +42,69 @@ char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 		new_str[count] = f(count, s[count]);
 		count ++;
 	}
+	new_str[count] = '\0';
 	return ((char *) new_str);
 }
 
-/*char	ft_toupper(unsigned int i, char c)
+/*// --- Test Mapping Functions ---
+
+// 1. Alternating Case: Uppercase even indices, lowercase odd indices
+char test_alternating_case(unsigned int i, char c)
 {
-	i = 0;
-	if (97 <= c && c <= 122)
-		c -= 32;
-	return (c);
+	if (i % 2 == 0)
+		return (char)toupper((unsigned char)c);
+	return (char)tolower((unsigned char)c);
 }
 
-int	main(void)
+// 2. Index Offset: Shifting characters by their index (a -> a, b -> c, etc.)
+char test_index_shift(unsigned int i, char c)
 {
-	printf("%s", ft_strmapi("hello", ft_toupper));
+	return (char)(c + i);
+}
+
+// --- Test Runner ---
+
+void run_test(char const *s, char (*f)(unsigned int, char), 
+	const char *test_name)
+{
+	printf("Test: %s\n", test_name);
+	printf("Input String: \"%s\"\n", s ? s : "NULL");
+
+	char *result = ft_strmapi(s, f);
+
+	if (result == NULL)
+	{
+		printf("Result: NULL (Allocation failed or NULL input)\n");
+	}
+	else
+	{
+		printf("Result: \"%s\"\n", result);
+		free(result); // Crucial: strmapi allocates new memory
+	}
+	printf("-------------------------------------------\n");
+}
+
+int main(void)
+{
+	printf("--- Starting strmapi Tests ---\n\n");
+
+	// 1. Standard Alpha Test
+	run_test("abcdef", test_alternating_case, "Alternating Case (Even=Upper)");
+
+	// 2. Index Influence Test
+	// 'a' + 0 = 'a', 'a' + 1 = 'b', 'a' + 2 = 'c'...
+	run_test("aaaaa", test_index_shift, "Index Shift (c + i)");
+
+	// 3. Empty String
+	run_test("", test_alternating_case, "Empty String");
+
+	// 4. Numerical/Special Characters
+	run_test("12345 !@#", test_index_shift, "Non-Alpha Characters");
+
+	// 5. NULL Input (Handling protection)
+	run_test(NULL, test_alternating_case, "NULL Input String Protection");
+
+	printf("\n--- Tests Complete ---\n");
 	return (0);
-}*/
+}
+*/

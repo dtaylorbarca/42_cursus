@@ -25,7 +25,7 @@ void	ft_ltsadd_front(t_list **lst, t_list *new)
 	*lst = new;
 }
 
-int	main(void)
+/*int	main(void)
 {
 	t_list	*lst;
 	t_list	*new;
@@ -63,5 +63,4 @@ int	main(void)
 	printf("NULL\n");
 
 	return (0);
-}
-
+}*/

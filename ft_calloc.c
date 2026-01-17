@@ -13,7 +13,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
-#include <bsd/string.h>
+#include <string.h>
 
 void	*ft_calloc(size_t nelem, size_t elsize)
 {
@@ -30,40 +30,69 @@ void	*ft_calloc(size_t nelem, size_t elsize)
 	return (arr);
 }
 
-int main()
+/*void test_calloc(size_t nmemb, size_t size, const char *test_name)
 {
-    // Both of these allocate the same number of bytes,
-    // which is the amount of bytes that is required to
-    // store 5 int values.
+    printf("Test: %s (%zu elements of %zu bytes)\n", test_name, nmemb, size);
 
-    // The memory allocated by calloc will be
-    // zero-initialized, but the memory allocated with
-    // malloc will be uninitialized so reading it would be
-    // undefined behavior.
-    //int* allocated_with_malloc = calloc(5000000000, sizeof(int));
-	size_t	n = 500000000;
-    int* allocated_with_calloc = ft_calloc(n, sizeof(int));
+    // 1. Call your function
+    void *ptr = ft_calloc(nmemb, size);
 
-    // As you can see, all of the values are initialized to
-    // zero.
-    printf("Values of allocated_with_calloc: ");
-    for (size_t i = 0; i < n; i++) {
-        printf("%d ", allocated_with_calloc[i]);
-    }
-    /*putchar('\n');
-
-    // This malloc requests 1 terabyte of dynamic memory,
-    // which is unavailable in this case, and so the
-    // allocation fails and returns NULL.
-    int* failed_malloc = malloc(1000000000000);
-    if (failed_malloc == NULL) {
-        printf("The allocation failed, the value of "
-               "failed_malloc is: %p",
-               (void*)failed_malloc);
+    // 2. Handle NULL returns (could be intentional or a failure)
+    if (ptr == NULL)
+    {
+        if (nmemb == 0 || size == 0)
+            printf("Result: NULL (Expected for 0-size request)\n");
+        else if (nmemb > SIZE_MAX / size)
+            printf("Result: NULL (Expected for Overflow)\n");
+        else
+            printf("Result: NULL (Allocation Failed)\n");
+        printf("-------------------------------------------\n");
+        return;
     }
 
-    // Remember to always free dynamically allocated memory.
-    free(allocated_with_malloc);*/
-    free(allocated_with_calloc);
-	return (0);
+    // 3. Check if memory is actually zeroed out
+    // We create a "reference" block of zeroes to compare against
+    unsigned char *check_ptr = (unsigned char *)ptr;
+    int is_zero = 1;
+    for (size_t i = 0; i < (nmemb * size); i++)
+    {
+        if (check_ptr[i] != 0)
+        {
+            is_zero = 0;
+            break;
+        }
+    }
+
+    if (is_zero)
+        printf("Result: SUCCESS (Memory is zero-initialized)\n");
+    else
+        printf("Result: FAILURE (Memory contains garbage values!)\n");
+
+    // 4. Free the memory
+    free(ptr);
+    printf("-------------------------------------------\n");
 }
+
+int main(void)
+{
+    printf("--- Starting calloc Tests ---\n\n");
+
+    // Standard allocations
+    test_calloc(10, sizeof(int), "Standard Int Array");
+    test_calloc(50, 1, "Small Char Array");
+    test_calloc(1, 1000, "Single Large Block");
+
+    test_calloc(0, 10, "Zero Elements");
+    test_calloc(10, 0, "Zero Size");
+    test_calloc(0, 0, "Both Zero");
+
+    // Overflow case (Total size would exceed size_t capacity)
+    // This tests if you have the (nmemb > SIZE_MAX / size) check
+    test_calloc(SIZE_MAX, 2, "Integer Overflow Test");
+
+    // Large allocation (Should likely fail and return NULL)
+    test_calloc(SIZE_MAX, 1, "Impossible Size");
+
+    printf("\n--- Tests Complete ---\n");
+    return (0);
+}*/

@@ -34,11 +34,11 @@ int	ft_lstsize(t_list *lst)
 	return (count);
 }
 
-int	main(void)
+/*int	main(void)
 {
 	t_list	*head;
 	t_list	*second;
-	t_list *third;
+	t_list	*third;
 
 	head = (t_list *) malloc(sizeof(t_list));
 	second = (t_list *) malloc(sizeof(t_list));
@@ -51,4 +51,4 @@ int	main(void)
 	third -> next = NULL;
 	printf("The length of the list is: %d", ft_lstsize(head));
 	return (0);
-}
+}*/

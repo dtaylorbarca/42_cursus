@@ -37,8 +37,8 @@ int	ft_lstsize(t_list *lst)
 t_list	*ft_lstlast(t_list *lst)
 {
 	t_list	*temp;
-	int	size;
-	int	count;
+	int		size;
+	int		count;
 
 	temp = lst;
 	size = ft_lstsize(lst);
@@ -51,7 +51,7 @@ t_list	*ft_lstlast(t_list *lst)
 	return (temp);
 }
 
-int	main(void)
+/*int	main(void)
 {
 	t_list	*head;
 	t_list	*second;
@@ -70,5 +70,4 @@ int	main(void)
 	node = ft_lstlast(head);
 	printf("The last node of the list is: %s\n", (char *) node -> content);
 	return (0);
-}
-
+}*/

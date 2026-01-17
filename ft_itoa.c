@@ -27,12 +27,38 @@ int	ft_numlen(int n)
 	return (len);
 }
 
+char	*ft_nonzero(int n, char *str_num, unsigned int num, int len)
+{
+	if (n < 0)
+	{
+		len++;
+		str_num = (char *) malloc(len * sizeof(char));
+		num = -n;
+	}
+	else
+	{
+		str_num = (char *) malloc(len * sizeof(char));
+		num = n;
+	}
+	str_num[len] = '\0';
+	while (len--)
+	{
+		str_num[len] = num % 10 + 48;
+		num /= 10;
+	}
+	if (n < 0)
+		str_num[0] = '-';
+	return (str_num);
+}
+
 char	*ft_itoa(int n)
 {
 	char			*str_num;
 	unsigned int	num;
 	int				len;
 
+	str_num = NULL;
+	num = 0;
 	len = ft_numlen(n);
 	if (n == 0)
 	{
@@ -42,30 +68,12 @@ char	*ft_itoa(int n)
 	}
 	else
 	{
-		if (n < 0)
-		{
-			len++;
-			str_num = (char *) malloc(len * sizeof(char));
-			num = -n;
-		}
-		else
-		{
-			str_num = (char *) malloc(len * sizeof(char));
-			num = n;
-		}
-		str_num[len] = '\0';
-		while (len--)
-		{
-			str_num[len] = num  % 10 + 48;
-			num /= 10;
-		}
-		if (n < 0)
-			str_num[0] = '-';
+		str_num = ft_nonzero(n, str_num, num, len);
 	}
 	return (str_num);
 }
 
-void test_itoa(int n)
+/*void test_itoa(int n)
 {
     char *result = ft_itoa(n);
     
@@ -105,5 +113,5 @@ int main(void)
     test_itoa(INT_MIN);  // -2147483648 (Check if your code crashes here!)
 
     printf("\n--- Tests Complete ---\n");
-    return (0);
-}
+	return (0);
+}*/

@@ -61,7 +61,7 @@ void	ft_lstadd_back(t_list **lst, t_list *new)
 	last -> next = new;
 }
 
-int	main(void)
+/*int	main(void)
 {
 	t_list	*head;
 	t_list	*second;
@@ -89,5 +89,4 @@ int	main(void)
 		temp = temp -> next;
 	}
 	return (0);
-}
-
+}*/

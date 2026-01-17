@@ -25,7 +25,7 @@ void	ft_striteri(char *s, void (*f)(unsigned int, char *))
 	printf("%s", s);
 }
 
-void	ft_toupper(unsigned int i, char *c)
+/*void	ft_toupper(unsigned int i, char *c)
 {
 	i = 0;
 	if (97 <= *c && *c <= 122)
@@ -37,4 +37,4 @@ int	main(void)
 	char	str[] = "hello";
 	ft_striteri(str, ft_toupper);
 	return (0);
-}
+}*/
