@@ -27,18 +27,15 @@ char	**ft_malloc(const char *s)
 {
 	size_t	len;
 	char	**split_str;
-	int		count_split;
 	int		i;
 
 	len = ft_strlen(s);
-	count_split = 0;
 	i = 0;
-	split_str = malloc(len * sizeof(char *));
+	split_str = malloc((len + 1) * sizeof(char *));
+	if (!split_str)
+		return (0);
 	return (split_str);
 }
-
-
-
 
 char	**ft_split(char const *s, char c)
 {
@@ -47,43 +44,54 @@ char	**ft_split(char const *s, char c)
 	int		count_split;
 	int		count_chr;
 	int		word_len;
+	int		x;
 
 	split_str = ft_malloc(s);
+	if (!split_str)
+		return (0);
 	count_s = 0;
 	count_split = 0;
 	count_chr = 0;
+	x = 0;
+	//Maybe if two delimiters in a row, make empty strings in between each delimiter?
 	while (s[count_s] == c)
 		count_s ++;
 	while (s[count_s])
 	{
+		word_len = 0;
 		while(s[count_s] != c)
 		{
 			word_len ++;
 			count_s++;
 		}
 		split_str[count_split] = malloc(word_len * sizeof(char));
-		if (split_str[count_split] == NULL)
-		{
-			
+		if (!split_str[count_split])
 			return (0);
+		while (x < word_len)
+		{
+			split_str[count_split][count_chr] = s[count_s - word_len];
+			count_chr ++;
+			count_s ++;
+			x ++;
 		}
-		split_str[count_split][count_chr] = s[count_s];
 		if (s[count_s] == c && (count_s + 1 < ft_strlen(s)))
 		{
 			split_str[count_split][count_chr] = '\0';
 			count_split ++;
 			count_chr = 0;
 		}
-		count_chr ++;
+		else
+			count_chr ++;
 		count_s ++;
 	}
 	split_str[count_split] = NULL;
+	free(split_str[count_split ++]);
 	return (split_str);
 }
 
 int	main(void)
 {
-	char	**split = ft_split("Hello adios?", ' ');
+	char	**split = ft_split("Hello,adios?", ',');
 
 	while (*split)
 	{
