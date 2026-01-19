@@ -5,98 +5,109 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: dtaylor- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/15 11:53:57 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/15 14:22:46 by dtaylor-         ###   ########.fr       */
+/*   Created: 2026/01/19 16:58:53 by dtaylor-          #+#    #+#             */
+/*   Updated: 2026/01/19 18:17:03 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <stdio.h>
+#include "libft.h"
 
-size_t	ft_strlen(const char *str)
+static size_t	ft_count_words(const char *s, char c)
 {
-	int	i;
+	size_t	word_count;
+	int		i;
+
+	word_count = 0;
+	i = 0;
+	while (s[i])
+	{
+		while (s[i] && s[i] == c)
+			i++;
+		if (s[i] && s[i] != c)
+			word_count++;
+		while (s[i] && s[i] != c)
+			i++;
+	}
+	return (word_count);
+}
+
+static size_t	ft_word_len(const char *s, char c)
+{
+	size_t	i;
 
 	i = 0;
-	while (str[i] != '\0')
+	while (s && s[i] != c)
 		i++;
 	return (i);
 }
 
-char	**ft_malloc(const char *s)
+static void	ft_calloc_fail(char **arr, int i)
 {
-	size_t	len;
-	char	**split_str;
-	int		i;
+	int	count;
 
-	len = ft_strlen(s);
+	count = 0;
+	while (count <= i)
+	{
+		free(arr[count]);
+		count++;
+	}
+	free(arr);
+}
+
+char	**ft_cpy(char const *s, char c, size_t wcount, char **arr)
+{
+	size_t	i;
+	size_t	j;
+	size_t	word_len;
+
 	i = 0;
-	split_str = malloc((len + 1) * sizeof(char *));
-	if (!split_str)
-		return (0);
-	return (split_str);
+	j = 0;
+	while (j < wcount)
+	{
+		while (s[i] == c && s[i + 1])
+			i++;
+		word_len = ft_word_len(&s[i], c);
+		arr[j] = malloc((word_len + 1) * sizeof(char));
+		if (!arr[j] || word_len == 0)
+		{
+			ft_calloc_fail(arr, j);
+			return (0);
+		}
+		ft_strlcpy(arr[j++], &s[i], word_len + 1);
+		i += word_len;
+	}
+	arr[j] = NULL;
+	return (arr);
 }
 
 char	**ft_split(char const *s, char c)
 {
-	char	**split_str;
-	size_t	count_s;
-	int		count_split;
-	int		count_chr;
-	int		word_len;
-	int		x;
+	char	**arr;
+	size_t	wcount;
 
-	split_str = ft_malloc(s);
-	if (!split_str)
-		return (0);
-	count_s = 0;
-	count_split = 0;
-	count_chr = 0;
-	x = 0;
-	//Maybe if two delimiters in a row, make empty strings in between each delimiter?
-	while (s[count_s] == c)
-		count_s ++;
-	while (s[count_s])
-	{
-		word_len = 0;
-		while(s[count_s] != c)
-		{
-			word_len ++;
-			count_s++;
-		}
-		split_str[count_split] = malloc(word_len * sizeof(char));
-		if (!split_str[count_split])
-			return (0);
-		while (x < word_len)
-		{
-			split_str[count_split][count_chr] = s[count_s - word_len];
-			count_chr ++;
-			count_s ++;
-			x ++;
-		}
-		if (s[count_s] == c && (count_s + 1 < ft_strlen(s)))
-		{
-			split_str[count_split][count_chr] = '\0';
-			count_split ++;
-			count_chr = 0;
-		}
-		else
-			count_chr ++;
-		count_s ++;
-	}
-	split_str[count_split] = NULL;
-	free(split_str[count_split ++]);
-	return (split_str);
+	if (!s)
+		return (NULL);
+	wcount = ft_count_words(s, c);
+	arr = malloc((wcount + 1) * sizeof(char *));
+	if (!arr)
+		return (NULL);
+	arr = ft_cpy(s, c, wcount, arr);
+	return (arr);
 }
 
-int	main(void)
+/*int	main(void)
 {
-	char	**split = ft_split("Hello,adios?", ',');
+	char	s[] = ",,2,,hola, '00',,";
+	int		i = 0;
+	char	**arr;
 
-	while (*split)
+	arr = ft_split(s, ',');
+	while (arr[i])
 	{
-		printf("%s\n", *split);
-		split ++;
+		printf("%s\n", arr[i]);
+		free(arr[i]);
+		i++;
 	}
+	free(arr);
 	return (0);
-}
+}*/

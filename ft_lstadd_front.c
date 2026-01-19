@@ -6,18 +6,11 @@
 /*   By: dtaylor- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 15:08:01 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/16 16:20:34 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/01/19 17:04:22 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
-
-typedef struct		s_list
-{
-	void			*content;
-	struct s_list	*next;
-}					t_list;
+#include "libft.h"
 
 void	ft_ltsadd_front(t_list **lst, t_list *new)
 {
@@ -25,7 +18,7 @@ void	ft_ltsadd_front(t_list **lst, t_list *new)
 	*lst = new;
 }
 
-/*int	main(void)
+int	main(void)
 {
 	t_list	*lst;
 	t_list	*new;
@@ -63,4 +56,4 @@ void	ft_ltsadd_front(t_list **lst, t_list *new)
 	printf("NULL\n");
 
 	return (0);
-}*/
+}
