@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dtaylor- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 16:15:14 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/17 14:55:46 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/01/20 14:28:53 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,12 @@ char	*ft_nonzero(int n, char *str_num, unsigned int num, int len)
 	if (n < 0)
 	{
 		len++;
-		str_num = (char *) malloc(len * sizeof(char));
+		str_num = malloc((len + 1) * sizeof(char));
 		num = -n;
 	}
 	else
 	{
-		str_num = (char *) malloc(len * sizeof(char));
+		str_num = malloc((len + 1) * sizeof(char));
 		num = n;
 	}
 	str_num[len] = '\0';
@@ -63,8 +63,9 @@ char	*ft_itoa(int n)
 	if (n == 0)
 	{
 		num = n;
-		str_num = (char *) malloc(1 * sizeof(char));
+		str_num = malloc(2 * sizeof(char));
 		str_num[0] = num + 48;
+		str_num[1] = '\0';	
 	}
 	else
 	{

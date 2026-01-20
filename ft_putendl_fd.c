@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dtaylor- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 19:20:16 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/15 19:22:08 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/01/20 14:30:07 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ void	ft_putendl_fd(char *s, int fd)
 	write(fd, "\n", sizeof(char));
 }
 
-int	main(void)
+/*int	main(void)
 {
 	ft_putendl_fd("hello", 1);
 	return (0);
-}
+}*/

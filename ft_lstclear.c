@@ -3,22 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstclear.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dtaylor- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 18:35:56 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/17 18:35:58 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/01/20 14:42:06 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <string.h>
-#include <stdio.h>
-
-typedef struct		s_list
-{
-	void			*content;
-	struct s_list	*next;
-}					t_list;
+#include "libft.h"
 
 void    ft_lstclear(t_list **lst, void (*del)(void *))
 {
@@ -38,7 +30,7 @@ void    ft_lstclear(t_list **lst, void (*del)(void *))
 	*lst = NULL;
 }
 
-void    ft_del(void *del)
+/*void    ft_del(void *del)
 {
     free(del);
 }
@@ -84,4 +76,4 @@ int main(void)
         printf("Error: Head pointer was not set to NULL!\n");
 
     return (0);
-}
+}*/

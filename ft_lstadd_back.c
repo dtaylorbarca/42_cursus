@@ -3,53 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstadd_back.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dtaylor- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 16:59:27 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/16 17:19:36 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/01/20 14:43:40 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <stdio.h>
-
-typedef struct		s_list
-{
-	void			*content;
-	struct s_list	*next;
-}					t_list;
-
-int	ft_lstsize(t_list *lst)
-{
-	t_list	*temp;
-	int		count;
-
-	temp = lst;
-	count = 0;
-	while (temp != NULL)
-	{
-		temp = temp -> next;
-		count ++;
-	}
-	return (count);
-}
-
-t_list	*ft_lstlast(t_list *lst)
-{
-	t_list	*temp;
-	int		size;
-	int		count;
-
-	temp = lst;
-	size = ft_lstsize(lst);
-	count = 0;
-	while (count + 1 < size)
-	{
-		temp = temp -> next;
-		count ++;
-	}
-	return (temp);
-}
+#include "libft.h"
 
 void	ft_lstadd_back(t_list **lst, t_list *new)
 {

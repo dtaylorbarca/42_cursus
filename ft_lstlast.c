@@ -3,36 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstlast.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dtaylor- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 16:44:30 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/16 16:54:59 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/01/20 14:44:43 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <stdio.h>
-
-typedef struct		s_list
-{
-	void			*content;
-	struct s_list	*next;
-}					t_list;
-
-int	ft_lstsize(t_list *lst)
-{
-	t_list	*temp;
-	int		count;
-
-	temp = lst;
-	count = 0;
-	while (temp != NULL)
-	{
-		temp = temp -> next;
-		count ++;
-	}
-	return (count);
-}
+#include "libft.h"
 
 t_list	*ft_lstlast(t_list *lst)
 {

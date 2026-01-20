@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstadd_front.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dtaylor- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 15:08:01 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/19 17:04:22 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/01/20 14:42:59 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	ft_ltsadd_front(t_list **lst, t_list *new)
 	*lst = new;
 }
 
-int	main(void)
+/*int	main(void)
 {
 	t_list	*lst;
 	t_list	*new;
@@ -56,4 +56,4 @@ int	main(void)
 	printf("NULL\n");
 
 	return (0);
-}
+}*/

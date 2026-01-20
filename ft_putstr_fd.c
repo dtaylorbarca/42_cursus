@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dtaylor- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 19:17:59 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/15 19:19:52 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/01/20 14:30:30 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ void	ft_putstr_fd(char *s, int fd)
 	}
 }
 
-int	main(void)
+/*int	main(void)
 {
 	ft_putstr_fd("hello", 0);
 	return (0);
-}
+}*/

@@ -1,32 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isprint.c                                       :+:      :+:    :+:   */
+/*   ft_lstmap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/13 13:24:12 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/20 13:00:26 by dtaylor-         ###   ########.fr       */
+/*   Created: 2026/01/20 12:14:44 by dtaylor-          #+#    #+#             */
+/*   Updated: 2026/01/20 12:18:19 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <ctype.h>
+#include "libft.h"
 
-int	ft_isprint(int c)
+t_list	*ft_lsmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 {
-	return (32 <= c && c <= 126);
+	t_list	*new_list;
+	t_list	*new_node;
+
+	if (!lst)
+		return ;
+	new_list = NULL;
 }
-
-/*int	main(void)
-{
-	int		number = 32;
-
-	while (number <= 127)
-	{
-		if ((ft_isprint(number) * 16384) != isprint(number))
-			printf("Error at %d\n", number);
-		number ++;
-	}
-	return (0);
-}*/

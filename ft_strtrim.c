@@ -3,25 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dtaylor- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 11:04:54 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/15 12:50:47 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/01/20 14:25:06 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
-
-size_t	ft_strlen(const char *str)
-{
-	size_t	i;
-
-	i = 0;
-	while (str[i] != '\0')
-		i++;
-	return (i);
-}
+#include "libft.h"
 
 int	ft_dup(char const *s1, char const *set, int count_s1, int count_set)
 {
@@ -39,7 +28,7 @@ char	*ft_strtrim(char const *s1, char const *set)
 	int				count_set;
 
 	len = ft_strlen(s1);
-	trimmed = malloc(len * sizeof(char));
+	trimmed = malloc((len + 1) * sizeof(char));
 	if (trimmed == NULL)
 		return (0);
 	count_trim = 0;
@@ -56,11 +45,12 @@ char	*ft_strtrim(char const *s1, char const *set)
 		count_s1++;
 		count_trim++;
 	}
+	trimmed[count_trim] = '\0';
 	return ((char *) trimmed);
 }
 
-int	main(void)
+/*int	main(void)
 {
-	printf("%s\n", ft_strtrim("Hello my name is Dylan", "el"));
+	printf("%s\n", ft_strtrim("Hello my name is Dylan", "\0"));
 	return (0);
-}
+}*/

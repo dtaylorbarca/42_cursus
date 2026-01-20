@@ -3,53 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dtaylor- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 13:54:26 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/14 19:04:17 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/01/20 13:50:37 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
-
-int	ft_strlen(unsigned char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i] != '\0')
-		i++;
-	return (i);
-}
+#include "libft.h"
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
-	unsigned char	*s1_new;
-	unsigned char	*s2_new;
 	unsigned char	*str;
-	int				len;
+	size_t			len;
 	int				count;
 
-	s1_new = (unsigned char *) s1;
-	s2_new = (unsigned char *) s2;
-	len = ft_strlen(s1_new) + ft_strlen(s2_new);
-	str = malloc(len * sizeof(char));
+	len = ft_strlen(s1) + ft_strlen(s2);
+	str = malloc((len + 1) * sizeof(char));
 	if (str == NULL)
 		return (0);
 	count = 0;
-	while (*s1_new)
+	while (*s1)
 	{
-		str[count] = *s1_new;
+		str[count] = (unsigned char) *s1;
 		count++;
-		s1_new++;
+		s1++;
 	}
-	while (*s2_new)
+	while (*s2)
 	{
-		str[count] = *s2_new;
+		str[count] = (unsigned char) *s2;
 		count++;
-		s2_new++;
+		s2++;
 	}
+	str[count] = '\0';
 	return ((char *) str);
 }
 

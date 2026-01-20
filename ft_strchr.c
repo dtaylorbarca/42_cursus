@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dtaylor- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 15:43:00 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/14 19:03:52 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/01/20 13:17:13 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ char	*ft_strchr(const char *s, int c)
 	unsigned char	*i;
 
 	i = (unsigned char *) s;
+	if (!s)
+		return (NULL);
 	if (c == '\0')
 	{
 		while (*i)
@@ -26,77 +28,54 @@ char	*ft_strchr(const char *s, int c)
 	}
 	while (*i)
 	{
-		if (*i == c)
+		if (*i == (unsigned char) c)
 			return ((char *) i);
 		i++;
 	}
-	return (0);
+	return (NULL);
 }
 
-/*int main()
-{
-    // define a string
-    const char* str = "GeeksforGeeks";
-    // define a char ch to be searched in str
-    char ch = 's';
+/*void run_test(const char *test_name, const char *s, int c) {
+    char *expected = strchr(s, c);
+    char *actual = ft_strchr(s, c);
 
-    // Use strchr to find the first occurrence of the
-    // character 's'
-    const char* result = ft_strchr(str, ch);
-
-    if (result != NULL) {
-        // Calculate the position by subtracting the base
-        // pointer from the result pointer
-        printf("Character '%c' found at position: %ld\n",
-               ch, result - str);
+    if (expected == actual) {
+        printf("[PASS] %s\n", test_name);
+    } else {
+        printf("[FAIL] %s | Expected pointer: %p, Got: %p\n", test_name, (void*)expected, (void*)actual);
+        if (expected && actual) {
+            printf("       Values at pointers: Expected '%c', Got '%c'\n", *expected, *actual);
+        }
     }
-    else {
-        printf("Character '%c' not found.\n", ch);
-    }
+}
 
+int main() {
+    printf("Starting strchr tests...\n\n");
+
+    // 1. Basic success cases
+    run_test("Find middle char", "Hello World", 'o');
+    run_test("Find first char", "Hello World", 'H');
+    run_test("Find last char", "Hello World", 'd');
+
+    // 2. Character not present
+    run_test("Character not found", "Hello", 'z');
+
+    // 3. The Null Terminator (Critical Edge Case)
+    // strchr MUST be able to return a pointer to the '\0'
+    run_test("Find null terminator", "Hello", '\0');
+
+    // 4. Empty string
+    run_test("Empty string, searching for char", "", 'a');
+    run_test("Empty string, searching for null", "", '\0');
+
+    // 5. Repeated characters
+    // Should return the FIRST occurrence
+    run_test("First of multiple", "banana", 'a');
+
+    // 6. High-bit characters (int to char conversion)
+    // The character is passed as an int but interpreted as a char
+    run_test("Character with high bit", "test \xFF string", (char)255);
+
+    printf("\nTests complete.\n");
     return 0;
-}*/
-
-/*int main()
-{
-    // Original string containing username and password
-    const char* str = "GeeksforGeeks:abc@123";
-    // Delimiter to separate username and password
-
-    char delimiter = ':';
-    // Find the position of the delimiter in the string
-    char* delimiter_position = ft_strchr(str, delimiter);
-
-    // If the delimiter is found in the string
-    if (delimiter_position != NULL) {
-        // Calculate the length of the username
-        size_t username_length = delimiter_position - str;
-
-        // Allocate memory for the username and copy the
-        // username part of the string
-        char username[username_length + 1];
-        strncpy(username, str, username_length);
-
-        // Null-terminate the username string
-        username[username_length] = '\0';
-
-        // The password starts right after the delimiter
-        char* password = delimiter_position + 1;
-
-        // Print the extracted username and password
-        printf("Username: %s\n", username);
-        printf("Password: %s\n", password);
-    }
-    else {
-        // If the delimiter is not found, print an error
-        // message
-        printf("Delimiter not found.\n");
-    }
-
-    return 0;
-}*/
-
-/*int	main(void)
-{
-	printf("%s", ft_strchr("hoola", 'i'));
 }*/

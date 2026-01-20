@@ -3,21 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dtaylor- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 12:58:08 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/16 15:07:43 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/01/20 14:45:00 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <stdio.h>
-
-typedef	struct s_list
-{
-	void			*content;
-	struct s_list	*next;
-}					t_list;
+#include "libft.h"
 
 t_list	*ft_lstnew(void *content)
 {

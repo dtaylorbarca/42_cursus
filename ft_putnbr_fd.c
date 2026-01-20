@@ -3,24 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dtaylor- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 19:22:40 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/15 19:25:14 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/01/20 14:37:56 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
+#include "libft.h"
 
 void	ft_putnbr_fd(int n, int fd)
 {
-	char	x;
+	char	*x;
 
-	x = n + 48;
-	write(fd, &x, sizeof(char));
+	x = ft_itoa(n);
+	while (*x)
+	{
+		write(fd, &*x, sizeof(char));
+		x++;
+	}
 }
 
-int	main(void)
+/*int	main(void)
 {
-	ft_putnbr_fd(4, 1);
-}
+	ft_putnbr_fd(411, 1);
+}*/

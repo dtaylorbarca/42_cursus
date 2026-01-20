@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dtaylor- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 18:02:56 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/14 19:01:01 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/01/20 12:40:00 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,23 +18,26 @@ void	*ft_memchr(const void *s, int c, size_t n)
 	unsigned char	*s_mem;
 	size_t			i;
 
+	if (!s)
+		return (NULL);
 	s_mem = (unsigned char *) s;
 	i = 0;
 	while (i < n)
 	{
-		if (*s_mem == c)
+		if (*s_mem == (unsigned char) c)
 			return (s_mem);
 		s_mem++;
+		i++;
 	}
-	return (0);
+	return (NULL);
 }
 
 /*int main (void) 
 {
-   const char str[] = ".Tutorialspoint";
+   const char str[] = "Tutorialspoint";
    const char ch = '.';
    char *ret;
-   ret = ft_memchr(str, ch, strlen(str));
+   ret = ft_memchr(str, ch, 1);
    printf("String after |%c| is - |%s|\n", ch, ret);
    return(0);
 }*/
