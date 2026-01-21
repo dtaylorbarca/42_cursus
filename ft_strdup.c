@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 10:34:42 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/20 13:52:13 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/01/20 18:05:05 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,15 @@ char	*ft_strdup(const char *src)
 	dest = malloc((len + 1) * sizeof(unsigned char));
 	if (dest == NULL)
 		return (NULL);
-	ft_strlcpy((char *) dest, src, len);
+	ft_strlcpy((char *) dest, src, len + 1);
 	return ((char *) dest);
 }
 
 /*int	main(void)
 {
-	char	src[] = "";
-	char	*dest = strdup(src);
-	printf("%s", dest);
+	char	*dest = ft_strdup((char *)"coucou");
+	printf("%s\n", dest);
+	printf("%s\n", ft_strdup((char *)"coucou"));
+	printf("%d\n", strcmp(dest, "coucou"));
+	return (0);
 }*/

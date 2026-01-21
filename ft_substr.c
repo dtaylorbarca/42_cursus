@@ -3,42 +3,49 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dtaylor- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 14:02:41 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/14 19:00:31 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/01/21 12:56:50 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <stdio.h>
+#include "libft.h"
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	unsigned char	*s1;
-	unsigned char	*new;
-	size_t			count;
-
-	s1 = (unsigned char *) s;
-	new = malloc(len * sizeof(char));
-	if (new == NULL)
-		return (0);
+	char	*new;
+	size_t	s_len;
+	size_t	count;
+	
+	if (!s)
+		return (NULL);
+	s_len = ft_strlen(s);
+	if (start >= s_len)
+		return (ft_strdup(""));
+	if (len > s_len - start)
+		len = s_len - start;
+	new = malloc(sizeof(char) * len + 1);
+	if (!new)
+		return (NULL);
 	count = 0;
 	while (count < len)
 	{
-		new[count] = s1[start];
-		count++;
-		start++;
+		new[count] = s[start + count];
+		count ++;
 	}
-	return ((char *) new);
+	new[count] = '\0';
+	return (new);
 }
 
 /*int	main(void)
 {
-	char	s[] = "Hello my name is Dylan";
-	int		start = 6;
-	size_t 	len = 34;
-
-	printf("%s\n", ft_substr(s, start, len));
+	char	s[] = "tripouille";
+	int		start = 100;
+	size_t 	len = 1;
+	char	*str = ft_substr(s, start, len);
+	
+	printf("%s\n", str);
+	free(str);
 	return (0);
 }*/

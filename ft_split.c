@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dtaylor- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 16:58:53 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/19 18:17:03 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/01/21 12:34:43 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,12 @@ static size_t	ft_word_len(const char *s, char c)
 	size_t	i;
 
 	i = 0;
-	while (s && s[i] != c)
+	while (s[i] && s[i] != c)
 		i++;
 	return (i);
 }
 
-static void	ft_calloc_fail(char **arr, int i)
+static void	ft_malloc_fail(char **arr, int i)
 {
 	int	count;
 
@@ -70,7 +70,7 @@ char	**ft_cpy(char const *s, char c, size_t wcount, char **arr)
 		arr[j] = malloc((word_len + 1) * sizeof(char));
 		if (!arr[j] || word_len == 0)
 		{
-			ft_calloc_fail(arr, j);
+			ft_malloc_fail(arr, j);
 			return (0);
 		}
 		ft_strlcpy(arr[j++], &s[i], word_len + 1);
@@ -97,11 +97,11 @@ char	**ft_split(char const *s, char c)
 
 /*int	main(void)
 {
-	char	s[] = ",,2,,hola, '00',,";
+	char	*s = strdup("Tripouille");
 	int		i = 0;
 	char	**arr;
 
-	arr = ft_split(s, ',');
+	arr = ft_split(s, ' ');
 	while (arr[i])
 	{
 		printf("%s\n", arr[i]);
