@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 15:43:00 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/21 18:05:56 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/01/21 18:09:49 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,11 @@ char	*ft_strrchr(const char *s, int c)
     if (expected == actual) {
         printf("[PASS] %s\n", test_name);
     } else {
-        printf("[FAIL] %s | Expected pointer: %p, Got: %p\n", test_name, (void*)expected, (void*)actual);
+        printf("[FAIL] %s | Expected pointer: %p, Got: 
+		%p\n", test_name, (void*)expected, (void*)actual);
         if (expected && actual) {
-            printf("       Values at pointers: Expected '%c', Got '%c'\n", *expected, *actual);
+            printf("       Values at pointers: Expected '%c', 
+			Got '%c'\n", *expected, *actual);
         }
     }
 }

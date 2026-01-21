@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 16:15:14 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/21 17:56:55 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/01/21 18:10:22 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ char	*ft_itoa(int n)
 		num = n;
 		str_num = malloc(2 * sizeof(char));
 		str_num[0] = num + 48;
-		str_num[1] = '\0';	
+		str_num[1] = '\0';
 	}
 	else
 	{

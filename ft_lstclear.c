@@ -6,13 +6,13 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 18:35:56 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/20 14:42:06 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/01/21 18:12:05 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void    ft_lstclear(t_list **lst, void (*del)(void *))
+void	ft_lstclear(t_list **lst, void (*del)(void *))
 {
 	t_list	*temp_cont;
 	t_list	*temp_node;
@@ -60,7 +60,8 @@ int main(void)
     t_list *temp = head;
     while (temp)
     {
-        printf("Address: %p | Content: %s\n", (void *)temp, (char *)temp->content);
+        printf("Address: %p | 
+		Content: %s\n", (void *)temp, (char *)temp->content);
         temp = temp->next;
     }
 

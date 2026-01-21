@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 14:02:41 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/21 12:56:50 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/01/21 18:12:17 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	char	*new;
 	size_t	s_len;
 	size_t	count;
-	
+
 	if (!s)
 		return (NULL);
 	s_len = ft_strlen(s);

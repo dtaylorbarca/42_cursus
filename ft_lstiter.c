@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 19:13:59 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/20 14:44:20 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/01/21 18:11:22 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,8 @@ int main(void)
     }
 
     // 3. RUN THE ITERATION
-    // This will travel through the list and run ft_uppercase_content on each node
+    // This will travel through the list and 
+	run ft_uppercase_content on each node
     ft_lstiter(head, ft_uppercase_content);
 
     // 4. Display the list AFTER iteration

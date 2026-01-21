@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 16:59:27 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/20 18:05:35 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/01/21 18:11:02 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	ft_lstadd_back(t_list **lst, t_list *new)
 {
 	t_list	*last;
-	
+
 	if (lst == NULL)
 		return ;
 	if (*lst == NULL)
