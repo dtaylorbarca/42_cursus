@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 11:04:54 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/21 13:30:35 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/01/21 18:16:05 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ char	*ft_strtrim(char const *s1, char const *set)
 	return (trimmed);
 }
 
-int	main(void)
+/*int	main(void)
 {
 	printf("%s\n", ft_strtrim("tripouille    xxx", " x"));
 	return (0);
-}
+}*/

@@ -6,13 +6,13 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 16:15:14 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/21 18:10:22 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/01/21 18:13:11 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_numlen(int n)
+static int	ft_numlen(int n)
 {
 	int	len;
 
@@ -25,7 +25,7 @@ int	ft_numlen(int n)
 	return (len);
 }
 
-char	*ft_nonzero(int n, char *str_num, unsigned int num, int len)
+static char	*ft_nonzero(int n, char *str_num, unsigned int num, int len)
 {
 	if (n < 0)
 	{
