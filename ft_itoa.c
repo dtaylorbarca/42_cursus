@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 16:15:14 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/22 13:47:58 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/01/22 14:10:13 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,11 @@ static char	*ft_nonzero(int n, char *str_num, unsigned int num, int len)
 	if (n < 0)
 	{
 		len++;
-		str_num = malloc((len + 1) * sizeof(char));
 		num = -n;
 	}
 	else
-	{
-		str_num = malloc((len + 1) * sizeof(char));
 		num = n;
-	}
+	str_num = malloc((len + 1) * sizeof(char));
 	if (!str_num)
 		return (NULL);
 	str_num[len] = '\0';
@@ -64,6 +61,8 @@ char	*ft_itoa(int n)
 	{
 		num = n;
 		str_num = malloc(2 * sizeof(char));
+		if (!str_num)
+			return (NULL);
 		str_num[0] = num + 48;
 		str_num[1] = '\0';
 	}

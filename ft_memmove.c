@@ -6,12 +6,22 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 14:18:39 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/22 13:34:37 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/01/22 14:06:38 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <string.h>
 #include <stdio.h>
+
+unsigned char	*ft_destmem(unsigned char *dest, unsigned char *src, size_t n)
+{
+	while (n > 0)
+	{
+		n--;
+		dest[n] = src[n];
+	}
+	return (dest);
+}
 
 void	*ft_memmove(void *dest, const void *src, size_t n)
 {
@@ -34,11 +44,7 @@ void	*ft_memmove(void *dest, const void *src, size_t n)
 	}
 	else
 	{
-		while (n > 0)
-		{
-			n--;
-			dest_mem[n] = src_mem[n];
-		}
+		dest_mem = ft_destmem(dest_mem, src_mem, n);
 	}
 	return (dest);
 }
