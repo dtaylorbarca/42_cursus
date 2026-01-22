@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 16:58:53 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/22 15:05:45 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/01/22 15:09:20 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,5 +94,3 @@ char	**ft_split(char const *s, char c)
 	arr = ft_cpy(s, c, wcount, arr);
 	return (arr);
 }
-
-

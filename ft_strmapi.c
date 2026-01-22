@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 17:32:22 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/22 15:06:10 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/01/22 15:09:43 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,3 @@ char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 	new_str[count] = '\0';
 	return ((char *) new_str);
 }
-

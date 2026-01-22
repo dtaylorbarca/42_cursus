@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 19:20:16 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/22 15:05:35 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/01/22 15:09:13 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,3 @@ void	ft_putendl_fd(char *s, int fd)
 	}
 	write(fd, "\n", sizeof(char));
 }
-
-

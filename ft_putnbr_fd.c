@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 19:22:40 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/22 15:05:37 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/01/22 15:09:16 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,3 @@ void	ft_putnbr_fd(int n, int fd)
 	while (count -- > 0)
 		write(fd, &num[count], 1);
 }
-
-

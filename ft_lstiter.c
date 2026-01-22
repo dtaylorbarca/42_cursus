@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 19:13:59 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/22 15:04:51 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/01/22 15:08:47 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,4 +23,3 @@ void	ft_lstiter(t_list *lst, void (*f)(void *))
 		temp = temp -> next;
 	}
 }
-

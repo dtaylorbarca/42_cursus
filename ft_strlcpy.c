@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 15:14:06 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/22 15:06:05 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/01/22 15:09:37 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,3 @@ size_t	ft_strlcpy(char *dest, const char *src, size_t size)
 	dest[i] = '\0';
 	return (length);
 }
-
-

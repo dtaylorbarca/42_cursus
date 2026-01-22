@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 10:34:42 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/22 15:05:52 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/01/22 15:09:26 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,4 +24,3 @@ char	*ft_strdup(const char *src)
 	ft_strlcpy((char *) dest, src, len + 1);
 	return ((char *) dest);
 }
-

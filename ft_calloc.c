@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 12:47:06 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/22 15:04:10 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/01/22 15:10:58 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@ void	*ft_calloc(size_t nelem, size_t elsize)
 	arr = malloc(nelem * elsize);
 	if (!arr)
 		return (0);
-	memset(arr, 0, nelem * elsize);
+	ft_memset(arr, 0, nelem * elsize);
 	return (arr);
 }
-
-
