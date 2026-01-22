@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 16:15:14 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/21 18:13:11 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/01/22 13:47:58 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ static char	*ft_nonzero(int n, char *str_num, unsigned int num, int len)
 		str_num = malloc((len + 1) * sizeof(char));
 		num = n;
 	}
+	if (!str_num)
+		return (NULL);
 	str_num[len] = '\0';
 	while (len--)
 	{

@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 15:43:00 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/21 18:11:33 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/01/22 13:36:59 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ char	*ft_strchr(const char *s, int c)
 	unsigned char	*i;
 
 	i = (unsigned char *) s;
-	if (!s)
-		return (NULL);
 	if (c == '\0')
 	{
 		while (*i)

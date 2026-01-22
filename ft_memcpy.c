@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 13:43:29 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/21 18:00:54 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/01/22 13:33:52 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void	*ft_memcpy(void *dest, const void *src, size_t n)
 	unsigned char	*src_mem;
 	size_t			i;
 
+	if (!dest && !src)
+		return (NULL);
 	dest_mem = (unsigned char *) dest;
 	src_mem = (unsigned char *) src;
 	i = 0;

@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 10:34:42 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/20 18:05:05 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/01/22 13:49:15 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ char	*ft_strdup(const char *src)
 	size_t			len;
 	unsigned char	*dest;
 
-	if (src == NULL)
-		return (NULL);
 	len = ft_strlen(src);
 	dest = malloc((len + 1) * sizeof(unsigned char));
 	if (dest == NULL)
