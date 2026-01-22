@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 18:58:29 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/21 16:51:15 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/01/22 15:04:02 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,3 @@ void	ft_bzero(void *s, size_t n)
 		i++;
 	}
 }
-
-/*int	main() {
-	char s[] = "meow";
-	size_t n = 0;
-
-	ft_bzero(s, n);
-	for (size_t i = 0; i < n; i++)
-		printf("%d ", s[i]); 
-}*/

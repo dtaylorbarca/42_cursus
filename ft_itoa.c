@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 16:15:14 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/22 14:10:13 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/01/22 15:04:29 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,45 +73,3 @@ char	*ft_itoa(int n)
 	return (str_num);
 }
 
-/*void test_itoa(int n)
-{
-    char *result = ft_itoa(n);
-    
-    if (result == NULL)
-    {
-        printf("Input: %11d | Result: NULL (Allocation Failed)\n", n);
-        return;
-    }
-    
-    printf("Input: %11d | Result: \"%s\"\n", n, result);
-    
-    // Crucial: free the memory allocated by your itoa
-    free(result);
-}
-
-int main(void)
-{
-    printf("--- Starting itoa Tests ---\n\n");
-
-    // 1. Basic Tests
-    printf("Basic Tests:\n");
-    test_itoa(0);
-    test_itoa(7);
-    test_itoa(-9);
-    test_itoa(42);
-    test_itoa(-42);
-
-    printf("\nMulti-digit Tests:\n");
-    test_itoa(100);
-    test_itoa(1024);
-    test_itoa(-12345);
-    test_itoa(987654321);
-
-    // 2. Limit Tests (The most important ones!)
-    printf("\nEdge Case Tests:\n");
-    test_itoa(INT_MAX);  // 2147483647
-    test_itoa(INT_MIN);  // -2147483648 (Check if your code crashes here!)
-
-    printf("\n--- Tests Complete ---\n");
-	return (0);
-}*/

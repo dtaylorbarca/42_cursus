@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 13:54:26 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/20 13:50:37 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/01/22 15:05:58 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,3 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	str[count] = '\0';
 	return ((char *) str);
 }
-
-/*int	main(void)
-{
-	printf("%s", ft_strjoin("Hello", " Victor"));
-	return (0);
-}*/

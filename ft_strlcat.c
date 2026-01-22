@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/16 10:47:53 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/21 18:03:03 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/01/22 15:06:02 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,16 +36,4 @@ size_t	ft_strlcat(char *dest, const char *src, size_t size)
 	return (dest_len + src_len);
 }
 
-/*int	main(void)
-{
-	char	dest1[20] = "Hello";
-	char	dest2[20] = "Hello";
-	char	src[] = "test";
-	unsigned int	cat;
 
-	cat = ft_strlcat(dest1, src, 20);
-	printf("%u\n", cat);
-	printf("%s\n", dest1);
-	printf("%lu\n", strlcat(dest2, src, 20));
-	return (0);
-}*/

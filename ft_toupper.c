@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 14:50:22 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/21 18:06:16 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/01/22 15:06:31 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,3 @@ int	ft_toupper(int c)
 		c -= 32;
 	return (c);
 }
-
-/*int	main(void)
-{
-	char c = 'c';
-
-	printf("%c", ft_toupper(c));
-	return (0);
-}*/

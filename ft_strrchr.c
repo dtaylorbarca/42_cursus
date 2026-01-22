@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 15:43:00 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/22 13:39:29 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/01/22 15:06:19 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,4 @@ char	*ft_strrchr(const char *s, int c)
 	return (NULL);
 }
 
-/*int	main(void)
-{
-	printf("%s\n", ft_strrchr("tripouille", 't' + 256));
-}*/
+

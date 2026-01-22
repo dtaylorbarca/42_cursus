@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 19:17:59 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/21 18:01:52 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/01/22 15:05:40 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,3 @@ void	ft_putstr_fd(char *s, int fd)
 	}
 }
 
-/*int	main(void)
-{
-	ft_putstr_fd("hello", 0);
-	return (0);
-}*/

@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 12:58:08 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/20 18:05:26 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/01/22 15:05:02 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,3 @@ t_list	*ft_lstnew(void *content)
 	return (new_node);
 }
 
-/*int	main(void)
-{
-	t_list *node;
-
-	node = ft_lstnew("Hello");
-	printf("%s\n", (char *) node -> content);
-	return (0);
-}*/

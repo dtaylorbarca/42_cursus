@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 10:42:41 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/21 18:05:48 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/01/22 15:06:16 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,4 @@ char	*ft_strnstr(const char *s1, const char *s2, size_t n)
 	return (0);
 }
 
-/*int	main(void)
-{
-	char	str1[] = "hola-mundo";
-	char	str2[] = "hola-mundo";
-	char	to_find[] = "elo";
 
-	printf("%s\n", ft_strnstr(str1, to_find, 8));
-	printf("%s\n", strnstr(str2, to_find, 8));
-	return (0);
-}*/

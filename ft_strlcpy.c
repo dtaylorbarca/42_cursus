@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 15:14:06 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/21 18:03:12 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/01/22 15:06:05 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,15 +34,4 @@ size_t	ft_strlcpy(char *dest, const char *src, size_t size)
 	return (length);
 }
 
-/*int	main(void)
-{
-	char			dest[13];
-	char			src[] = "Hello world!";
-	unsigned int	length;
 
-	length = ft_strlcpy(dest, src, sizeof(dest));
-	printf("Returned length: %u\n", length);
-	printf("Dest: \"%s\"\n", dest);
-	printf("%lu\n", strlcpy(dest, src, sizeof(dest)));
-	return (0);
-}*/

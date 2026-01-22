@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 10:34:42 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/22 13:49:15 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/01/22 15:05:52 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,3 @@ char	*ft_strdup(const char *src)
 	return ((char *) dest);
 }
 
-/*int	main(void)
-{
-	char	*dest = ft_strdup((char *)"coucou");
-	printf("%s\n", dest);
-	printf("%s\n", ft_strdup((char *)"coucou"));
-	printf("%d\n", strcmp(dest, "coucou"));
-	return (0);
-}*/

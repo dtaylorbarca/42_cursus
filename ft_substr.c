@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 14:02:41 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/21 18:12:17 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/01/22 15:06:25 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,3 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	return (new);
 }
 
-/*int	main(void)
-{
-	char	s[] = "tripouille";
-	int		start = 100;
-	size_t 	len = 1;
-	char	*str = ft_substr(s, start, len);
-	
-	printf("%s\n", str);
-	free(str);
-	return (0);
-}*/

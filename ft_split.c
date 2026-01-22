@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 16:58:53 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/21 12:34:43 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/01/22 15:05:45 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,19 +95,4 @@ char	**ft_split(char const *s, char c)
 	return (arr);
 }
 
-/*int	main(void)
-{
-	char	*s = strdup("Tripouille");
-	int		i = 0;
-	char	**arr;
 
-	arr = ft_split(s, ' ');
-	while (arr[i])
-	{
-		printf("%s\n", arr[i]);
-		free(arr[i]);
-		i++;
-	}
-	free(arr);
-	return (0);
-}*/
