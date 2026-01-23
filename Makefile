@@ -1,6 +1,6 @@
 NAME = libft.a
 
-CC = gcc
+CC = cc
 CFLAGS = -Wall -Wextra -Werror
 
 SRC = ft_isascii.c       ft_lstclear.c   ft_lstsize.c  ft_putchar_fd.c  ft_strdup.c    ft_strmapi.c  ft_tolower.c \
