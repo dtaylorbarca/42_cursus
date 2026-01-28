@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 14:10:23 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/27 18:09:28 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/01/28 12:23:30 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,45 +27,38 @@ static int	ft_numlen(int n)
 	return (len);
 }
 
-static void	ft_putnbr(int n, char *num)
+static void	ft_putnbr(int n)
 {
-	unsigned int	mod;
-	int				count;
-
-	if (n == 0)
-	{
-		write(1, "0", 1);
-		return ;
-	}
-	if (n < 0)
+	if (n == -2147483648)
+		write(1, "-2147483648", 11);
+	else if (n < 0)
 	{
 		write(1, "-", 1);
-		mod = -n;
+		n *= -1;
+		ft_putnbr(n);
 	}
 	else
-		mod = n;
-	count = 0;
-	while (mod > 0)
 	{
-		num[count++] = (mod % 10) + '0';
-		mod /= 10;
+		if (n > 9)
+		{
+			ft_putnbr(n / 10);
+			ft_putnbr(n % 10);
+		}
+		else
+		{
+			n = n + '0';
+			write(1, &n, 1);
+		}
 	}
-	while (count -- > 0)
-		write(1, &num[count], 1);
 }
 
 int	ft_decimal(int n)
 {
 	int		len;
-	char	*result;
 
 	len = ft_numlen(n);
 	if (n < 0)
 		len++;
-	result = malloc(len);
-	if (!result)
-		return (0);
-	ft_putnbr(n, result);
-	free(result);
+	ft_putnbr(n);
 	return (len);
 }
