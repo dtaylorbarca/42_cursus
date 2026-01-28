@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 14:10:23 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/28 12:23:30 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/01/28 14:23:02 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,29 +27,28 @@ static int	ft_numlen(int n)
 	return (len);
 }
 
+static void	ft_putchar(char c)
+{
+	write(1, &c, 1);
+}
+
 static void	ft_putnbr(int n)
 {
 	if (n == -2147483648)
+	{
 		write(1, "-2147483648", 11);
-	else if (n < 0)
-	{
-		write(1, "-", 1);
-		n *= -1;
-		ft_putnbr(n);
+		return ;
 	}
-	else
+	if (n < 0)
 	{
-		if (n > 9)
-		{
-			ft_putnbr(n / 10);
-			ft_putnbr(n % 10);
-		}
-		else
-		{
-			n = n + '0';
-			write(1, &n, 1);
-		}
+		ft_putchar('-');
+		n = -n;
 	}
+	if (n >= 10)
+	{
+		ft_putnbr(n / 10);
+	}
+	ft_putchar((n % 10) + '0');
 }
 
 int	ft_decimal(int n)
