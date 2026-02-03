@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 14:10:33 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/27 17:44:05 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/02/02 13:09:54 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,21 +27,18 @@ static int	ft_count_hex(unsigned int n)
 	return (count);
 }
 
-static void	ft_put_hex(unsigned int n)
+static void	ft_put_hex(unsigned int n, char	*base)
 {
-	char	*base;
-
-	base = "0123456789abcdef";
 	if (n >= 16)
-		ft_put_hex(n / 16);
+		ft_put_hex(n / 16, base);
 	write(1, &base[n % 16], 1);
 }
 
-int	ft_lower_hex(unsigned int n)
+int	ft_hex(unsigned int n, char	*base)
 {
 	int		len;
 
 	len = ft_count_hex(n);
-	ft_put_hex(n);
+	ft_put_hex(n, base);
 	return (len);
 }

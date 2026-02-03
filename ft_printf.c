@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 13:01:54 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/01/28 13:12:58 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/02/02 13:12:29 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ static int	percent(char c, va_list param)
 	else if (c == 'u')
 		count = ft_unsigned_decimal(va_arg(param, unsigned int));
 	else if (c == 'x')
-		count = ft_lower_hex(va_arg(param, unsigned int));
+		count = ft_hex(va_arg(param, unsigned int), "0123456789abcdef");
 	else if (c == 'X')
-		count = ft_upper_hex(va_arg(param, unsigned int));
+		count = ft_hex(va_arg(param, unsigned int), "0123456789ABCDEF");
 	return (count);
 }
 
@@ -65,5 +65,15 @@ int	ft_printf(char const *str, ...)
 			str++;
 		}
 	}
+	va_end(param);
 	return (count);
 }
+
+/*#include <stdio.h>
+
+int	main(void)
+{
+	ft_printf("%v");
+	printf("\n%v");
+	return (0);
+}*/

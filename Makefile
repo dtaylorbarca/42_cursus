@@ -8,12 +8,11 @@ LIBFT = $(LIBFT_DIR)/libft.a
 
 SRC = ft_character.c \
 	ft_decimal.c \
-	ft_lower_hex.c \
+	ft_hex.c \
 	ft_pointer.c \
 	ft_printf.c \
 	ft_string.c \
-	ft_unsigned_decimal.c \
-	ft_upper_hex.c
+	ft_unsigned_decimal.c 
 
 OBJ = $(SRC:.c=.o)
 
