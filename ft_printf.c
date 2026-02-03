@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 13:01:54 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/02/02 13:12:29 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/02/03 13:23:05 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,12 +68,3 @@ int	ft_printf(char const *str, ...)
 	va_end(param);
 	return (count);
 }
-
-/*#include <stdio.h>
-
-int	main(void)
-{
-	ft_printf("%v");
-	printf("\n%v");
-	return (0);
-}*/
