@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 11:45:05 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/02/06 17:30:27 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/02/06 19:30:58 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,7 @@ static char	*ft_read_file(int fd)
 		return (NULL);
 	bytes_read = read(fd, buffer, BUFFER_SIZE);
 	if (bytes_read == -1)
-	{
-		free(buffer);
-		return ((char *) -1);
-	}
+		return (free(buffer), (char *) -1);
 	if (bytes_read == 0)
 		return (free(buffer), NULL);
 	buffer[bytes_read] = '\0';
@@ -35,7 +32,7 @@ static char	*ft_read_file(int fd)
 char	*ft_sort_line(char *buffer, int next_line_index, char **storage)
 {
 	char	*temp;
-	char	*next_line;	
+	char	*next_line;
 
 	if (!buffer)
 		next_line_index = ft_strchr(*storage, SEPERATOR);
@@ -57,12 +54,31 @@ char	*ft_sort_line(char *buffer, int next_line_index, char **storage)
 	return (next_line);
 }
 
+static int	ft_read_and_append(int fd, char **buffer, char **storage)
+{
+	int		next_line_index;
+	char	*temp;
+
+	*buffer = ft_read_file(fd);
+	if (*buffer == (char *) -1)
+		return (-2);
+	if (!*buffer)
+		return (-3);
+	temp = *storage;
+	*storage = ft_strjoin(temp, *buffer);
+	free(temp);
+	free(*buffer);
+	if (!*storage)
+		return (-4);
+	next_line_index = ft_strchr(*storage, SEPERATOR);
+	return (next_line_index);
+}
+
 char	*get_next_line(int fd)
 {
 	static char	*storage;
-	char		*buffer;
 	int			next_line_index;
-	char		*temp;
+	char		*buffer;
 
 	next_line_index = -1;
 	if (fd < 0 || BUFFER_SIZE <= 0)
@@ -71,22 +87,15 @@ char	*get_next_line(int fd)
 		storage = ft_strdup("");
 	while (next_line_index == -1)
 	{
-		buffer = ft_read_file(fd);
-		if (buffer == (char *) -1)
+		next_line_index = ft_read_and_append(fd, &buffer, &storage);
+		if (next_line_index == -2)
 		{
 			free(storage);
 			storage = NULL;
 			return (NULL);
 		}
-		if (!buffer)
-			break ;
-		temp = storage;
-		storage = ft_strjoin(temp, buffer);
-		free(temp);
-		free(buffer);
-		if (!storage)
+		if (next_line_index == -4)
 			return (NULL);
-		next_line_index = ft_strchr(storage, SEPERATOR);
 	}
 	return (ft_sort_line(buffer, next_line_index, &storage));
 }
@@ -116,10 +125,10 @@ int main(void)
         line_count++;
 	}
    
-	// printf("%s", get_next_line(fd));
-	// printf("%s", get_next_line(fd));
-	// printf("%s", get_next_line(fd));
-	// printf("%s", get_next_line(fd));
+	//printf("%s", get_next_line(fd));
+	//printf("%s", get_next_line(fd));
+	//printf("%s", get_next_line(fd));
+	//printf("%s", get_next_line(fd));
 	// printf("%s", get_next_line(fd));
 	// printf("%s", get_next_line(fd));
 	// printf("%s", get_next_line(fd));
