@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 11:45:05 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/02/06 19:30:58 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/02/08 12:55:03 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,19 +29,39 @@ static char	*ft_read_file(int fd)
 	return (buffer);
 }
 
+char	*ft_new_line(int next_line_index, char **storage)
+{
+	char	*next_line;
+	char	*temp;
+	int		i;
+
+	next_line = malloc(sizeof(char) * next_line_index + 2);
+	if (!next_line)
+		return (NULL);
+	i = 0;
+	while (i <= next_line_index)
+	{
+		next_line[i] = (*storage)[i];
+		i++;
+	}
+	next_line[i] = '\0';
+	temp = *storage;
+	*storage = ft_strdup(temp + next_line_index + 1);
+	free(temp);
+	return (next_line);
+}
+
 char	*ft_sort_line(char *buffer, int next_line_index, char **storage)
 {
-	char	*temp;
 	char	*next_line;
 
 	if (!buffer)
 		next_line_index = ft_strchr(*storage, SEPERATOR);
 	if (next_line_index != -1)
 	{
-		next_line = ft_substr(*storage, 0, next_line_index + 1);
-		temp = *storage;
-		*storage = ft_strdup(temp + next_line_index + 1);
-		free(temp);
+		next_line = ft_new_line(next_line_index, storage);
+		if (!next_line)
+			return (NULL);
 	}
 	else
 	{
@@ -99,46 +119,3 @@ char	*get_next_line(int fd)
 	}
 	return (ft_sort_line(buffer, next_line_index, &storage));
 }
-
-/*#include <fcntl.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include "get_next_line.h"
-
-int main(void)
-{
-    int     fd;
-    char    *line;
-    int     line_count;
-    
-    fd = open("test.txt", O_RDONLY);
-    if (fd == -1)
-    {
-        perror("Error opening file");
-        return (1);
-    }
-    line_count = 1;
-    while ((line = get_next_line(fd)) != NULL)
-    {
-        printf("Line %d: %s", line_count, line);
-        free(line);
-        line_count++;
-	}
-   
-	//printf("%s", get_next_line(fd));
-	//printf("%s", get_next_line(fd));
-	//printf("%s", get_next_line(fd));
-	//printf("%s", get_next_line(fd));
-	// printf("%s", get_next_line(fd));
-	// printf("%s", get_next_line(fd));
-	// printf("%s", get_next_line(fd));
-	// printf("%s", get_next_line(fd));
-    // printf("%s", get_next_line(fd));
-	// printf("%s", get_next_line(fd));
-	close(fd);
-    
-    // Optional: Call GNL one last time to check if it handles EOF gracefully
-    line = get_next_line(fd); 
-    
-    return (0);
-}*/
