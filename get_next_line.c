@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 11:45:05 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/02/08 14:09:59 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/02/09 14:47:06 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 static char	*ft_read_file(int fd)
 {
-	char		*buffer;
-	int			bytes_read;
+	char	*buffer;
+	int		bytes_read;
 
 	buffer = malloc(BUFFER_SIZE * sizeof(char) + 1);
 	if (!buffer)
