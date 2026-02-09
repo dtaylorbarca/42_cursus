@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 11:45:05 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/02/08 12:57:55 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/02/08 14:09:59 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static char	*ft_read_file(int fd)
 	return (buffer);
 }
 
-char	*ft_new_line(int next_line_index, char **storage)
+static char	*ft_new_line(int next_line_index, char **storage)
 {
 	char	*next_line;
 	char	*temp;
@@ -51,7 +51,7 @@ char	*ft_new_line(int next_line_index, char **storage)
 	return (next_line);
 }
 
-char	*ft_sort_line(char *buffer, int next_line_index, char **storage)
+static char	*ft_sort_line(char *buffer, int next_line_index, char **storage)
 {
 	char	*next_line;
 
