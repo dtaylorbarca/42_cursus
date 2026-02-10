@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 11:45:05 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/02/09 14:47:06 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/02/10 15:25:12 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static char	*ft_read_file(int fd)
 	char	*buffer;
 	int		bytes_read;
 
-	buffer = malloc(BUFFER_SIZE * sizeof(char) + 1);
+	buffer = malloc(BUFFER_SIZE + 1);
 	if (!buffer)
 		return (NULL);
 	bytes_read = read(fd, buffer, BUFFER_SIZE);
@@ -35,9 +35,13 @@ static char	*ft_new_line(int next_line_index, char **storage)
 	char	*temp;
 	int		i;
 
-	next_line = malloc(sizeof(char) * next_line_index + 2);
+	next_line = malloc(next_line_index + 2);
 	if (!next_line)
+	{
+		free(*storage);
+		*storage = NULL;
 		return (NULL);
+	}
 	i = 0;
 	while (i <= next_line_index)
 	{
@@ -47,6 +51,12 @@ static char	*ft_new_line(int next_line_index, char **storage)
 	next_line[i] = '\0';
 	temp = *storage;
 	*storage = ft_strdup(temp + next_line_index + 1);
+	if (!*storage)
+	{
+		free(temp);
+		free(next_line);
+		return (NULL);
+	}
 	free(temp);
 	return (next_line);
 }
@@ -55,9 +65,11 @@ static char	*ft_sort_line(char *buffer, int next_line_index, char **storage)
 {
 	char	*next_line;
 
+	if (!storage || !*storage)
+		return (NULL);
 	if (!buffer)
 		next_line_index = ft_strchr(*storage, SEPERATOR);
-	if (next_line_index != -1)
+	if (next_line_index >= 0)
 	{
 		next_line = ft_new_line(next_line_index, storage);
 		if (!next_line)
@@ -70,7 +82,11 @@ static char	*ft_sort_line(char *buffer, int next_line_index, char **storage)
 		*storage = NULL;
 	}
 	if (!next_line || *next_line == '\0')
+	{
+		free(*storage);
+		*storage = NULL;
 		return (free(next_line), NULL);
+	}
 	return (next_line);
 }
 
@@ -101,17 +117,25 @@ char	*get_next_line(int fd)
 	char		*buffer;
 
 	next_line_index = -1;
+	buffer = NULL;
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	if (!storage)
+	{
 		storage = ft_strdup("");
-	while (next_line_index == -1)
+		if (!storage)
+			return (NULL);
+	}
+		while (next_line_index == -1)
 	{
 		next_line_index = ft_read_and_append(fd, &buffer, &storage);
 		if (next_line_index == -2)
 		{
-			free(storage);
-			storage = NULL;
+			if (storage)
+			{
+				free(storage);
+				storage = NULL;
+			}
 			return (NULL);
 		}
 	}
