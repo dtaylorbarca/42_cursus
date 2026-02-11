@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 15:28:22 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/02/08 12:23:42 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/02/11 12:22:11 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 # define GET_NEXT_LINE_H
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 42
+#  define BUFFER_SIZE 1000000
 # endif
 
 # ifndef SEPERATOR
@@ -31,6 +31,6 @@ int		ft_strchr(const char *s, int c);
 char	*ft_strjoin(char const *s1, char const *s2);
 size_t	ft_strlen(const char *str);
 char	*ft_strdup(const char *src);
-size_t	ft_strlcpy(char *dest, const char *src, size_t size);
+char	*ft_substr(char const *s, unsigned int start, size_t len);
 
 #endif
