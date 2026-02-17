@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 11:45:05 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/02/17 13:25:00 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/02/17 14:44:19 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,10 +94,10 @@ static int	ft_read_until_newline(int fd, char **storage)
 
 char	*get_next_line(int fd)
 {
-	static char	*storage[MAX_FD];
+	static char	*storage[FD_MAX];
 	int			next_line_index;
 
-	if (fd < 0 || fd > 1024 || BUFFER_SIZE <= 0)
+	if (fd < 0 || fd > FD_MAX || BUFFER_SIZE <= 0)
 		return (NULL);
 	if (!storage[fd])
 		storage[fd] = ft_strdup("");

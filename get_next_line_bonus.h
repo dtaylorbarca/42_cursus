@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 15:28:22 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/02/12 11:27:57 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/02/17 14:27:35 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,18 @@
 #  define SEPERATOR '\n'
 # endif
 
-# define MAX_FD 1024
+# define FD_MAX 1024
 
 # include <stdlib.h>
 # include <fcntl.h>
 # include <unistd.h>
+
+typedef struct s_list
+{
+	int				fd;
+	char			*stash;
+	struct s_list	*next;
+}				t_list;
 
 char	*get_next_line(int fd);
 int		ft_strchr(const char *s, int c);
