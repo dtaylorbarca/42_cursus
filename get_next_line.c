@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 11:45:05 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/02/12 11:26:39 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/02/17 17:03:20 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,49 +112,3 @@ char	*get_next_line(int fd)
 		return (ft_sort_line(-1, &storage));
 	return (ft_sort_line(next_line_index, &storage));
 }
-
-/*#include <fcntl.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include "get_next_line.h" // Replace with your header name
-
-int main(int argc, char **argv)
-{
-    int     fd;
-    char    *line;
-    int     line_count;
-
-    if (argc < 2)
-    {
-        printf("Usage: ./a.out <filename>\n");
-        return (1);
-    }
-    
-    // 1. Open the file
-    fd = open(argv[1], O_RDONLY);
-    if (fd == -1)
-    {
-        perror("Error opening file");
-        return (1);
-    }
-
-    line_count = 1;
-    // 2. The loop: call GNL until it returns NULL
-    while ((line = get_next_line(fd)) != NULL)
-    {
-        printf("Line %d: %s", line_count, line);
-        
-        // 3. IMPORTANT: Free the line returned by GNL
-        free(line);
-        line_count++;
-    }
-	printf("\n%s", line);
-	free(line);
-    // 4. Close the file descriptor
-    close(fd);
-    
-    // Optional: Call GNL one last time to check if it handles EOF gracefully
-    // line = get_next_line(fd); 
-    
-    return (0);
-}*/
