@@ -4,18 +4,18 @@ This repository serves as a centralized archive for my journey through the **42 
 
 ---
 
-## 🛠️ Project Roadmap
+## Project Roadmap
 
 | Project | Description | Folder | Status |
 | :--- | :--- | :--- | :--- |
-| **Libft** | My own implementation of C standard library functions. | [`/libft`](./libft) | ✅ Finished |
-| **ft_printf** | Recreating the printf function using variadic functions. | [`/ft_printf`](./ft_printf) | 🏃 In Progress |
-| **get_next_line** | Developing a function to read lines from a file descriptor. | [`/get_next_line`](./get_next_line) | 🔜 Upcoming |
-| **Born2BeRoot** | System administration and virtualization (Debian). | [`/born2beroot`](./born2beroot) | 🔜 Upcoming |
+| **Libft** | My own implementation of C standard library functions. | [`/libft`](./libft) | Finished |
+| **ft_printf** | Recreating the printf function using variadic functions. | [`/ft_printf`](./ft_printf) | Finished |
+| **get_next_line** | Developing a function to read lines from a file descriptor. | [`/get_next_line`](./get_next_line) | In Progress |
+| **Born2BeRoot** | System administration and virtualization (Debian). | [`/born2beroot`](./born2beroot) | In Progress |
 
 ---
 
-## 🚀 About 42 Madrid
+## About 42 Madrid
 
 The **42 Cursus** is a rigorous software engineering program based on peer-to-peer learning and practical, project-based evaluation. There are no teachers or classrooms; students progress by solving increasingly difficult challenges and defending their code in peer reviews.
 
@@ -27,7 +27,7 @@ The **42 Cursus** is a rigorous software engineering program based on peer-to-pe
 
 ---
 
-## 📁 Repository Management
+## Repository Management
 
 I maintain this repository using the `git subtree` method. This allows me to pull my original work from the 42 internal system (**vogsphere**) while preserving the full commit history and original timestamps.
 
