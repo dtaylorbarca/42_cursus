@@ -10,7 +10,7 @@ This repository serves as a centralized archive for my journey through the **42 
 | :--- | :--- | :--- | :--- |
 | **Libft** | My own implementation of C standard library functions. | [`/libft`](./libft) | Finished |
 | **ft_printf** | Recreating the printf function using variadic functions. | [`/ft_printf`](./ft_printf) | Finished |
-| **get_next_line** | Developing a function to read lines from a file descriptor. | [`/get_next_line`](./get_next_line) | In Progress |
+| **get_next_line** | Developing a function to read lines from a file descriptor. | [`/get_next_line`](./get_next_line) | Finished |
 | **push_swap** | Optimized stack sorting using a limited set of operations and complex algorithms | [`/push_swap`](./push_swap) | In Progress |
 
 ---
