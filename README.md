@@ -51,3 +51,4 @@ I maintain this repository using the `git subtree` method. This allows me to pul
 To compile any project, navigate to its subdirectory and use the provided `Makefile`:
 ```bash
 cd libft && make
+```
