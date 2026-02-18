@@ -10,15 +10,15 @@ This repository serves as a centralized archive for my journey through the **42 
 
 | Project | Language | Description | Folder | Status |
 | :--- | :--- | :--- | :--- | :--- |
-| **Libft** | C | My own implementation of C standard library functions. | [`/Milestone_0/libft`](./libft) | Finished |
+| **Libft** | C | My own implementation of C standard library functions. | [`/Milestone_0/libft`](./Milestone_0/libft) | Finished |
 
 ### Milestone 1
 
 | Project | Language | Description | Folder | Status |
 | :--- | :--- | :--- | :--- | :--- |
-| **ft_printf** | C | Recreating the printf function using variadic functions. | [`/Milestone_1/ft_printf`](./ft_printf) | Finished |
-| **get_next_line** | C | Developing a function to read lines from a file descriptor. | [`/Milestone_1/get_next_line`](./get_next_line) | Finished |
-| **push_swap** | C | Optimized stack sorting using a limited set of operations and complex algorithms | [`/Mileston_1/push_swap`](./push_swap) | In Progress |
+| **ft_printf** | C | Recreating the printf function using variadic functions. | [`/Milestone_1/ft_printf`](./Milestone_1/ft_printf) | Finished |
+| **get_next_line** | C | Developing a function to read lines from a file descriptor. | [`/Milestone_1/get_next_line`](./Milestone_1/get_next_line) | Finished |
+| **push_swap** | C | Optimized stack sorting using a limited set of operations and complex algorithms | [`/Mileston_1/push_swap`](./Milestone_1/push_swap) | In Progress |
 
 ### Mileston 2
 
