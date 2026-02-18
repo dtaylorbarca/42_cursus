@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 13:01:54 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/02/03 13:23:05 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/02/18 15:39:32 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,8 @@ int	ft_printf(char const *str, ...)
 		{
 			str++;
 			count += percent(*str, param);
-			str++;
+			if (*str)
+				str++;
 		}
 	}
 	va_end(param);
