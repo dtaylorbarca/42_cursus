@@ -6,11 +6,9 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 15:45:33 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/03/12 15:45:34 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/03/12 16:15:03 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
 
 #include "push_swap.h"
 
@@ -54,12 +52,6 @@ void	tiny_sort(t_list **stack_a, t_count **count_list)
 
 	tmp = NULL;
 	size = stack_size(*stack_a);
-	assign_index(stack_a);
-	while (tmp)
-	{
-		tmp->temp_index = tmp->index;
-		tmp = tmp->next;
-	}
 	if (size > 3 && size < 6)
 		ft_simple(stack_a, count_list);
 	else if (size == 3)
