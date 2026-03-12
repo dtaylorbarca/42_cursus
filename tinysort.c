@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 15:45:33 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/03/12 16:15:03 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/03/12 21:07:56 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	sort_3(t_list **a, t_count **count_list)
 	else if ((*a)->nb < (*a)->next->nb && (*a)->next->nb > (*a)->next->next->nb)
 	{
 		sa_move(a, count_list);
-		rra_move(a, count_list);
+		ra_move(a, count_list);
 	}
 	else if ((*a)->nb > (*a)->next->nb && (*a)->next->nb > (*a)->next->next->nb)
 	{

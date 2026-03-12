@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 15:44:23 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/03/12 18:09:33 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/03/12 21:08:26 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,11 @@ float	ft_compute_disorder(t_list *stack)
 
 void	ft_adaptive(t_list **stack_a, t_count **count_list)
 {
+	if (stack_size(*stack_a) <= 3)
+	{
+		tiny_sort(stack_a, count_list);
+		return ;
+	}
 	if (0.0 < (*count_list)->disorder && (*count_list)->disorder < 0.2)
 		ft_simple(stack_a, count_list);
 	else if (0.2 <= (*count_list)->disorder && (*count_list)->disorder <= 0.5)
