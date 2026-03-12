@@ -1,203 +1,271 @@
-*Este proyecto ha sido creado como parte del currículo de 42 por vabad-ro,    lvillarr.*
-
 # Push_swap
 
-## Descripción
-
-**Push_swap** es un proyecto algorítmico que consiste en ordenar una lista de enteros usando únicamente dos stacks (`a` y `b`) y un conjunto limitado de operaciones. El objetivo es encontrar la secuencia de instrucciones más corta posible para dejar el stack `a` ordenado de menor a mayor.
-
-El reto no es solo ordenar, sino hacerlo de manera eficiente. Por eso el programa implementa cuatro estrategias distintas de ordenación y selecciona automáticamente la más adecuada según el **índice de desorden** de la entrada.
-
-### Operaciones disponibles
-
-| Operación | Descripción |
-|-----------|-------------|
-| `sa` / `sb` | Intercambia los dos primeros elementos del stack a / b |
-| `ss` | `sa` y `sb` simultáneamente |
-| `pa` / `pb` | Mueve el primer elemento de b a a / de a a b |
-| `ra` / `rb` | Rota el stack a / b hacia arriba (el primero pasa al final) |
-| `rr` | `ra` y `rb` simultáneamente |
-| `rra` / `rrb` | Rota el stack a / b hacia abajo (el último pasa al principio) |
-| `rrr` | `rra` y `rrb` simultáneamente |
+**This project has been created as part of the 42 curriculum by dtaylor and gefada.**
 
 ---
 
-## Instrucciones
+# Overview
 
-### Compilación
+**Push_swap** is an algorithmic challenge that consists of sorting a list of integers using only **two stacks** (`a` and `b`) and a **restricted set of operations**.
+
+The objective is to produce the **shortest possible sequence of operations** that leaves **stack `a` sorted in ascending order**.
+
+The difficulty lies not only in sorting the numbers but in doing so **efficiently within the constraints of the available operations**.
+
+To address this, the program implements **four different sorting strategies** and automatically selects the most suitable one based on the **disorder index** of the input data.
+
+---
+
+# Available Operations
+
+| Operation | Description |
+|-----------|-------------|
+| `sa` / `sb` | Swap the first two elements of stack `a` / `b` |
+| `ss` | Perform `sa` and `sb` simultaneously |
+| `pa` / `pb` | Push the top element from `b` to `a` / from `a` to `b` |
+| `ra` / `rb` | Rotate stack `a` / `b` upward (first element becomes last) |
+| `rr` | Perform `ra` and `rb` simultaneously |
+| `rra` / `rrb` | Reverse rotate stack `a` / `b` (last element becomes first) |
+| `rrr` | Perform `rra` and `rrb` simultaneously |
+
+---
+
+# Installation
+
+Compile the project using:
 
 ```bash
 make
 ```
-
-### Uso
+# Usage
 
 ```bash
-./push_swap [--simple | --medium | --complex | --adaptive] <lista de enteros>
+./push_swap [--simple | --medium | --complex | --adaptive] <list of integers>
 ```
+## Strategy Selection (Optional)
 
-**Selector de estrategia (opcional):**
+| Flag | Description |
+|-----|-------------|
+| `--simple` | Force the **O(n²)** algorithm |
+| `--medium` | Force the **O(n√n)** algorithm |
+| `--complex` | Force the **O(n log n)** algorithm |
+| `--adaptive` | Automatically select the best algorithm (**default behavior**) |
 
-- `--simple` — fuerza el algoritmo O(n²)
-- `--medium` — fuerza el algoritmo O(n√n)
-- `--complex` — fuerza el algoritmo O(n log n)
-- `--adaptive` — selección automática según el índice de desorden (comportamiento por defecto)
+---
 
-**Modo benchmark:**
+# Benchmark Mode
 
 ```bash
 ./push_swap --bench --adaptive 4 67 3 87 23 2> bench.txt | ./checker_linux 4 67 3 87 23
 ```
+When `--bench` is enabled, the program outputs the following information to **stderr**:
 
-El modo `--bench` imprime a `stderr` el índice de desorden, la estrategia usada, el total de operaciones y el desglose por tipo.
+- Disorder index  
+- Selected algorithm  
+- Total number of operations  
+- Operation breakdown by type  
 
-### Ejemplos
+This makes it easier to **evaluate and compare algorithm performance**.
+
+---
+
+# Examples
 
 ```bash
-# Ordenar 5 números con estrategia adaptativa
+# Sort 5 numbers using the adaptive strategy
 ./push_swap 3 1 4 1 5
 
-# Forzar algoritmo simple y verificar con checker
+# Force the simple algorithm and verify the result
 ./push_swap --simple 5 4 3 2 1 | ./checker_linux 5 4 3 2 1
 
-# Medir operaciones para 100 números aleatorios
+# Count operations for 100 random numbers
 shuf -i 0-999 -n 100 | tr '\n' ' ' | xargs ./push_swap | wc -l
 ```
 
-### Manejo de errores
+# Error Handling
 
-El programa imprime `Error` a `stderr` en los siguientes casos:
-- Argumentos que no son enteros
-- Enteros fuera del rango de `int`
-- Números duplicados
+The program prints **`Error`** to `stderr` in the following cases:
+
+- Non-integer arguments  
+- Integers outside the `int` range  
+- Duplicate values  
 
 ---
 
-## Algoritmos implementados
+# Implemented Algorithms
 
-### Índice de desorden
+## Disorder Index
 
-Antes de elegir estrategia, el programa calcula el **índice de desorden**: una métrica entre 0 (completamente ordenado) y 1 (máximo desorden), basada en el número de pares inversamente ordenados sobre el total de pares posibles.
+Before choosing a sorting strategy, the program computes a **disorder index**, a value between:
+
+- **0 → perfectly sorted**
+- **1 → completely disordered**
+
+It is calculated using the proportion of **inverted pairs** in the input:
 
 ```
-disorder = número de pares (i, j) con i < j y a[i] > a[j]  /  total de pares
+disorder = number of pairs (i, j) where i < j and a[i] > a[j]
+           ---------------------------------------------------
+                     total number of pairs
 ```
 
----
-
-### 1. Algoritmo simple — O(n²): Extracción del mínimo/máximo
-
-**Estrategia:** en cada iteración se localiza el elemento mínimo (o máximo) del stack `a` y se desplaza a su posición correcta usando rotaciones y `push` hacia el stack `b`. Una vez todos los elementos están ordenados en `b`, se devuelven a `a` de golpe.
-
-**Funcionamiento paso a paso:**
-1. Se calcula la posición del mínimo actual en `a`.
-2. Se rota `a` (con `ra` o `rra`, la que cueste menos movimientos) para traerlo al tope.
-3. Se hace `pb` para enviarlo a `b`.
-4. Se repite hasta que en `a` quede un solo elemento.
-5. Se hacen `pa` sucesivos para devolver todos los elementos.
-
-**Complejidad:** O(n²) operaciones en el modelo Push_swap, ya que cada extracción puede requerir hasta O(n) rotaciones.
-
-**Cuándo se usa:** cuando el índice de desorden es muy bajo (< 0.2) en modo adaptativo, o al forzar `--simple`. Funciona bien para entradas pequeñas o casi ordenadas.
+This metric provides a **quick estimate of how far the input is from being sorted**.
 
 ---
 
-### 2. Algoritmo medio — O(n√n): Orden por chunks
+# Sorting Strategies
 
-**Estrategia:** se divide el rango de valores en bloques (*chunks*) de tamaño aproximado √n. Los elementos se envían a `b` chunk a chunk, y luego se recuperan en orden.
+## 1. Simple Algorithm — O(n²)
 
-**Funcionamiento paso a paso:**
-1. Se normalizan los valores (se asigna a cada número su rango de 0 a n-1).
-2. Se divide ese rango en √n chunks consecutivos (por ejemplo, para n=100: chunks de ~10 valores cada uno).
-3. Para cada chunk, se recorre `a` enviando a `b` con `pb` todos los elementos que pertenecen al chunk actual, rotando el stack para encontrarlos eficientemente.
-4. Una vez que todos los elementos están en `b` (ordenados por chunks, con los de mayor valor al tope), se recuperan a `a` con `pa`, buscando siempre el máximo y rotando `b` para traerlo al frente.
+### Minimum / Maximum Extraction
 
-**Complejidad:** O(n√n) operaciones. Hay √n chunks y por cada uno se hacen O(n) rotaciones para encontrar y mover los elementos del chunk. La fase de recuperación desde `b` también es O(n√n).
+This strategy repeatedly extracts the **minimum (or maximum)** value from stack `a` and pushes it into stack `b`.
 
-**Cuándo se usa:** cuando el índice de desorden es medio (0.2 ≤ desorden < 0.5) en modo adaptativo, o al forzar `--medium`. Equilibrio óptimo entre implementación sencilla y buen rendimiento para entradas medianas.
+### Process
 
----
+1. Find the position of the smallest element in `a`.
+2. Rotate `a` (`ra` or `rra`) to bring it to the top with the fewest moves.
+3. Push it to `b` using `pb`.
+4. Repeat until only one element remains in `a`.
+5. Push all elements back from `b` to `a`.
 
-### 3. Algoritmo complejo — O(n log n): Radix sort LSD
+### Complexity
 
-**Estrategia:** adaptación del algoritmo Radix Sort (LSD — Least Significant Digit) al modelo de dos stacks. Se ordena bit a bit, de menos significativo a más significativo, usando las operaciones de Push_swap como único mecanismo de clasificación.
+**O(n²)** operations in the Push_swap model, since each extraction may require up to **O(n)** rotations.
 
-**Funcionamiento paso a paso:**
-1. Se normalizan los valores a índices de 0 a n-1 (para trabajar con representación binaria limpia).
-2. Para cada bit (de bit 0 a bit ⌈log₂n⌉):
-   - Se recorre todo el stack `a`. Si el bit actual del elemento en el tope es `0`, se hace `pb` (va a `b`). Si es `1`, se hace `ra` (queda en `a`).
-   - Al terminar el recorrido, se devuelven todos los elementos de `b` a `a` con `pa` sucesivos.
-3. Tras procesar todos los bits, el stack `a` queda ordenado.
+### When it is used
 
-**Complejidad:** O(n log n) operaciones. Hay ⌈log₂n⌉ pasadas, y en cada pasada se realizan O(n) operaciones (una por elemento). El número de bits necesarios es log₂n, de ahí la cota.
+- When the **disorder index is very low (< 0.2)**
+- When the `--simple` flag is used
 
-**Cuándo se usa:** cuando el índice de desorden es alto (≥ 0.5) en modo adaptativo, o al forzar `--complex`. Es el algoritmo más eficiente para entradas grandes y muy desordenadas.
+This method works well for **small or nearly sorted inputs**.
 
 ---
 
-### 4. Algoritmo adaptativo
+## 2. Medium Algorithm — O(n√n)
 
-Combina los tres algoritmos anteriores seleccionando automáticamente el más adecuado según el índice de desorden calculado al inicio:
+### Chunk-based Sorting
 
-| Índice de desorden | Algoritmo usado | Complejidad |
-|--------------------|-----------------|-------------|
-| < 0.2 | Extracción del mínimo/máximo | O(n) — la entrada está casi ordenada, pocas correcciones |
-| 0.2 ≤ desorden < 0.5 | Chunks (√n) | O(n√n) |
-| ≥ 0.5 | Radix LSD | O(n log n) |
+This strategy divides the value range into **chunks of size √n** and moves them from stack `a` to stack `b` in groups.
 
-**Justificación de los umbrales:**
-- El umbral 0.2 se eligió porque con bajo desorden, la mayoría de elementos ya están en posición y el algoritmo de extracción del mínimo solo necesita unos pocos movimientos, comportándose efectivamente en O(n).
-- El umbral 0.5 separa el desorden "moderado" del "alto". Por encima de este punto, las permutaciones son suficientemente aleatorias como para que Radix, con su complejidad garantizada O(n log n) independientemente de la distribución, sea siempre preferible al enfoque de chunks.
+### Process
 
----
+1. Normalize values to indices `[0, n-1]`.
+2. Divide them into **√n chunks**.
+3. Scan stack `a` and push elements belonging to the current chunk to `b`.
+4. Once all elements are in `b`, retrieve them by repeatedly selecting the **largest element**.
 
-### 5. Contribuciones del equipo
-Aunque ambos integrantes hemos tocado distintas partes del proyecto en mayor o menor medida, estas son las responsabilidades principales de cada uno:
+### Complexity
 
-**Víctor (vabad-ro)**
+**O(n√n)** operations.
 
--Implementación de todas las operaciones de stack (sa, sb, ss, pa, pb, ra, rb, rr, rra, rrb, rrr)
+Each chunk requires scanning stack `a`, and the retrieval phase also requires rotations.
 
--Desarrollo del algoritmo adaptativo y su lógica de selección según el índice de desorden
+### When it is used
 
--Implementación del algoritmo medio (ordenación por chunks, O(n√n))
+- **Moderate disorder (0.2 ≤ disorder < 0.5)**
+- When the `--medium` flag is used
 
-**Luis (lvillarr)**
-
--Control y validación de argumentos (detección de errores, duplicados, desbordamiento de enteros)
-
--Implementación del algoritmo simple (extracción del mínimo/máximo, O(n²))
-
--Implementación del algoritmo complejo (Radix Sort LSD, O(n log n))
-
-Ambos participamos en la revisión cruzada del código, la detección de bugs y las pruebas de rendimiento a lo largo del desarrollo.
+This approach offers a **good balance between simplicity and performance**.
 
 ---
 
-## Pruebas de rendimiento esperadas
+## 3. Complex Algorithm — O(n log n)
 
-| Entrada | Mínimo (corte) | Buen rendimiento | Excelente |
-|---------|---------------|------------------|-----------|
-| 100 números | < 2000 ops | < 1500 ops | < 700 ops |
-| 500 números | < 12000 ops | < 8000 ops | < 5500 ops |
+### Radix Sort (LSD)
+
+This is an adaptation of **Radix Sort (Least Significant Digit)** to the Push_swap constraints.
+
+Sorting is performed **bit by bit**, starting from the **least significant bit**.
+
+### Process
+
+1. Normalize values to `[0, n-1]`.
+2. For each bit position:
+   - If the current bit is **0**, push the element to `b`.
+   - If the bit is **1**, rotate `a`.
+3. Move everything back from `b` to `a`.
+4. Repeat for all bits.
+
+### Complexity
+
+**O(n log n)** operations.
+
+Each bit requires a **full pass over the stack**.
+
+### When it is used
+
+- **High disorder (≥ 0.5)**
+- When the `--complex` flag is used
+
+This is the **most reliable algorithm for large random inputs**.
 
 ---
 
-## Recursos
+# Adaptive Strategy
 
-### Referencias
+The adaptive mode selects the algorithm based on the **disorder index**:
 
-- Knuth, D. E. — *The Art of Computer Programming, Vol. 3: Sorting and Searching*
-- [Radix Sort — Wikipedia](https://en.wikipedia.org/wiki/Radix_sort)
-- [Push_swap visualizer](https://github.com/o-reo/push_swap_visualizer) — herramienta para visualizar las operaciones
-- [Repositorio de referencia de algoritmos de ordenación](https://visualgo.net/en/sorting)
+| Disorder Index | Selected Algorithm | Complexity |
+|----------------|-------------------|------------|
+| `< 0.2` | Minimum extraction | ~O(n) |
+| `0.2 – 0.5` | Chunk sorting | O(n√n) |
+| `≥ 0.5` | Radix sort | O(n log n) |
 
-### Uso de IA
+### Why these thresholds?
 
-Durante el desarrollo de este proyecto se utilizó IA (Claude) para las siguientes tareas:
-- Apoyo en la comprensión de la notación Big-O aplicada al modelo de operaciones de Push_swap.
-- Generación de casos de prueba para validar los algoritmos.
-- Revisión de la lógica de normalización de índices en la implementación del Radix sort.
-- Redacción y estructuración de este README.
+- **0.2:** If the list is nearly sorted, only a few corrections are needed.  
+- **0.5:** Above this level the permutation behaves almost randomly, making **Radix sort consistently more efficient**.
 
-En todos los casos, el código implementado fue escrito, revisado y comprendido por los integrantes del grupo antes de su entrega.
+---
+
+# Team Contributions
+
+Although both team members collaborated across the project, the main responsibilities were:
+
+## Dylan (`dtaylor-`)
+
+- Implementation of all stack operations  
+- Development of the adaptive strategy  
+- Implementation of the **chunk-based algorithm (O(n√n))**
+
+## George (`gefada`)
+
+- Argument validation and error handling  
+- Implementation of the **simple algorithm (O(n²))**  
+- Implementation of **Radix Sort (O(n log n))**
+
+Both contributors participated in **code reviews, debugging, and performance testing**.
+
+---
+
+# Expected Performance
+
+| Input Size | Minimum (pass) | Good | Excellent |
+|------------|---------------|------|-----------|
+| 100 numbers | < 2000 ops | < 1500 ops | < 700 ops |
+| 500 numbers | < 12000 ops | < 8000 ops | < 5500 ops |
+
+---
+
+# Resources
+
+## References
+
+- *The Art of Computer Programming, Vol. 3: Sorting and Searching* — Donald Knuth  
+- Radix Sort — https://en.wikipedia.org/wiki/Radix_sort  
+- Push_swap Visualizer — https://github.com/o-reo/push_swap_visualizer  
+- Sorting visualizations — https://visualgo.net/en/sorting  
+
+---
+
+# Use of AI
+
+During development, AI (**Claude**) was used for:
+
+- Clarifying **Big-O complexity** in the context of Push_swap operations  
+- Generating **test cases** for algorithm validation  
+- Reviewing the **index normalization logic** for Radix Sort  
+- Assisting with the **writing and structure of this README**
+
+All implemented code was **written, reviewed, and fully understood by the contributors before submission**.
