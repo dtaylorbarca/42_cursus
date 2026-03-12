@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   arg_control.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dtaylor- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 15:43:21 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/03/12 15:43:32 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/03/12 16:17:52 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,14 @@ static int	validate_num(t_list **stack_a, char *str, char **split)
 	{
 		write(2, "Error\n", 6);
 		ft_free_split(split);
+		free(stack_a);
 		return (0);
 	}
 	if (num > INT_MAX || num < INT_MIN)
 	{
 		write(2, "Error\n", 6);
 		ft_free_split(split);
+		free(stack_a);
 		return (0);
 	}
 	return (1);
@@ -50,6 +52,7 @@ static int	process_split(t_list **stack_a, char **split)
 		j++;
 	}
 	ft_free_split(split);
+	free(stack_a);
 	return (1);
 }
 
