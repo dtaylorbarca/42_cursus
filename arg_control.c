@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 15:43:21 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/03/12 16:17:52 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/03/12 18:30:28 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,19 @@ static int	validate_num(t_list **stack_a, char *str, char **split)
 {
 	long	num;
 
-	num = ft_atol(str);
+	num = ft_atoi(str);
 	if (!not_equal_number(*stack_a, num))
 	{
 		write(2, "Error\n", 6);
 		ft_free_split(split);
-		free(stack_a);
+		ft_lstclear(stack_a);
 		return (0);
 	}
 	if (num > INT_MAX || num < INT_MIN)
 	{
 		write(2, "Error\n", 6);
 		ft_free_split(split);
-		free(stack_a);
+		ft_lstclear(stack_a);
 		return (0);
 	}
 	return (1);
@@ -45,14 +45,13 @@ static int	process_split(t_list **stack_a, char **split)
 	{
 		if (!validate_num(stack_a, split[j], split))
 			return (0);
-		new_node = ft_new_node(ft_atol(split[j]));
+		new_node = ft_new_node(ft_atoi(split[j]));
 		if (!new_node)
 			return (0);
 		ft_lstadd_back(stack_a, new_node);
 		j++;
 	}
 	ft_free_split(split);
-	free(stack_a);
 	return (1);
 }
 
@@ -71,6 +70,7 @@ static int	fill_stack(char **argv, int i, t_list **stack_a)
 		{
 			write(2, "Error\n", 6);
 			ft_free_split(split);
+			ft_lstclear(stack_a);
 			return (0);
 		}
 		j++;
@@ -86,9 +86,7 @@ static void	sort_stack(char **argv, t_list **stack_a, t_count **count_list)
 
 	type = 0;
 	(*count_list)->disorder = ft_compute_disorder(*stack_a);
-	if (stack_size(*stack_a) <= 5)
-		tiny_sort(stack_a, count_list);
-	else if (argv[1][0] == '-' && !ft_isdigit(argv[1][1]))
+	if (argv[1][0] == '-' && !ft_isdigit(argv[1][1]))
 		type = ft_switch(argv[1], *stack_a, count_list);
 	else
 		ft_adaptive(stack_a, count_list);

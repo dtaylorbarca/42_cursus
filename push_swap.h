@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 15:45:11 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/03/12 16:14:53 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/03/12 18:35:39 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int					ft_printptr(void *c);
 int					ft_printhexa(unsigned long c, const char *base);
 
 float				ft_compute_disorder(t_list *stack);
-long				ft_atol(const char *str);
+long				ft_atoi(const char *str);
 
 int					push_swap(int argc, char **argv);
 int					ft_strncmp(const char *s1, const char *s2, size_t n);
@@ -79,6 +79,7 @@ char				*ft_itoa(int n);
 char				**ft_split(const char *s, char c);
 
 size_t				ft_strlen(const char *str);
+size_t				ft_strlcpy(char *dest, const char *src, size_t size);
 
 t_list				*ft_new_node(int nb);
 t_list				*ft_lstlast(t_list *lst);
@@ -88,7 +89,6 @@ void				initialize_list(t_count **count_list);
 void				ft_lstclear(t_list **lst);
 
 void				benchmark(t_count *count_list, int type);
-void				*ft_calloc(size_t count, size_t size);
 void				assign_index(t_list **stack_a);
 void				ft_lstadd_back(t_list **lst, t_list *new);
 void				arg_control(char **argv, t_count **count_list);

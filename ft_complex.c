@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 15:44:29 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/03/12 16:14:34 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/03/12 16:44:49 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,8 @@ void	ft_complex(t_list **stack_a, t_count **count_list)
 	int		i;
 
 	stack_b = NULL;
+	if (stack_size(*stack_a) <= 5)
+		tiny_sort(stack_a, count_list);
 	assign_index(stack_a);
 	tmp = *stack_a;
 	while (tmp)

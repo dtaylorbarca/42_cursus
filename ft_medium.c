@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 15:44:34 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/03/12 16:14:36 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/03/12 16:45:00 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,8 @@ void	ft_medium(t_list **stack_a, t_count **count_list)
 
 	chunk = ft_sqrt(stack_size(*stack_a));
 	stack_b = NULL;
+	if (stack_size(*stack_a) <= 5)
+		tiny_sort(stack_a, count_list);
 	assign_index(stack_a);
 	ft_bucket(chunk, stack_a, &stack_b, count_list);
 	ft_simple_adj(stack_a, &stack_b, count_list);

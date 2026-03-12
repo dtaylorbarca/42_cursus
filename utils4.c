@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 15:45:52 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/03/12 16:15:11 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/03/12 18:35:08 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,14 +75,17 @@ char	*ft_itoa(int n)
 
 void	ft_lstclear(t_list **lst)
 {
-	t_list	*temp;
+	t_list	*current;
+	t_list	*next;
 
-	while (*lst)
+	if (!lst || !*lst)
+		return ;
+	current = *lst;
+	while (current != NULL)
 	{
-		temp = (*lst)->next;
-		free(*lst);
-		*lst = temp;
+		next = current->next;
+		free(current);
+		current = next;
 	}
-	free(*lst);
 	*lst = NULL;
 }

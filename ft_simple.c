@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 15:44:47 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/03/12 16:14:41 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/03/12 17:52:44 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ void	ft_simple(t_list **stack_a, t_count **count_list)
 
 	size = stack_size(*stack_a);
 	stack_b = NULL;
+	if (stack_size(*stack_a) <= 3)
+		tiny_sort(stack_a, count_list);
 	while (size > 1)
 	{
 		push_to_b(stack_a, &stack_b, count_list, size);

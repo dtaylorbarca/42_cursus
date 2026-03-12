@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 15:45:44 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/03/12 16:15:07 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/03/12 18:35:19 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,18 +53,26 @@ t_list	*ft_new_node(int nb)
 	return (node);
 }
 
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
+size_t	ft_strlcpy(char *dest, const char *src, size_t size)
 {
-	size_t	i;
+	size_t			i;
+	size_t			length;
+	unsigned char	*src_new;
 
 	i = 0;
-	while ((s1[i] || s2[i]) && i < n)
+	length = 0;
+	src_new = (unsigned char *) src;
+	while (src_new[length] != '\0')
+		length++;
+	if (size == 0)
+		return (length);
+	while (src_new[i] != '\0' && i < size -1)
 	{
-		if ((unsigned char) s1[i] != (unsigned char) s2[i])
-			return ((unsigned char) s1[i] - (unsigned char) s2[i]);
+		dest[i] = src_new[i];
 		i++;
 	}
-	return (0);
+	dest[i] = '\0';
+	return (length);
 }
 
 void	ft_free_split(char **split)
