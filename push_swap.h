@@ -3,12 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vabad-ro <vabad-ro@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/09 20:37:42 by vabad-ro          #+#    #+#             */
-/*   Updated: 2026/03/10 12:51:28 by vabad-ro         ###   ########.fr       */
+/*   Created: 2026/03/12 15:45:11 by dtaylor-          #+#    #+#             */
+/*   Updated: 2026/03/12 15:45:12 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+
 
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H

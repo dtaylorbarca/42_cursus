@@ -3,12 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_simple.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vabad-ro <vabad-ro@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/26 16:29:02 by vabad-ro          #+#    #+#             */
-/*   Updated: 2026/03/09 20:37:14 by vabad-ro         ###   ########.fr       */
+/*   Created: 2026/03/12 15:44:47 by dtaylor-          #+#    #+#             */
+/*   Updated: 2026/03/12 15:44:48 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+
 
 #include "push_swap.h"
 

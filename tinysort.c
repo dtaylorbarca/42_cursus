@@ -3,12 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   tinysort.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vabad-ro <vabad-ro@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/09 20:38:01 by vabad-ro          #+#    #+#             */
-/*   Updated: 2026/03/09 20:38:04 by vabad-ro         ###   ########.fr       */
+/*   Created: 2026/03/12 15:45:33 by dtaylor-          #+#    #+#             */
+/*   Updated: 2026/03/12 15:45:34 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+
 
 #include "push_swap.h"
 

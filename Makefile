@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lvillarr <lvillarr@student.42.fr>          +#+  +:+       +#+         #
+#    By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/03/09 20:35:21 by lvillarr          #+#    #+#              #
-#    Updated: 2026/03/09 20:35:23 by lvillarr         ###   ########.fr        #
+#    Updated: 2026/03/12 15:40:41 by dtaylor-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,6 @@ SRC = arg_control.c  ft_adaptive.c  ft_medium.c     ft_printf.c  ft_split.c   p_
 
 OBJ = $(SRC:.c=.o)
 
-AR = ar rcs
 RM = rm -f
 
 all: $(NAME)

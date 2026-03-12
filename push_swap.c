@@ -3,12 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lvillarr <lvillarr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/09 20:35:26 by lvillarr          #+#    #+#             */
-/*   Updated: 2026/03/10 12:02:19 by lvillarr         ###   ########.fr       */
+/*   Created: 2026/03/12 15:45:06 by dtaylor-          #+#    #+#             */
+/*   Updated: 2026/03/12 15:45:07 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+
 
 #include "push_swap.h"
 
@@ -40,8 +42,7 @@ int	push_swap(int argc, char **argv)
 
 int	main(int argc, char **argv)
 {
-	if (argc <= 1)
-		return (-1);
-	push_swap(argc, argv);
+	if (argc > 1)
+		push_swap(argc, argv);
 	return (0);
 }

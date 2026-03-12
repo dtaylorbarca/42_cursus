@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   ft_adaptive.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lvillarr <lvillarr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/09 20:34:59 by lvillarr          #+#    #+#             */
-/*   Updated: 2026/03/09 20:35:01 by lvillarr         ###   ########.fr       */
+/*   Created: 2026/03/12 15:44:23 by dtaylor-          #+#    #+#             */
+/*   Updated: 2026/03/12 15:44:25 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "push_swap.h"
 
