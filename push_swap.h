@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 15:45:11 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/03/12 18:35:39 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/03/12 20:46:26 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,11 @@
 # include <string.h>
 # include <unistd.h>
 # include <limits.h>
+
+# define SIMPLE 1
+# define MEDIUM 2
+# define COMPLEX 3
+# define ADAPTIVE 4
 
 typedef struct s_list
 {

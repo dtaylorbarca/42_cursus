@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   benchmark.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dtaylor- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 15:43:57 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/03/12 15:44:00 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/03/12 20:47:16 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,11 @@ void	benchmark(t_count *count_list, int type)
 	mv = total_sum(count_list);
 	ft_printf("[bench] disorder:	%d.%d%%\n", x, y);
 	ft_printf("[bench] strategy:	");
-	if (type == 1)
+	if (type == SIMPLE)
 		ft_printf("Simple / (O(n^2))\n");
-	else if (type == 2)
+	else if (type == MEDIUM)
 		ft_printf("Medium / O(n√n)\n");
-	else if (type == 3)
+	else if (type == COMPLEX)
 		ft_printf("Complex /  O(n log n)\n");
 	else
 		select_adaptive(count_list);
