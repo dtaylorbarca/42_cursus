@@ -40,7 +40,7 @@ make
 # Usage
 
 ```bash
-./push_swap [--simple | --medium | --complex | --adaptive] <list of integers>
+./push_swap [--bench] [--simple | --medium | --complex | --adaptive] <list of integers>
 ```
 ## Strategy Selection (Optional)
 
@@ -53,11 +53,12 @@ make
 
 ---
 
-# Benchmark Mode
+# Benchmark Mode (Optional)
 
 ```bash
 ./push_swap --bench --adaptive 4 67 3 87 23 2> bench.txt | ./checker_linux 4 67 3 87 23
 ```
+
 When `--bench` is enabled, the program outputs the following information to **stderr**:
 
 - Disorder index  
@@ -65,7 +66,8 @@ When `--bench` is enabled, the program outputs the following information to **st
 - Total number of operations  
 - Operation breakdown by type  
 
-This makes it easier to **evaluate and compare algorithm performance**.
+This makes it easier to evaluate and compare algorithm performance.
+**Note:** `--bench` must be the first flag if used.
 
 ---
 
