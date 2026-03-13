@@ -6,18 +6,11 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 15:45:37 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/03/12 18:26:24 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/03/13 16:40:55 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-
-int	ft_issspace(int c)
-{
-	if ((c >= 9 && c <= 13) || c == 32)
-		return (1);
-	return (0);
-}
 
 long	ft_atoi(const char *str)
 {
@@ -28,7 +21,7 @@ long	ft_atoi(const char *str)
 	result = 0;
 	sign = 1;
 	i = 0;
-	while (ft_issspace(str[i]))
+	while ((9 <= str[i] && str[i] <= 13) || str[i] == 32)
 		i++;
 	if (str[i] == '+' && str[i + 1] != '-')
 		i++;
@@ -78,4 +71,26 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 		i++;
 	}
 	return (0);
+}
+
+size_t	ft_strlcpy(char *dest, const char *src, size_t size)
+{
+	size_t			i;
+	size_t			length;
+	unsigned char	*src_new;
+
+	i = 0;
+	length = 0;
+	src_new = (unsigned char *) src;
+	while (src_new[length] != '\0')
+		length++;
+	if (size == 0)
+		return (length);
+	while (src_new[i] != '\0' && i < size -1)
+	{
+		dest[i] = src_new[i];
+		i++;
+	}
+	dest[i] = '\0';
+	return (length);
 }

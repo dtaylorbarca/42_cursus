@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 15:45:44 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/03/12 18:35:19 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/03/13 16:41:15 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,26 +53,21 @@ t_list	*ft_new_node(int nb)
 	return (node);
 }
 
-size_t	ft_strlcpy(char *dest, const char *src, size_t size)
+void	ft_lstclear(t_list **lst)
 {
-	size_t			i;
-	size_t			length;
-	unsigned char	*src_new;
+	t_list	*current;
+	t_list	*next;
 
-	i = 0;
-	length = 0;
-	src_new = (unsigned char *) src;
-	while (src_new[length] != '\0')
-		length++;
-	if (size == 0)
-		return (length);
-	while (src_new[i] != '\0' && i < size -1)
+	if (!lst || !*lst)
+		return ;
+	current = *lst;
+	while (current != NULL)
 	{
-		dest[i] = src_new[i];
-		i++;
+		next = current->next;
+		free(current);
+		current = next;
 	}
-	dest[i] = '\0';
-	return (length);
+	*lst = NULL;
 }
 
 void	ft_free_split(char **split)

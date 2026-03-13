@@ -1,91 +1,95 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils4.c                                           :+:      :+:    :+:   */
+/*   utils5.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/12 15:45:52 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/03/12 18:35:08 by dtaylor-         ###   ########.fr       */
+/*   Created: 2026/03/12 15:45:56 by dtaylor-          #+#    #+#             */
+/*   Updated: 2026/03/12 16:15:13 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int	ft_numlen(int n)
+int	find_min_index(t_list *stack_a)
 {
-	int	len;
+	int		min;
+	t_list	*temp;
 
-	len = 0;
-	while (n != 0)
+	min = find_max(stack_a);
+	temp = stack_a;
+	while (temp)
 	{
-		len ++;
-		n /= 10;
+		if (temp->index == -1 && temp->nb < min)
+			min = temp->nb;
+		temp = temp->next;
 	}
-	return (len);
+	return (min);
 }
 
-static char	*ft_nonzero(int n, char *str_num, unsigned int num, int len)
+int	short_way_medium(t_list **stack, int i, int range)
 {
-	if (n < 0)
+	int		count;
+	t_list	*temp;
+
+	count = 0;
+	temp = *stack;
+	while (temp)
 	{
-		len++;
-		num = -n;
+		if (i <= temp->index && temp->index < range)
+			return (count);
+		count++;
+		temp = temp->next;
 	}
-	else
-		num = n;
-	str_num = malloc((len + 1) * sizeof(char));
-	if (!str_num)
-		return (NULL);
-	str_num[len] = '\0';
-	if (n < 0)
-		str_num[--len] = '0';
-	len = 0;
-	while (num > 0)
-	{
-		str_num[len] = num % 10 + 48;
-		len ++;
-		num /= 10;
-	}
-	return (str_num);
+	return (-1);
 }
 
-char	*ft_itoa(int n)
+int	short_way_simple_adj(t_list **stack)
 {
-	char			*str_num;
-	unsigned int	num;
-	int				len;
+	int		max;
+	int		count;
+	t_list	*temp;
 
-	str_num = NULL;
-	num = 0;
-	len = ft_numlen(n);
-	if (n == 0)
+	count = 0;
+	temp = *stack;
+	max = find_max(*stack);
+	while (temp->nb != max)
 	{
-		num = n;
-		str_num = malloc(2 * sizeof(char));
-		if (!str_num)
-			return (NULL);
-		str_num[0] = num + 48;
-		str_num[1] = '\0';
+		count++;
+		temp = temp->next;
 	}
-	else
-		str_num = ft_nonzero(n, str_num, num, len);
-	return (str_num);
+	return (count);
 }
 
-void	ft_lstclear(t_list **lst)
+int	argv_isnumber(char *argv)
+{
+	int	i;
+
+	i = 0;
+	if (argv[i] == '-' || argv[i] == '+')
+		i++;
+	if (!argv[i])
+		return (0);
+	while (argv[i])
+	{
+		if (!ft_isdigit(argv[i]) && argv[i] != ' ')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+int	not_equal_number(t_list *stack_a, int new_number)
 {
 	t_list	*current;
-	t_list	*next;
 
-	if (!lst || !*lst)
-		return ;
-	current = *lst;
-	while (current != NULL)
+	current = stack_a;
+	while (current)
 	{
-		next = current->next;
-		free(current);
-		current = next;
+		if (current->nb == new_number)
+			return (0);
+		current = current->next;
 	}
-	*lst = NULL;
+	return (1);
 }

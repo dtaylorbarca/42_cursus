@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 15:44:23 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/03/13 15:50:44 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/03/13 17:10:39 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,6 @@ void	ft_adaptive(t_list **stack_a, t_count **count_list)
 	else
 	{
 		write (2, "Error\n", 6);
-		free(stack_a);
+		ft_lstclear(stack_a);
 	}
 }

@@ -6,13 +6,13 @@
 
 # Overview
 
-**Push_swap** is an algorithmic challenge that consists of sorting a list of integers using only **two stacks** (`a` and `b`) and a **restricted set of operations**.
+**Push_swap** is an algorithmic challenge that consists of sorting a list of integers using only two stacks (`a` and `b`) and a restricted set of operations.
 
-The objective is to produce the **shortest possible sequence of operations** that leaves **stack `a` sorted in ascending order**.
+The objective is to produce the shortest possible sequence of operations that leaves stack `a` sorted in ascending order.
 
-The difficulty lies not only in sorting the numbers but in doing so **efficiently within the constraints of the available operations**.
+The difficulty lies not only in sorting the numbers but in doing so efficiently within the constraints of the available operations.
 
-To address this, the program implements **four different sorting strategies** and automatically selects the most suitable one based on the **disorder index** of the input data.
+To address this, the program implements four different sorting strategies and automatically selects the most suitable one based on the disorder index of the input data.
 
 ---
 
@@ -96,7 +96,7 @@ The program prints **`Error`** to `stderr` in the following cases:
 
 ## Disorder Index
 
-Before choosing a sorting strategy, the program computes a **disorder index**, a value between:
+Before choosing a sorting strategy, the program computes a disorder index, a value between:
 
 - **0 → perfectly sorted**
 - **1 → completely disordered**
@@ -109,7 +109,7 @@ disorder = number of pairs (i, j) where i < j and a[i] > a[j]
                      total number of pairs
 ```
 
-This metric provides a **quick estimate of how far the input is from being sorted**.
+This metric provides a quick estimate of how far the input is from being sorted.
 
 ---
 
@@ -135,10 +135,10 @@ This strategy repeatedly extracts the **minimum (or maximum)** value from stack 
 
 ### When it is used
 
-- When the **disorder index is very low (< 0.2)**
+- When the disorder index is very low (< 0.2)
 - When the `--simple` flag is used
 
-This method works well for **small or nearly sorted inputs**.
+This method works well for small or nearly sorted inputs.
 
 ---
 
@@ -146,14 +146,14 @@ This method works well for **small or nearly sorted inputs**.
 
 ### Chunk-based Sorting
 
-This strategy divides the value range into **chunks of size √n** and moves them from stack `a` to stack `b` in groups.
+This strategy divides the value range into chunks of size √n and moves them from stack `a` to stack `b` in groups.
 
 ### Process
 
 1. Normalize values to indices `[0, n-1]`.
 2. Divide them into **√n chunks**.
 3. Scan stack `a` and push elements belonging to the current chunk to `b`.
-4. Once all elements are in `b`, retrieve them by repeatedly selecting the **largest element**.
+4. Once all elements are in `b`, retrieve them by repeatedly selecting the largest element.
 
 ### Complexity
 
@@ -166,7 +166,7 @@ Each chunk requires scanning stack `a`, and the retrieval phase also requires ro
 - **Moderate disorder (0.2 ≤ disorder < 0.5)**
 - When the `--medium` flag is used
 
-This approach offers a **good balance between simplicity and performance**.
+This approach offers a good balance between simplicity and performance.
 
 ---
 
@@ -176,7 +176,7 @@ This approach offers a **good balance between simplicity and performance**.
 
 This is an adaptation of **Radix Sort (Least Significant Digit)** to the Push_swap constraints.
 
-Sorting is performed **bit by bit**, starting from the **least significant bit**.
+Sorting is performed bit by bit, starting from the least significant bit.
 
 ### Process
 
@@ -191,20 +191,20 @@ Sorting is performed **bit by bit**, starting from the **least significant bit**
 
 **O(n log n)** operations.
 
-Each bit requires a **full pass over the stack**.
+Each bit requires a full pass over the stack.
 
 ### When it is used
 
 - **High disorder (≥ 0.5)**
 - When the `--complex` flag is used
 
-This is the **most reliable algorithm for large random inputs**.
+This is the most reliable algorithm for large random inputs.
 
 ---
 
 # Adaptive Strategy
 
-The adaptive mode selects the algorithm based on the **disorder index**:
+The adaptive mode selects the algorithm based on the disorder index:
 
 | Disorder Index | Selected Algorithm | Complexity |
 |----------------|-------------------|------------|
@@ -215,7 +215,7 @@ The adaptive mode selects the algorithm based on the **disorder index**:
 ### Why these thresholds?
 
 - **0.2:** If the list is nearly sorted, only a few corrections are needed.  
-- **0.5:** Above this level the permutation behaves almost randomly, making **Radix sort consistently more efficient**.
+- **0.5:** Above this level the permutation behaves almost randomly, making Radix sort consistently more efficient.
 
 ---
 

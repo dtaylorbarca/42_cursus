@@ -6,7 +6,7 @@
 #    By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/03/12 16:14:09 by dtaylor-          #+#    #+#              #
-#    Updated: 2026/03/12 18:49:10 by dtaylor-         ###   ########.fr        #
+#    Updated: 2026/03/13 16:41:37 by dtaylor-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ CFLAGS = -Wall -Wextra -Werror
 INCLUDE = push_swap.h
 
 SRC = arg_control.c  ft_adaptive.c  ft_medium.c     ft_printf.c  ft_split.c   p_mov.c      r_mov.c    s_mov.c     utils1.c  utils3.c \
-	  benchmark.c    ft_complex.c   ft_printchrs.c  ft_simple.c  ft_switch.c  push_swap.c  rr_move.c  tinysort.c  utils2.c  utils4.c utils5.c
+	  benchmark.c    ft_complex.c   ft_printchrs.c  ft_simple.c  ft_switch.c  push_swap.c  rr_move.c  tinysort.c  utils2.c  utils4.c
 
 OBJ = $(SRC:.c=.o)
 
