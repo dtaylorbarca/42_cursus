@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 15:44:57 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/03/12 20:50:46 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/03/13 15:51:39 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,19 +30,19 @@ static int	type_algorithm(char *argv)
 		return (0);
 }
 
-int	ft_switch(char *strat, t_list *stack_a, t_count **count_list)
+int	ft_switch(char *strat, t_list **stack_a, t_count **count_list)
 {
 	int	type;
 
 	type = type_algorithm(strat);
 	if (type == SIMPLE)
-		ft_simple(&stack_a, count_list);
+		ft_simple(stack_a, count_list);
 	else if (type == MEDIUM)
-		ft_medium(&stack_a, count_list);
+		ft_medium(stack_a, count_list);
 	else if (type == COMPLEX)
-		ft_complex(&stack_a, count_list);
+		ft_complex(stack_a, count_list);
 	else if (type == ADAPTIVE)
-		ft_adaptive(&stack_a, count_list);
+		ft_adaptive(stack_a, count_list);
 	else
 		write(2, "Error\n", 6);
 	return (type);

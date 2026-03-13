@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 15:45:06 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/03/12 16:14:50 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/03/13 15:48:18 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	push_swap(int argc, char **argv)
 {
 	t_count	*count_list;
 
-	if (argc < 1)
+	if (argc < 2)
 		return (0);
 	count_list = malloc(sizeof(t_count));
 	if (!count_list)

@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 15:45:11 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/03/12 20:46:26 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/03/13 15:53:53 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int					short_way_medium(t_list **stack, int i, int range);
 int					short_way_simple_adj(t_list **stack);
 int					argv_isnumber(char *argv);
 int					not_equal_number(t_list *stack_a, int new_number);
-int					ft_switch(char *strat, t_list *stack_a,
+int					ft_switch(char *strat, t_list **stack_a,
 						t_count **count_list);
 
 char				*ft_itoa(int n);

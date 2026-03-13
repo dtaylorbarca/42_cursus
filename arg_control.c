@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 15:43:21 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/03/12 21:07:34 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/03/13 15:54:16 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ static void	sort_stack(char **argv, t_list **stack_a, t_count **count_list)
 	type = 0;
 	(*count_list)->disorder = ft_compute_disorder(*stack_a);
 	if (argv[1][0] == '-' && !ft_isdigit(argv[1][1]))
-		type = ft_switch(argv[1], *stack_a, count_list);
+		type = ft_switch(argv[1], stack_a, count_list);
 	else
 		ft_adaptive(stack_a, count_list);
 	if ((*count_list)->bench_active == 1)

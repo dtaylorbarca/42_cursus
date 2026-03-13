@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 15:44:23 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/03/12 21:08:26 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/03/13 15:50:44 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,29 @@
 
 float	ft_compute_disorder(t_list *stack)
 {
-	int		mistakes;
+	t_list	*temp_i;
+	t_list	*temp_j;
+	float	mistakes;
 	float	total_pairs;
-	t_list	*temp;
-	t_list	*next_temp;
 
 	if (!stack || !stack->next)
 		return (0);
 	mistakes = 0;
 	total_pairs = 0;
-	temp = stack;
-	next_temp = stack->next;
-	while (temp->next != NULL)
+	temp_i = stack;
+	while (temp_i != NULL)
 	{
-		if ((temp->nb) > (next_temp->nb))
-			mistakes += 1;
-		total_pairs += 1;
-		temp = temp->next;
-		next_temp = next_temp->next;
+		temp_j = temp_i->next;
+		while (temp_j != NULL)
+		{
+			total_pairs += 1;
+			if (temp_i->nb > temp_j->nb)
+				mistakes += 1;
+			temp_j = temp_j->next;
+		}
+		temp_i = temp_i->next;
 	}
-	return ((float) mistakes / total_pairs);
+	return (mistakes / total_pairs);
 }
 
 void	ft_adaptive(t_list **stack_a, t_count **count_list)
