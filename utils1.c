@@ -6,13 +6,13 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 15:45:37 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/03/13 16:40:55 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/03/15 14:51:26 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-long	ft_atoi(const char *str)
+long	ft_atol(const char *str)
 {
 	long	result;
 	int		sign;
@@ -24,20 +24,17 @@ long	ft_atoi(const char *str)
 	while ((9 <= str[i] && str[i] <= 13) || str[i] == 32)
 		i++;
 	if (str[i] == '+' && str[i + 1] != '-')
-		i++;
-	if (str[i] == '-')
 	{
-		sign *= -1;
+		if (str[i] == '-')
+			sign *= -1;
 		i++;
 	}
 	while (str[i] && str[i] >= '0' && str[i] <= '9')
 	{
-		result *= 10;
-		result += str[i] - '0';
+		result = result * 10 + (str[i] - '0');
 		i++;
 	}
-	result *= sign;
-	return (result);
+	return (result * sign);
 }
 
 int	ft_isdigit(int c)

@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 15:45:11 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/03/13 17:09:43 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/03/15 16:05:21 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int					ft_printhexa(unsigned long c, const char *base);
 
 /*-----------------------------String / Math Utils----------------------------*/
 
-long				ft_atoi(const char *str);
+long				ft_atol(const char *str);
 char				**ft_split(const char *s, char c);
 size_t				ft_strlen(const char *str);
 size_t				ft_strlcpy(char *dest, const char *src, size_t size);
@@ -119,7 +119,7 @@ float				ft_compute_disorder(t_list *stack);
 
 /*----------------------------Program Entry Points---------------------------*/
 
-int					push_swap(int argc, char **argv);
+void				push_swap(int argc, char **argv);
 void				arg_control(char **argv, t_count **count_list);
 int					ft_switch(char *strat, t_list **stack_a,
 						t_count **count_list);

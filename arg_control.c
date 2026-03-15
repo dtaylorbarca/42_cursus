@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 15:43:21 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/03/13 15:54:16 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/03/15 14:52:14 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static int	validate_num(t_list **stack_a, char *str, char **split)
 {
 	long	num;
 
-	num = ft_atoi(str);
+	num = ft_atol(str);
 	if (!not_equal_number(*stack_a, num))
 	{
 		write(2, "Error\n", 6);
@@ -44,7 +44,7 @@ static int	process_split(t_list **stack_a, char **split)
 	{
 		if (!validate_num(stack_a, split[j], split))
 			return (0);
-		new_node = ft_new_node(ft_atoi(split[j]));
+		new_node = ft_new_node(ft_atol(split[j]));
 		if (!new_node)
 			return (0);
 		ft_lstadd_back(stack_a, new_node);
