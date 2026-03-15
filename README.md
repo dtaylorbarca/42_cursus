@@ -1,10 +1,10 @@
-# Push_swap
+*This project has been created as part of the 42 curriculum by dtaylor-, gefada.*
 
-**This project has been created as part of the 42 curriculum by dtaylor and gefada.**
+# Push_swap
 
 ---
 
-# Overview
+# Description
 
 **Push_swap** is an algorithmic challenge that consists of sorting a list of integers using only two stacks (`a` and `b`) and a restricted set of operations.
 
@@ -30,19 +30,21 @@ To address this, the program implements four different sorting strategies and au
 
 ---
 
-# Installation
+# Instructions
+
+## Compilation
 
 Compile the project using:
 
 ```bash
 make
 ```
-# Usage
+## Usage
 
 ```bash
 ./push_swap [--bench] [--simple | --medium | --complex | --adaptive] <list of integers>
 ```
-## Strategy Selection (Optional)
+### Strategy Selection (Optional)
 
 | Flag | Description |
 |-----|-------------|
@@ -53,7 +55,7 @@ make
 
 ---
 
-# Benchmark Mode (Optional)
+### Benchmark Mode (Optional)
 
 ```bash
 ./push_swap --bench --adaptive 4 67 3 87 23 2> bench.txt | ./checker_linux 4 67 3 87 23
@@ -71,7 +73,7 @@ This makes it easier to evaluate and compare algorithm performance.
 
 ---
 
-# Examples
+## Examples
 
 ```bash
 # Sort 5 numbers using the adaptive strategy
