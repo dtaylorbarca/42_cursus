@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 15:45:11 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/03/15 16:05:21 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/03/15 17:48:47 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ typedef struct s_list
 {
 	int				nb;
 	int				index;
-	int				temp_index;
 	struct s_list	*next;
 	struct s_list	*prev;
 

@@ -148,7 +148,7 @@ This method works well for small or nearly sorted inputs.
 
 ## 2. Medium Algorithm — O(n√n)
 
-### Chunk-based Sorting
+### Bucket-based Sorting
 
 This strategy divides the value range into chunks of size √n and moves them from stack `a` to stack `b` in groups.
 
@@ -156,7 +156,7 @@ This strategy divides the value range into chunks of size √n and moves them fr
 
 1. Normalize values to indices `[0, n-1]`.
 2. Divide them into **√n chunks**.
-3. Scan stack `a` and push elements belonging to the current chunk to `b`.
+3. Scan stack `a` and push elements belongingn to the curret chunk to `b`.
 4. Once all elements are in `b`, retrieve them by repeatedly selecting the largest element.
 
 ### Complexity

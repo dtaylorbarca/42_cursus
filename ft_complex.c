@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 15:44:29 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/03/13 15:47:48 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/03/15 17:48:42 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static void	binary_pass(t_list **stack_a, t_list **stack_b,
 	size_a = stack_size(*stack_a);
 	while (size_a > 0)
 	{
-		if (!(((*stack_a)->temp_index >> i) & 1))
+		if (!(((*stack_a)->index >> i) & 1))
 			pb_move(stack_a, stack_b, count_list);
 		else
 			ra_move(stack_a, count_list);
@@ -88,7 +88,6 @@ static void	binary_pass(t_list **stack_a, t_list **stack_b,
 void	ft_complex(t_list **stack_a, t_count **count_list)
 {
 	t_list	*stack_b;
-	t_list	*tmp;
 	int		i;
 
 	stack_b = NULL;
@@ -98,12 +97,6 @@ void	ft_complex(t_list **stack_a, t_count **count_list)
 		return ;
 	}
 	assign_index(stack_a);
-	tmp = *stack_a;
-	while (tmp)
-	{
-		tmp->temp_index = tmp->index;
-		tmp = tmp->next;
-	}
 	i = 0;
 	while (i < ft_binmax(*stack_a))
 	{
