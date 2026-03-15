@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 15:45:11 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/03/15 17:48:47 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/03/15 17:51:28 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@
 **   nb 		: The integer value stored in this node
 **   index		: Rank of this value with respect to the whole stack 
 				  (0 = smallest)
-**   temp_index	: Working copy of index used during radix sort passes
 **   next		: Pointer to the node below in the stack
 **   prev		: Pointer to the node above in the stack
 */
