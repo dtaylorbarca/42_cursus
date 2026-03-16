@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 15:45:11 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/03/15 17:51:28 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/03/16 13:48:03 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ typedef struct s_count
 	int				rrb;
 	int				rrr;
 
+	int				count_list;
 	float			disorder;
 	int				bench_active;
 
