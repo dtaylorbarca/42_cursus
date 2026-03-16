@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 15:45:56 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/03/16 12:33:05 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/03/16 17:47:21 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	argv_isnumber(char *argv)
 	if (argv[i] == '-' || argv[i] == '+')
 		i++;
 	if (!argv[i])
-        return (0);
+		return (0);
 	while (argv[i])
 	{
 		if (!ft_isdigit(argv[i]) && argv[i] != ' ')
