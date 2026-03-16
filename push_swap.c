@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 15:45:06 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/03/15 17:22:38 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/03/16 12:47:27 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,13 @@ void	push_swap(int argc, char **argv)
 
 int	main(int argc, char **argv)
 {
-	if (argc > 1)
-		push_swap(argc, argv);
+	if (argc < 2)
+		return (0);
+	if (argv[1][0] == '\0')
+	{
+		write(2, "Error\n", 6);
+		return (1);
+	}
+	push_swap(argc, argv);
 	return (0);
 }
