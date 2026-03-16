@@ -6,7 +6,7 @@
 #    By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/03/12 16:14:09 by dtaylor-          #+#    #+#              #
-#    Updated: 2026/03/13 16:41:37 by dtaylor-         ###   ########.fr        #
+#    Updated: 2026/03/16 12:17:53 by dtaylor-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = push_swap
 
 CC = cc 
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g3
 
 INCLUDE = push_swap.h
 
