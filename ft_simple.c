@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 15:44:47 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/03/12 20:59:16 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/03/19 16:14:12 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ static void	push_to_b(t_list **stack_a, t_list **stack_b,
 			count--;
 		}
 	}
-	pb_move(stack_a, stack_b, count_list);
+	if (stack_size(*stack_a) > 2)
+		pb_move(stack_a, stack_b, count_list);
 }
 
 void	ft_simple(t_list **stack_a, t_count **count_list)

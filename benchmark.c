@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 15:43:57 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/03/12 21:07:38 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/03/19 15:51:14 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,16 +45,8 @@ static void	select_adaptive(t_count *count_list)
 		write(2, "Error\n", 6);
 }
 
-void	benchmark(t_count *count_list, int type)
+static void	strategy_print(t_count *count_list, int type)
 {
-	int	x;
-	int	y;
-	int	mv;
-
-	x = (int)(count_list->disorder * 100);
-	y = (int)((count_list->disorder * 10000) - (x * 100));
-	mv = total_sum(count_list);
-	ft_printf("[bench] disorder:	%d.%d%%\n", x, y);
 	ft_printf("[bench] strategy:	");
 	if (type == SIMPLE)
 		ft_printf("Simple / (O(n^2))\n");
@@ -64,6 +56,22 @@ void	benchmark(t_count *count_list, int type)
 		ft_printf("Complex /  O(n log n)\n");
 	else
 		select_adaptive(count_list);
+}
+
+void	benchmark(t_count *count_list, int type)
+{
+	int	x;
+	int	y;
+	int	mv;
+
+	x = (int)(count_list->disorder * 100);
+	y = (int)((count_list->disorder * 10000) - (x * 100));
+	mv = total_sum(count_list);
+	ft_printf("[bench] disorder:	%d.%d", x, y);
+	if (y == 0)
+		ft_printf("0");
+	ft_printf("%%\n");
+	strategy_print(count_list, type);
 	ft_printf("[bench] total_ops:	%d\n", mv);
 	ft_printf("[bench] sa:	%d	sb:	%d	ss:	%d pa:	%d	pb:	%d\n",
 		count_list->sa, count_list->sb, count_list->ss, count_list -> pa,
