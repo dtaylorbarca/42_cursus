@@ -21,7 +21,6 @@ Examples:
 */
 
 #include <stdlib.h>
-#include <stdio.h>
 
 int     *ft_range(int start, int end)
 {
@@ -45,16 +44,4 @@ int     *ft_range(int start, int end)
 			nbrs[i ++] = start --;
 	}
 	return (nbrs);
-}
-
-int	main(void)
-{
-	int				start = 2;
-	int				end = -100;
-	int				*nbrs = ft_range(start, end);
-	unsigned long	i = 0;
-	unsigned long size = (start > end) ? (start - end) : (end - start);
-
-	while (i <= size)
-		printf("%d -> ", nbrs[i++]);
 }
