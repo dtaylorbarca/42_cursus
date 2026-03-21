@@ -21,15 +21,50 @@ Your function must be declared as follows:
 int	ft_atoi_base(const char *str, int str_base);
 */
 
+
+int	base_index(char c, int str_base)
+{
+	char	*base= "0123456789abcdef";
+	int		i = 0;
+
+	if ('A' <= c && c <= 'Z')
+		c += 32;
+	while (base[i])
+	{
+		if (c == base[i] && i <= str_base)
+			return (i);
+		i++;
+	}
+	return (-1);
+}
+
 int	ft_strlen(char *str)
 {
 	int len = 0;
+
 	while (str[len])
-		len++;
+		len ++;
 	return (len);
 }
 
 int	ft_atoi_base(const char *str, int str_base)
 {
-	int	len = ft_strlen()
+	//char	*base= "0123456789abcdef";
+	int		sign = 1;
+	int		result = 0;
+	//int		index = ft_strlen(str);
+
+	if (*str == '-')
+	{
+		sign = -1;
+		str++;
+	}
+	while(*str)
+	{
+		if (base_index(*str, str_base) == -1)
+			break;
+		result = result * str_base + base_index(*str, str_base);
+		str ++; 
+	}
+	return (result * sign);
 }
