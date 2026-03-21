@@ -35,6 +35,8 @@ unsigned int    lcm(unsigned int a, unsigned int b)
 	unsigned int	i = 1;
 	unsigned int	hcf;
 
+	if (a == 0 || b == 0)
+		return (0);
 	while (i < a && i < b)
 	{
 		if (a % i == 0 && b % i == 0)
