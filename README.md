@@ -18,7 +18,7 @@ This repository serves as a centralized archive for my journey through the **42 
 | :--- | :--- | :--- | :--- | :--- |
 | **ft_printf** | C | Recreating the printf function using variadic functions. | [`/Milestone_1/ft_printf`](./Milestone_1/ft_printf) | Finished |
 | **get_next_line** | C | Developing a function to read lines from a file descriptor. | [`/Milestone_1/get_next_line`](./Milestone_1/get_next_line) | Finished |
-| **push_swap** | C | Optimized stack sorting using a limited set of operations and complex algorithms | [`/Mileston_1/push_swap`](./Milestone_1/push_swap) | In Progress |
+| **push_swap** | C | Optimized stack sorting using a limited set of operations and complex algorithms | [`/Mileston_1/push_swap`](./Milestone_1/push_swap) | Finished |
 
 ### Mileston 2
 
