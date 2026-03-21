@@ -22,9 +22,10 @@ This repository serves as a centralized archive for my journey through the **42 
 
 ### Mileston 2
 
-| Project | Description | Folder | Status |
-| :--- | :--- | :--- | :--- |
-| **Python Module 00** | Python | 
+| Project | Language | Description | Folder | Status |
+| :--- | :--- | :--- | :--- | :--- |
+| **Python Piscina** | Python | 
+| **Exam Rank 02**   | C      | | [`/Mileston_2/Exam_Rank_02`](./Milestone_2/Exam_Rank_02/) | In Progress |
 
 
 
