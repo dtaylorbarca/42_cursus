@@ -38,21 +38,10 @@ int	base_index(char c, int str_base)
 	return (-1);
 }
 
-int	ft_strlen(char *str)
-{
-	int len = 0;
-
-	while (str[len])
-		len ++;
-	return (len);
-}
-
 int	ft_atoi_base(const char *str, int str_base)
 {
-	//char	*base= "0123456789abcdef";
 	int		sign = 1;
 	int		result = 0;
-	//int		index = ft_strlen(str);
 
 	if (*str == '-')
 	{
