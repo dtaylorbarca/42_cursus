@@ -6,7 +6,7 @@ This repository serves as a centralized archive for my journey through the **42 
 
 ## Project Roadmap
 
-### Mileston 0
+### Milestone 0
 
 | Project | Language | Description | Folder | Status |
 | :--- | :--- | :--- | :--- | :--- |
@@ -20,13 +20,12 @@ This repository serves as a centralized archive for my journey through the **42 
 | **get_next_line** | C | Developing a function to read lines from a file descriptor. | [`/Milestone_1/get_next_line`](./Milestone_1/get_next_line) | Finished |
 | **push_swap** | C | Optimized stack sorting using a limited set of operations and complex algorithms | [`/Mileston_1/push_swap`](./Milestone_1/push_swap) | Finished |
 
-### Mileston 2
+### Milestone 2
 
 | Project | Language | Description | Folder | Status |
 | :--- | :--- | :--- | :--- | :--- |
-| **Python Piscina** | Python | | | In Progress |
 | **Exam Rank 02**   | C      | | [`/Mileston_2/Exam_Rank_02`](./Milestone_2/Exam_Rank_02/) | Finished |
-
+| **Python Piscina** | Python | | [`/Mileston_2/Piscina_Python`](./Milestone_2/Python_Piscina/)| In Progress |
 
 
 
