@@ -28,7 +28,51 @@ seconD tesT A littlE biT   moaR compleX$
 $>
 */
 
+#include <unistd.h>
+
+int	ft_isupper(char c)
+{
+	return ('A' <= c && c <= 'Z');
+}
+
+int	ft_islower(char c)
+{
+	return ('a' <= c && c <= 'z');
+}
+
 int	main(int argc, char **argv)
 {
-	
+  int i = 1;
+  int j;
+
+	if (argc == 1)
+		write(1, "\n", 1);
+	else
+	{
+    	while (argv[i])
+		{
+			j = 0;
+			while (argv[i][j])
+			{
+				if (ft_isupper(argv[i][j]) || ft_islower(argv[i][j]))
+				{
+					if (argv[i][j + 1] == ' ' || argv[i][j + 1] == '\t' || !argv[i][j + 1])
+					{
+						if (ft_islower(argv[i][j]))
+							argv[i][j] -= 32;
+					}
+					else
+					{
+						if (ft_isupper(argv[i][j]))
+							argv[i][j] += 32;
+					}
+				}
+				write(1, &argv[i][j], 1);
+				j++;
+			}
+			write(1, "\n", 1);
+			i++;
+		}
+	}
+	return (0);
 }

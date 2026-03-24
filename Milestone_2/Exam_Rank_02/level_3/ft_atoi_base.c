@@ -31,7 +31,7 @@ int	base_index(char c, int str_base)
 		c += 32;
 	while (base[i])
 	{
-		if (c == base[i] && i <= str_base)
+		if (c == base[i] && i < str_base)
 			return (i);
 		i++;
 	}
@@ -41,7 +41,7 @@ int	base_index(char c, int str_base)
 int	ft_atoi_base(const char *str, int str_base)
 {
 	int		sign = 1;
-	int		result = 0;
+	unsigned int		result = 0;
 
 	if (*str == '-')
 	{
@@ -53,7 +53,7 @@ int	ft_atoi_base(const char *str, int str_base)
 		if (base_index(*str, str_base) == -1)
 			break;
 		result = result * str_base + base_index(*str, str_base);
-		str ++; 
+		str ++;
 	}
 	return (result * sign);
 }
