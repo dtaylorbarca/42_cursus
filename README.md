@@ -24,8 +24,8 @@ This repository serves as a centralized archive for my journey through the **42 
 
 | Project | Language | Description | Folder | Status |
 | :--- | :--- | :--- | :--- | :--- |
-| **Python Piscina** | Python | 
-| **Exam Rank 02**   | C      | | [`/Mileston_2/Exam_Rank_02`](./Milestone_2/Exam_Rank_02/) | In Progress |
+| **Python Piscina** | Python | | | In Progress |
+| **Exam Rank 02**   | C      | | [`/Mileston_2/Exam_Rank_02`](./Milestone_2/Exam_Rank_02/) | Finished |
 
 
 
