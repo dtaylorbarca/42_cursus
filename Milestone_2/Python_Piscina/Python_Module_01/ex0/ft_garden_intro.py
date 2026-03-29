@@ -3,7 +3,7 @@ Module stores and displays information about a plant in your garden.
 """
 
 
-if __name__ == "__main__":
+def main():
     name = "Rose"
     height = "25cm"
     age = "30 days"
@@ -12,3 +12,7 @@ if __name__ == "__main__":
     print(f"Height: {height}")
     print(f"Age: {age}")
     print("\n=== End of Program ===")
+
+
+if __name__ == "__main__":
+    main()
