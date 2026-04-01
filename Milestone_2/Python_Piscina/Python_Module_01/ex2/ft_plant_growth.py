@@ -27,7 +27,7 @@ class Plant:
         Args:
             growth (float): The amount of centimeters to add.
         """
-        self.plant_height += growth
+        self.plant_height += round(growth, 1)
 
     def age(self) -> None:
         """Increase the plant's age by one day."""
@@ -35,7 +35,7 @@ class Plant:
 
     def show(self) -> None:
         """Print current information of plant."""
-        print(f"{self.name}: {self.plant_height:.1f}cm, {self.plant_age} days old")
+        print(f"{self.name}: {self.plant_height}cm, {self.plant_age} days old")
 
 
 def main() -> None:

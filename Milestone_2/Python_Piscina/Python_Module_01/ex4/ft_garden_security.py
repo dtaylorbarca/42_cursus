@@ -9,7 +9,7 @@ class Plant:
     def __init__(self, name: str, p_height: float, p_age: int) -> None:
         """Initialize the plant with a name and protected values."""
         self.name: str = name
-        self._p_height: float = p_height
+        self._p_height: float = round(p_height, 1)
         self._p_age: int = p_age
 
     def grow(self, growth: float) -> None:
@@ -19,7 +19,7 @@ class Plant:
         Args:
             growth (float): The amount of centimeters to add.
         """
-        self.plant_height += growth
+        self.plant_height += round(growth, 1)
 
     def age(self) -> None:
         """Increase the plant's age by one day."""
@@ -74,7 +74,7 @@ class Plant:
 
     def show(self) -> None:
         """Prints the formatted information of the plant."""
-        print(f"{self.p_name}: {self.get_height():.1f}cm,", end=" ")
+        print(f"{self.p_name}: {self.get_height()}cm,", end=" ")
         print(f"{self.get_age()} days old")
 
 
