@@ -96,8 +96,6 @@ class Flower(Plant):
         self.p_color: str = p_color
 
     def bloom(self) -> None:
-        """"""
-        print(f"[asking the {self.p_name} to bloom]")
         self.is_bloomed = True
 
     def show(self) -> None:
@@ -133,7 +131,6 @@ class Vegetable(Plant):
         self.p_harvest_season: str = p_harvest_season
 
     def grow_age(self, growth: float, days: int) -> None:
-        print(f"[make {self.p_name} grow and age for {days} days]")
         for x in range(days):
             self.age()
             self.grow(growth)
@@ -150,31 +147,23 @@ def main() -> None:
     print("=== Flower")
     rose = Flower("Rose", 15.0, 10, "red")
     rose.show()
+    print("[asking the rose to bloom]")
     rose.bloom()
     rose.show()
 
     print("\n=== Tree")
     oak = Tree("Oak", 200.0, 365, 5.0)
     oak.show()
+    print("[asking the oak to produce shade]")
     oak.produce_shade()
 
     print("\n=== Vegetable")
     tomato = Vegetable("Tomato", 5.0, 10, "April")
     tomato.show()
+    print("[make tomato grow and age for 20 days]")
     tomato.grow_age(0.3, 20)
     tomato.show()
 
 
 if __name__ == "__main__":
     main()
-
-
-"""
-Do I need to print the parts from example in the []
-"""
-
-
-
-
-
-

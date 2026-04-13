@@ -10,7 +10,7 @@ class Plant:
         self.name: str = name
         self.p_height: float = round(p_height, 1)
         self.p_age: int = p_age
-    
+
     def grow(self, growth: float) -> None:
         """
         Increase the plant height by amount.
@@ -37,7 +37,7 @@ def main() -> None:
     cactus = Plant("Cactus", 5.0, 90)
     sunflower = Plant("Sunflower", 80.0, 45)
     fern = Plant("Fern", 15.0, 120)
-    
+
     print("Created:", end=" ")
     rose.show()
     print("Created:", end=" ")

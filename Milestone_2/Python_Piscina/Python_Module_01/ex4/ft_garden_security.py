@@ -84,7 +84,7 @@ def main() -> None:
     """
     print("=== Garden Security System ===")
     rose = Plant("Rose", 15.0, 10)
-    print(f"Plant created:", end=" ")
+    print("Plant created:", end=" ")
     rose.show()
     print("")
     rose.set_height(25.0)
@@ -95,7 +95,7 @@ def main() -> None:
     print(f"{rose.name}", end=" ")
     rose.set_age(-10)
     print("")
-    print(f"Current status:", end=" ")
+    print("Current status:", end=" ")
     rose.show()
 
 

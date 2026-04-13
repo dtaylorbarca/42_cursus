@@ -16,7 +16,7 @@ class Plant:
         def get_stats(self) -> None:
             print(f"Stats: {self.grow_calls} grow,", end=" ")
             print(f"{self.age_calls} age, {self.show_calls} show")
-    
+
     def __init__(self, p_name: str, p_height: float, p_age: int) -> None:
         """Initialize the plant with a name and protected values."""
         self.p_name: str = p_name
@@ -118,8 +118,6 @@ class Flower(Plant):
         self.p_color: str = p_color
 
     def bloom(self) -> None:
-        """"""
-        print(f"[asking the {self.p_name} to bloom]")
         self.is_bloomed = True
 
     def show(self) -> None:
@@ -129,9 +127,9 @@ class Flower(Plant):
             print(f" {self.p_name} has not bloomed yet")
         else:
             print(f" {self.p_name} is blooming beautifully!")
-    
+
     def get_stats(self) -> None:
-        super()._stats.get_stats()
+        self._stats.get_stats()
 
 
 class Tree(Plant):
@@ -149,9 +147,9 @@ class Tree(Plant):
     def show(self) -> None:
         super().show()
         print(f" Trunk diameter: {self.p_trunk_diameter}")
-    
+
     def get_stats(self) -> None:
-        super()._stats.get_stats()
+        self._stats.get_stats()
         print(f" {self.shade_calls} shade")
 
 
@@ -163,7 +161,6 @@ class Vegetable(Plant):
         self.p_harvest_season: str = p_harvest_season
 
     def grow_age(self, growth: float, days: int) -> None:
-        print(f"[make {self.p_name} grow and age for {days} days]")
         for x in range(days):
             self.age()
             self.grow(growth)
@@ -175,24 +172,26 @@ class Vegetable(Plant):
         print(f" Nutritional value: {self.veg_nutritional_value}")
 
     def get_stats(self) -> None:
-        super()._stats.get_stats()
+        self._stats.get_stats()
+
 
 class Seed(Flower):
     def __init__(self, p_name: str, p_height: float,
                  p_age: int, p_color: str) -> None:
         super().__init__(p_name, p_height, p_age, p_color)
         self.seed_count: int = 0
-    
+
     def bloom(self, seeds: int = 0) -> None:
         super().bloom()
         self.seed_count = seeds
-    
+
     def show(self) -> None:
         super().show()
         print(f" Seed: {self.seed_count}")
-    
+
     def get_stats(self) -> None:
-        super()._stats.get_stats()
+        self._stats.get_stats()
+
 
 def statistics() -> None:
     print("=== Garden statistics ===")
@@ -236,7 +235,7 @@ def statistics() -> None:
     print("[statistics for Sunflower]")
     sunflower.get_stats()
 
-    print("\n===Anonymous")
+    print("\n=== Anonymous")
     anonymous = Plant.anonymous()
     anonymous.show()
     print("[statistics for Unknown plant]")
@@ -246,6 +245,6 @@ def statistics() -> None:
 def main() -> None:
     statistics()
 
+
 if __name__ == "__main__":
     main()
-    
