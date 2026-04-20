@@ -31,9 +31,13 @@ def main() -> None:
         print("\n---")
         print(f"File '{sys.argv[1]}' closed.\n")
     except PermissionError as e:
-        print(f"Error opening file '{sys.argv[1]}': {e}")
+        sys.stderr.write(f"[STDERR] Error opening file '{sys.argv[1]}': {e}\n")
+        sys.stderr.flush()
+        return
     except FileNotFoundError as e:
-        print(f"Error opening file '{sys.argv[1]}': {e}")
+        sys.stderr.write(f"[STDERR] Error opening file '{sys.argv[1]}': {e}\n")
+        sys.stderr.flush()
+        return
 
     print("Transform data:")
     print("---\n")
@@ -61,7 +65,9 @@ def main() -> None:
     f.close()
     print("\n---")
 
-    new_file: str = input("Enter new file name (or empty): ")
+    sys.stdout.write("Enter new file name (or empty): ")
+    sys.stdout.flush()
+    new_file = sys.stdin.readline().strip()
     if len(new_file) == 0:
         print("Not saving data.")
     else:
@@ -92,8 +98,10 @@ def main() -> None:
             x.close()
             temp.close()
         except PermissionError as e:
-            print(f"Error opening file '{new_file}': {e}")
-            print("Data not saved.")
+            sys.stderr.write(f"[STDERR] Error opening file '{new_file}': {e}\n")
+            sys.stderr.flush()
+            sys.stdout.write("Data not saved.\n")
+            sys.stdout.flush()
 
 
 if __name__ == "__main__":
