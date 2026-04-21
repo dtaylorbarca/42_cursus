@@ -4,6 +4,7 @@ from abc import ABC, abstractmethod
 class DataProcessor(ABC):
     def __init__(self) -> None:
         self.data_queue: list[Any] = []
+        self.data_rank: int = -1
 
     @abstractmethod
     def validate(self, data: Any) -> bool:
@@ -18,7 +19,8 @@ class DataProcessor(ABC):
             self.data_queue[0]
         except IndexError as e:
             print("No stored data to output")
-        return (self.data_queue.pop(0))
+        self.data_rank += 1
+        return (self.data_rank, self.data_queue.pop(0))
 
 
 class NumericProcessor(DataProcessor):
@@ -26,13 +28,10 @@ class NumericProcessor(DataProcessor):
     def validate(self, data: Any) -> bool:
         if isinstance(data, list):
             for x in data:
-                if not isinstance(x, int) and not isinstance(x, str):
+                if not isinstance(x, int) and not isinstance(x, float):
                     return False
-        elif not isinstance(data, int) and not isinstance(data, str):
+        elif not isinstance(data, int) and not isinstance(data, float):
             return False
-        elif isinstance(data, str):
-            if not data.isdigit():
-                return False
         return True
 
     def ingest(self, data: int | float | list[int | str]):
@@ -102,8 +101,30 @@ class LogProcessor(DataProcessor):
                 if not isinstance(x, str) or not isinstance(data[x], str):
                     raise Exception("Improper log data")
         
+        str_convert = []
         if isinstance(data, list):
-            self.data_queue.extend(data)
+            for x in data:
+                index = 0
+                dict_str = ""
+                for y in x:
+                    if index < (len(x) - 1):
+                        dict_str = dict_str + x[y] + ": "
+                        index += 1
+                    else:
+                        dict_str = dict_str + x[y]
+                str_convert.append(dict_str)
+        elif isinstance(data, dict):
+            index = 0
+            dict_str = ""
+            for y in x:
+                if index < (len(x) - 1):
+                    dict_str = dict_str + x[y] + ": "
+                    index += 1
+                else:
+                    dict_str = dict_str + x[y]
+
+        if isinstance(data, list):
+            self.data_queue.extend(str_convert)
         else:
             self.data_queue.append(data)
 
@@ -126,9 +147,12 @@ def main():
     print(" Processing data: [1, 2, 3, 4, 5]")
     numbers.ingest([1, 2, 3, 4, 5])
     print(" Extracting 3 values...")
-    print(f" Numeric value 0: {numbers.output()}")
-    print(f" Numeric value 1: {numbers.output()}")
-    print(f" Numeric value 2: {numbers.output()}")
+    data = numbers.output()
+    print(f" Numeric value {data[0]}: {data[1]}")
+    data = numbers.output()
+    print(f" Numeric value {data[0]}: {data[1]}")
+    data = numbers.output()
+    print(f" Numeric value {data[0]}: {data[1]}")
 
     print("\nTesting Text Processor...")
     text = TextProcessor()
@@ -138,18 +162,21 @@ def main():
     print(" Processig data: ['Hello', 'Nexus', 'World']")
     text.ingest(['Hello', 'Nexus', 'World'])
     print(" Extracting 1 value...")
-    print(f" Text value 0: {numbers.output()}")
+    data = text.output()
+    print(f" Text value {data[0]}: {data[1]}")
 
     print("\nTesting Log Processor...")
     log = LogProcessor()
     print(" Trying to validate input 'Hello':", end=" ")
     valid = log.validate('Hello')
     print(f"{valid}")
-    print(" Processing data: [{'log_level': 'NOTICE', 'log_message': 'Connection to server'}, {'log_level': 'Error', 'log_message': 'Unauthorized access!!'}]")
+    print(" Processing data: [{'log_level': 'NOTICE', 'log_message': 'Connection to server'}, {'log_level': 'ERROR', 'log_message': 'Unauthorized access!!'}]")
     print(" Extracting 2 values")
-    log.ingest([{'log_level': 'NOTICE', 'log_message': 'Connection to server'}, {'log_level': 'Error', 'log_message': 'Unauthorized access!!'}])
-    print(f" Log entry 0: {log.output()}")
-    print(f" Log entry 1: {log.output()}")
+    log.ingest([{'log_level': 'NOTICE', 'log_message': 'Connection to server'}, {'log_level': 'ERROR', 'log_message': 'Unauthorized access!!'}])
+    data = log.output()
+    print(f" Log entry {data[0]}: {data[1]}")
+    data = log.output()
+    print(f" Log entry {data[0]}: {data[1]}")
 
 if __name__ == "__main__":
     main()
