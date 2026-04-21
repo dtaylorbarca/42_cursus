@@ -1,5 +1,6 @@
-from typing import Any
+from typing import Any, Protocol
 from abc import ABC, abstractmethod
+
 
 class DataProcessor(ABC):
     def __init__(self) -> None:
@@ -20,7 +21,7 @@ class DataProcessor(ABC):
         try:
             self.data_queue[0]
         except IndexError as e:
-            print("No stored data to output")
+            return (self.data_rank, "")
         self.data_rank += 1
         self.outputted += 1
         return (self.data_rank, self.data_queue.pop(0))
@@ -51,6 +52,7 @@ class NumericProcessor(DataProcessor):
             self.data_queue.append(data)
             self.items_processed += 1
 
+
 class TextProcessor(DataProcessor):
 
     def validate(self, data: Any) -> bool:
@@ -75,6 +77,7 @@ class TextProcessor(DataProcessor):
         else:
             self.data_queue.append(data)
             self.items_processed += 1
+
 
 class LogProcessor(DataProcessor):
 
@@ -137,6 +140,11 @@ class LogProcessor(DataProcessor):
             self.data_queue.append(data)
             self.items_processed += 1
 
+
+class ExportPlugin(Protocol):
+    def process_output(self, data: list[tuple[int, str]]) -> None:
+        ...
+
 class DataStream:
     def __init__(self):
         self.processors = []
@@ -169,43 +177,88 @@ class DataStream:
                 print(f"total {proc.items_processed} items processed,", end=" ")
                 print(f"remaining {proc.items_processed - proc.outputted} on processor")
 
+    def output_pipeline(self, nb: int, plugin: ExportPlugin) -> None:
+        
+        outputs: list[list[tuple[int, str]]] = [[]]
+        for x in range(len(self.processors) - 1):
+            outputs.append([])
 
-def main():
-    print("== Code Nexus - Data Stream ===")
+        index = 0
+        for proc in self.processors:
+            for x in range(nb):
+                outputs[index].append(proc.output())
+            index += 1
+        index = 0
+        for proc in self.processors:
+            plugin.process_output(outputs[index][:nb])
+            index += 1
+
+
+class CSVPlugin:
+    def process_output(self, data: list[tuple[int, str]]) -> None:
+        index = 0
+        print("CSV Output:")
+        for x in data:
+            if index < (len(data) - 1):
+                print(f"{x[1]}", end=",")
+                index += 1
+            else:
+                print(f"{x[1]}")
+            
+class JSONPlugin:
+    def process_output(self, data: list[tuple[int, str]]) -> None:
+        index = 0
+        print("JSON Output:")
+        print("{", end="")
+        for x in data:
+            if index < (len(data) - 1):
+                print(f"\"item_{x[0]}\": \"{x[1]}\"", end=", ")
+                index += 1
+        print("}")
+
+
+def main() -> None:
+    print("=== Code Nexus - Data Pipeline ===")
 
     print("\nInitialize Data Stream...")
-    print("== DataStream statistics ==")
     data = DataStream()
+
+    print("\n== DataStream statistics ==")
     data.print_processors_stats()
 
-    print("\nRegistering Numeric Processor")
+    print("\nRegistering Processors")
     number = NumericProcessor()
     data.register_processor(number)
-    print("\nSend first batch of data on stream: ['Hello world', [3.14, -1, 2.71], [{'log_level': 'WARNING', 'log_message': 'Telnet access! Use ssh instead'}, {'log_level': 'INFO', 'log_message': 'User wi is connected'}], 42, ['Hi', 'give']]")
-    data.process_stream(['Hello world', [3.14, -1, 2.71], [{'log_level': 'WARNING', 'log_message': 'Telnet access! Use ssh instead'}, {'log_level': 'INFO', 'log_message': 'User wi is connected'}], 42, ['Hi', 'five']])
-    print("== DataStream statistics ==")
-    data.print_processors_stats()
-
-    print("\nRegistering other data processors")
     text = TextProcessor()
-    log = LogProcessor()
     data.register_processor(text)
+    log = LogProcessor()
     data.register_processor(log)
-    print("Send the same batch again")
-    data.process_stream(['Hello world', [3.14, -1, 2.71], [{'log_level': 'WARNING', 'log_message': 'Telnet access! Use ssh instead'}, {'log_level': 'INFO', 'log_message': 'User wi is connected'}], 42, ['Hi', 'five']])
+    
+    print("\nSend first batch of data on stream: ['Hello world', [3.14, -1, 2.71], [{'log_level': 'WARNING', 'log_message': 'Telnet access! Use ssh instead'}, {'log_level': 'INFO', 'log_message': 'User wi is connected'}], 42, ['Hi', 'five']]")
+    data.process_stream(['Hello world', [3.14, -1, 2.71], [{'log_level': 'WARNING', 'log_message': 'Telnet access! Use ssh instead'}, {'log_level': 'INFO', 'log_message': 'User wil is connected'}], 42, ['Hi', 'five']])
+
+    print("\n== DataStream statistics ==")
     data.print_processors_stats()
 
-    print("\nConsume some elements from the data processors: Numeric 3, Text 2, Log 1")
-    number.output()
-    number.output()
-    number.output()
-    text.output()
-    text.output()
-    log.output()
-    print("== DataStream statistics ==")
+    print("\nSend 3 processed data from each processor to a CSV plugin:")
+    csv = CSVPlugin()
+    data.output_pipeline(3, csv)
+
+    print("\n== DataStream statistics ==")
     data.print_processors_stats()
-    
+
+    print("\nSend another batch of data: [21, ['I love AI', 'LLMs are wonderful', 'Stay healthy'], [{'fog_level': 'ERROR', 'log_message': '500 server crash'}, {'log_level': 'NOTICE', 'log_message': 'Certificate expires in 10 days'}], [32, 42, 64, 84, 128, 168], 'World hello]'")
+    data.process_stream([21, ['I love AI', 'LLMs are wonderful', 'Stay healthy'], [{'fog_level': 'ERROR', 'log_message': '500 server crash'}, {'log_level': 'NOTICE', 'log_message': 'Certificate expires in 10 days'}], [32, 42, 64, 84, 128, 168], 'World hello'])
+
+    print("\n== DataStream statistics ==")
+    data.print_processors_stats()
+
+    print("Send 5 processed data from each processor to a JSON plugin:")
+    json = JSONPlugin()
+    data.output_pipeline(5, json)
+
+    print("\n== DataStream statistics ==")
+    data.print_processors_stats()
 
 if __name__ == "__main__":
     main()
-

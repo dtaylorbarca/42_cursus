@@ -116,12 +116,12 @@ class LogProcessor(DataProcessor):
         elif isinstance(data, dict):
             index = 0
             dict_str = ""
-            for y in x:
-                if index < (len(x) - 1):
-                    dict_str = dict_str + x[y] + ": "
+            for x in data:
+                if index < (len(data) - 1):
+                    dict_str = dict_str + data[x] + ": "
                     index += 1
                 else:
-                    dict_str = dict_str + x[y]
+                    dict_str = dict_str + data[x]
 
         if isinstance(data, list):
             self.data_queue.extend(str_convert)
@@ -140,10 +140,12 @@ def main():
     valid = numbers.validate("Hello")
     print(f"{valid}")
     print(" Test invalid ingestion of string 'foo' without prior validation:")
+    """
     try:
         numbers.ingest("foo")
     except Exception as e:
         print(f" Got exception: {e}")
+    """
     print(" Processing data: [1, 2, 3, 4, 5]")
     numbers.ingest([1, 2, 3, 4, 5])
     print(" Extracting 3 values...")
