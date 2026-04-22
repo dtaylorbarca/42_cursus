@@ -20,7 +20,7 @@ class DataProcessor(ABC):
     def output(self) -> tuple[int, str]:
         try:
             self.data_queue[0]
-        except IndexError as e:
+        except IndexError:
             return (self.data_rank, "")
         self.data_rank += 1
         self.outputted += 1
@@ -37,19 +37,19 @@ class NumericProcessor(DataProcessor):
             return False
         return True
 
-    def ingest(self, data: int | float | list[int | str]):
+    def ingest(self, data: int | float | list[int | float]):
         if isinstance(data, list):
             for x in data:
                 if not isinstance(x, int) and not isinstance(x, float):
-                    raise Exception("Imprtoper numeric data")
+                    raise Exception("Improper numeric data")
         elif not isinstance(data, int) and not isinstance(data, float):
             raise Exception("Improper numeric data")
 
         if isinstance(data, list):
-            self.data_queue.extend(data)
+            self.data_queue.extend([str(x) for x in data])
             self.items_processed += len(data)
         else:
-            self.data_queue.append(data)
+            self.data_queue.append(str(data))
             self.items_processed += 1
 
 
@@ -63,7 +63,7 @@ class TextProcessor(DataProcessor):
         elif not isinstance(data, str):
             return False
         return True
-    
+
     def ingest(self, data: str | list[str]):
         if isinstance(data, list):
             for x in data:
@@ -81,7 +81,6 @@ class TextProcessor(DataProcessor):
 
 class LogProcessor(DataProcessor):
 
-
     def validate(self, data: Any) -> bool:
         if isinstance(data, list):
             for x in data:
@@ -96,7 +95,7 @@ class LogProcessor(DataProcessor):
                 if not isinstance(x, str) or not isinstance(data[x], str):
                     return False
         return True
-    
+
     def ingest(self, data: dict[str, str] | list[dict[str, str]]):
         if isinstance(data, list):
             for x in data:
@@ -110,7 +109,7 @@ class LogProcessor(DataProcessor):
             for x in data:
                 if not isinstance(x, str) or not isinstance(data[x], str):
                     raise Exception("Improper log data")
-        
+
         str_convert = []
         if isinstance(data, list):
             for x in data:
@@ -123,6 +122,8 @@ class LogProcessor(DataProcessor):
                     else:
                         dict_str = dict_str + x[y]
                 str_convert.append(dict_str)
+            self.data_queue.extend(str_convert)
+            self.items_processed += len(data)
         elif isinstance(data, dict):
             index = 0
             dict_str = ""
@@ -132,18 +133,14 @@ class LogProcessor(DataProcessor):
                     index += 1
                 else:
                     dict_str = dict_str + data[x]
-
-        if isinstance(data, list):
-            self.data_queue.extend(str_convert)
-            self.items_processed += len(data)
-        else:
-            self.data_queue.append(data)
+            self.data_queue.append(dict_str)
             self.items_processed += 1
 
 
 class ExportPlugin(Protocol):
     def process_output(self, data: list[tuple[int, str]]) -> None:
         ...
+
 
 class DataStream:
     def __init__(self):
@@ -155,14 +152,16 @@ class DataStream:
     def process_stream(self, stream: list[Any]) -> None:
         for data in stream:
             found = False
-            for proc in self.processors:    
+            for proc in self.processors:
                 if proc.validate(data):
                     proc.ingest(data)
                     found = True
                     break
             if not found:
-                print(f"DataStream error - Can't procecss element in stream: {data}")
-    
+                print(
+                    "DataStream error"
+                    f" - Can't procecss element in stream: {data}")
+
     def print_processors_stats(self) -> None:
         if len(self.processors) == 0:
             print("No processor found, no data")
@@ -174,11 +173,14 @@ class DataStream:
                     print("Text Processor:", end=" ")
                 elif isinstance(proc, LogProcessor):
                     print("Log Processor:", end=" ")
-                print(f"total {proc.items_processed} items processed,", end=" ")
-                print(f"remaining {proc.items_processed - proc.outputted} on processor")
+                print(
+                    f"total {proc.items_processed} items processed,", end=" ")
+                print(
+                    f"remaining {proc.items_processed - proc.outputted} on"
+                    " processor")
 
     def output_pipeline(self, nb: int, plugin: ExportPlugin) -> None:
-        
+
         outputs: list[list[tuple[int, str]]] = [[]]
         for x in range(len(self.processors) - 1):
             outputs.append([])
@@ -198,22 +200,27 @@ class CSVPlugin:
     def process_output(self, data: list[tuple[int, str]]) -> None:
         index = 0
         print("CSV Output:")
-        for x in data:
-            if index < (len(data) - 1):
+        valid = [x for x in data if x[1] != ""]
+        for x in valid:
+            if index < (len(valid) - 1):
                 print(f"{x[1]}", end=",")
                 index += 1
             else:
                 print(f"{x[1]}")
-            
+
+
 class JSONPlugin:
     def process_output(self, data: list[tuple[int, str]]) -> None:
         index = 0
         print("JSON Output:")
+        valid = [x for x in data if x[1] != ""]
         print("{", end="")
-        for x in data:
-            if index < (len(data) - 1):
+        for x in valid:
+            if index < (len(valid) - 1):
                 print(f"\"item_{x[0]}\": \"{x[1]}\"", end=", ")
                 index += 1
+            else:
+                print(f"\"item_{x[0]}\": \"{x[1]}\"", end="")
         print("}")
 
 
@@ -233,9 +240,28 @@ def main() -> None:
     data.register_processor(text)
     log = LogProcessor()
     data.register_processor(log)
-    
-    print("\nSend first batch of data on stream: ['Hello world', [3.14, -1, 2.71], [{'log_level': 'WARNING', 'log_message': 'Telnet access! Use ssh instead'}, {'log_level': 'INFO', 'log_message': 'User wi is connected'}], 42, ['Hi', 'five']]")
-    data.process_stream(['Hello world', [3.14, -1, 2.71], [{'log_level': 'WARNING', 'log_message': 'Telnet access! Use ssh instead'}, {'log_level': 'INFO', 'log_message': 'User wil is connected'}], 42, ['Hi', 'five']])
+
+    print(
+        "\nSend first batch of data on stream: ['Hello world', [3.14, -1, 2.71"
+        ", [{'log_level': 'WARNING', 'log_message': 'Telnet access! Use ssh "
+        "instead'}, {'log_level': 'INFO', 'log_message': 'User wi is connected"
+        "'}], 42, ['Hi', 'five']]")
+    data.process_stream([
+        'Hello world',
+        [3.14, -1, 2.71],
+        [
+            {
+                'log_level': 'WARNING',
+                'log_message': 'Telnet access! Use ssh instead'
+            },
+            {
+                'log_level': 'INFO',
+                'log_message': 'User wil is connected'
+            }
+        ],
+        42,
+        ['Hi', 'five']
+    ])
 
     print("\n== DataStream statistics ==")
     data.print_processors_stats()
@@ -247,9 +273,26 @@ def main() -> None:
     print("\n== DataStream statistics ==")
     data.print_processors_stats()
 
-    print("\nSend another batch of data: [21, ['I love AI', 'LLMs are wonderful', 'Stay healthy'], [{'fog_level': 'ERROR', 'log_message': '500 server crash'}, {'log_level': 'NOTICE', 'log_message': 'Certificate expires in 10 days'}], [32, 42, 64, 84, 128, 168], 'World hello]'")
-    data.process_stream([21, ['I love AI', 'LLMs are wonderful', 'Stay healthy'], [{'fog_level': 'ERROR', 'log_message': '500 server crash'}, {'log_level': 'NOTICE', 'log_message': 'Certificate expires in 10 days'}], [32, 42, 64, 84, 128, 168], 'World hello'])
-
+    print(
+        "\nSend another batch of data: [21, ['I love AI', 'LLMs are wonderful'"
+        ", 'Stay healthy'], [{'fog_level': 'ERROR', 'log_message': '500 server"
+        " crash'}, {'log_level': 'NOTICE', 'log_message': 'Certificate expires"
+        " in 10 days'}], [32, 42, 64, 84, 128, 168], 'World hello]'")
+    data.process_stream([
+        ['I love AI', 'LLMs are wonderful', 'Stay healthy'],
+        [
+            {
+                'fog_level': 'ERROR',
+                'log_message': '500 server crash'
+            },
+            {
+                'log_level': 'NOTICE',
+                'log_message': 'Certificate expires in 10 days'
+            }
+        ],
+        [32, 42, 64, 84, 128, 168],
+        'World hello'
+    ])
     print("\n== DataStream statistics ==")
     data.print_processors_stats()
 
@@ -259,6 +302,7 @@ def main() -> None:
 
     print("\n== DataStream statistics ==")
     data.print_processors_stats()
+
 
 if __name__ == "__main__":
     main()

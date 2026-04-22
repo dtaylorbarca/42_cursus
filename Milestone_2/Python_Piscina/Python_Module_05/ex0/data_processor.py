@@ -18,14 +18,14 @@ class DataProcessor(ABC):
     def output(self) -> tuple[int, str]:
         try:
             self.data_queue[0]
-        except IndexError as e:
-            print("No stored data to output")
+        except IndexError:
+            return (self.data_rank, "")
         self.data_rank += 1
         return (self.data_rank, self.data_queue.pop(0))
 
 
 class NumericProcessor(DataProcessor):
-    
+
     def validate(self, data: Any) -> bool:
         if isinstance(data, list):
             for x in data:
@@ -35,18 +35,19 @@ class NumericProcessor(DataProcessor):
             return False
         return True
 
-    def ingest(self, data: int | float | list[int | str]):
+    def ingest(self, data: int | float | list[int | float]):
         if isinstance(data, list):
             for x in data:
                 if not isinstance(x, int) and not isinstance(x, float):
-                    raise Exception("Imprtoper numeric data")
+                    raise Exception("Improper numeric data")
         elif not isinstance(data, int) and not isinstance(data, float):
             raise Exception("Improper numeric data")
 
         if isinstance(data, list):
-            self.data_queue.extend(data)
+            self.data_queue.extend([str(x) for x in data])
         else:
-            self.data_queue.append(data)
+            self.data_queue.append(str(data))
+
 
 class TextProcessor(DataProcessor):
 
@@ -58,7 +59,7 @@ class TextProcessor(DataProcessor):
         elif not isinstance(data, str):
             return False
         return True
-    
+
     def ingest(self, data: str | list[str]):
         if isinstance(data, list):
             for x in data:
@@ -71,8 +72,9 @@ class TextProcessor(DataProcessor):
         else:
             self.data_queue.append(data)
 
+
 class LogProcessor(DataProcessor):
-    
+
     def validate(self, data: Any) -> bool:
         if isinstance(data, list):
             for x in data:
@@ -87,7 +89,7 @@ class LogProcessor(DataProcessor):
                 if not isinstance(x, str) or not isinstance(data[x], str):
                     return False
         return True
-    
+
     def ingest(self, data: dict[str, str] | list[dict[str, str]]):
         if isinstance(data, list):
             for x in data:
@@ -101,7 +103,7 @@ class LogProcessor(DataProcessor):
             for x in data:
                 if not isinstance(x, str) or not isinstance(data[x], str):
                     raise Exception("Improper log data")
-        
+
         str_convert = []
         if isinstance(data, list):
             for x in data:
@@ -114,6 +116,7 @@ class LogProcessor(DataProcessor):
                     else:
                         dict_str = dict_str + x[y]
                 str_convert.append(dict_str)
+            self.data_queue.extend(str_convert)
         elif isinstance(data, dict):
             index = 0
             dict_str = ""
@@ -123,35 +126,8 @@ class LogProcessor(DataProcessor):
                     index += 1
                 else:
                     dict_str = dict_str + data[x]
+            self.data_queue.append(dict_str)
 
-        if isinstance(data, list):
-            self.data_queue.extend(str_convert)
-        else:
-            self.data_queue.append(data)
-
-
-class DataStream:
-    def __init__(self, data):
-        self.processors = []    
-    
-    def register_processor(self, proc: DataProcessor) -> None:
-        self.processors.append(proc)
-
-    def process_stream(self, stream: list[Any]) -> None:
-        if len(self.processors) == 0:
-            print("No processor found, no data")
-        else:
-            for proc in self.processors:
-                for data in stream:
-                    if proc.validate(data):
-                        proc.ingest(data)
-                    else:
-                        print(f"DataStream error - Can't process element in stream: {data}")
-    
-    def print_processors_stats(self) -> None:
-
-
-    
 
 def main():
     print("=== Code Nexus - Data Processor ===")
@@ -197,14 +173,26 @@ def main():
     print(" Trying to validate input 'Hello':", end=" ")
     valid = log.validate('Hello')
     print(f"{valid}")
-    print(" Processing data: [{'log_level': 'NOTICE', 'log_message': 'Connection to server'}, {'log_level': 'ERROR', 'log_message': 'Unauthorized access!!'}]")
+    print(
+        " Processing data: [{'log_level': 'NOTICE',"
+        " 'log_message': 'Connection to server'}, "
+        "{'log_level': 'ERROR', 'log_message': 'Unauthorized access!!'}]")
     print(" Extracting 2 values")
-    log.ingest([{'log_level': 'NOTICE', 'log_message': 'Connection to server'}, {'log_level': 'ERROR', 'log_message': 'Unauthorized access!!'}])
+    log.ingest([
+        {
+            'log_level': 'NOTICE',
+            'log_message': 'Connection to server'
+        },
+        {
+            'log_level': 'ERROR',
+            'log_message': 'Unauthorized access!!'
+        }
+    ])
     data = log.output()
     print(f" Log entry {data[0]}: {data[1]}")
     data = log.output()
     print(f" Log entry {data[0]}: {data[1]}")
+
 
 if __name__ == "__main__":
     main()
-
