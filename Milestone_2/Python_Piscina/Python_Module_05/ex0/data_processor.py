@@ -1,6 +1,7 @@
 from typing import Any
 from abc import ABC, abstractmethod
 
+
 class DataProcessor(ABC):
     def __init__(self) -> None:
         self.data_queue: list[Any] = []
@@ -127,6 +128,30 @@ class LogProcessor(DataProcessor):
             self.data_queue.extend(str_convert)
         else:
             self.data_queue.append(data)
+
+
+class DataStream:
+    def __init__(self, data):
+        self.processors = []    
+    
+    def register_processor(self, proc: DataProcessor) -> None:
+        self.processors.append(proc)
+
+    def process_stream(self, stream: list[Any]) -> None:
+        if len(self.processors) == 0:
+            print("No processor found, no data")
+        else:
+            for proc in self.processors:
+                for data in stream:
+                    if proc.validate(data):
+                        proc.ingest(data)
+                    else:
+                        print(f"DataStream error - Can't process element in stream: {data}")
+    
+    def print_processors_stats(self) -> None:
+
+
+    
 
 def main():
     print("=== Code Nexus - Data Processor ===")
