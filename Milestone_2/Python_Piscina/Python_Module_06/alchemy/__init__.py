@@ -1,4 +1,3 @@
-from alchemy.elements import create_air
-
-if __name__ == "__main__":
-    create_air()
+from .elements import create_air
+from .potions import strength_potion
+from .potions import healing_potion as heal
