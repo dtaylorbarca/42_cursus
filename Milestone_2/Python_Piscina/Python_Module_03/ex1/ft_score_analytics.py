@@ -2,7 +2,7 @@ import sys
 
 
 def score_cruncher() -> None:
-    print("=== Plyaer Score Analytics ===")
+    print("=== Player Score Analytics ===")
 
     lst: list = []
     for arg in sys.argv[1:]:
@@ -11,7 +11,8 @@ def score_cruncher() -> None:
         except ValueError:
             print(f"Invalid parameter: '{arg}'")
     if lst == []:
-        print("No scores provided. Usage: python3 ft_score_analytics.py <score1> <score2> ...")
+        print("No scores provided. Usage: python3 ft_score_analytics.py"
+              " <score1> <score2> ...")
         return
 
     print("Scores processed: ", end="[")
