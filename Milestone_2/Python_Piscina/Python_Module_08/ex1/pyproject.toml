@@ -2,7 +2,7 @@
 name = "matrix-loading"
 version = "1.0.0"
 description = "Matrix data analysis pipeline"
-authors = ["Your Name <your@email.com>"]
+authors = ["dtayor-@42student.madrid.com"]
 
 [tool.poetry.dependencies]
 python = ">=3.10"
