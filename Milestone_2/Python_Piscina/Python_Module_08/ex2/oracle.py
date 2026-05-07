@@ -21,6 +21,9 @@ def main() -> None:
     print(f"Log Level: {log}")
     print(f"Zion Network: {'Online' if zion else 'Offline'}")
 
+    print("\nEnvironment security check:")
+    
+
 
 if __name__ == "__main__":
     main()
