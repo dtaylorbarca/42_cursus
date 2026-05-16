@@ -7,6 +7,7 @@ class Plant:
         p_height (int): The current height in cm.
         p_age (int): The age in days.
     """
+
     def __init__(self, p_name: str, p_height: float, p_age: int) -> None:
         """Initialize the plant with a name and protected values."""
         self.p_name: str = p_name
@@ -74,8 +75,8 @@ class Plant:
 
     def show(self) -> None:
         """Prints the formatted information of the plant."""
-        print(f"{self.p_name}: {self.get_height()}cm,", end=" ")
-        print(f"{self.get_age()} days old")
+        print(f"{self.p_name}: {self.get_height():.1f}cm, "
+              f"{self.get_age()} days old")
 
 
 class Flower(Plant):
@@ -88,6 +89,7 @@ class Flower(Plant):
         p_age (int): The age in days.
         p_color (str): The color of the flower.
     """
+
     def __init__(self, p_name: str, p_height: float,
                  p_age: int, p_color: str) -> None:
         """Initialize the parent class and the color."""
@@ -112,15 +114,15 @@ class Tree(Plant):
                  p_age: int, p_trunk_diameter: float) -> None:
         super().__init__(p_name, p_height, p_age)
         self.p_trunk_diameter: float = round(p_trunk_diameter, 1)
-        self.is_shade: bool = False
 
     def produce_shade(self) -> None:
         print(f"Tree {self.p_name} now produces a shade of", end=" ")
-        print(f"{self._p_height}cm long and {self.p_trunk_diameter}cm wide.")
+        print(
+            f"{self.get_height()}cm long and {self.p_trunk_diameter}cm wide.")
 
     def show(self) -> None:
         super().show()
-        print(f" Trunk diameter: {self.p_trunk_diameter}")
+        print(f" Trunk diameter: {self.p_trunk_diameter}cm")
 
 
 class Vegetable(Plant):

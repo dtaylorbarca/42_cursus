@@ -87,7 +87,7 @@ class Plant:
 
     def show(self) -> None:
         """Prints the formatted information of the plant."""
-        print(f"{self.p_name}: {self.get_height()}cm,", end=" ")
+        print(f"{self.p_name}: {self.get_height():.1f}cm,", end=" ")
         print(f"{self.get_age()} days old")
         self._stats.show_calls += 1
 
@@ -98,6 +98,9 @@ class Plant:
     @classmethod
     def anonymous(cls) -> "Plant":
         return cls("Unknown plant", 0.0, 0)
+
+    def get_stats(self) -> None:
+        self._stats.get_stats()
 
 
 class Flower(Plant):
@@ -110,6 +113,7 @@ class Flower(Plant):
         p_age (int): The age in days.
         p_color (str): The color of the flower.
     """
+
     def __init__(self, p_name: str, p_height: float,
                  p_age: int, p_color: str) -> None:
         """Initialize the parent class and the color."""
@@ -127,9 +131,6 @@ class Flower(Plant):
             print(f" {self.p_name} has not bloomed yet")
         else:
             print(f" {self.p_name} is blooming beautifully!")
-
-    def get_stats(self) -> None:
-        self._stats.get_stats()
 
 
 class Tree(Plant):
@@ -149,7 +150,7 @@ class Tree(Plant):
         print(f" Trunk diameter: {self.p_trunk_diameter}")
 
     def get_stats(self) -> None:
-        self._stats.get_stats()
+        super().get_stats()
         print(f" {self.shade_calls} shade")
 
 
@@ -171,9 +172,6 @@ class Vegetable(Plant):
         print(f" Harvest season: {self.p_harvest_season}")
         print(f" Nutritional value: {self.veg_nutritional_value}")
 
-    def get_stats(self) -> None:
-        self._stats.get_stats()
-
 
 class Seed(Flower):
     def __init__(self, p_name: str, p_height: float,
@@ -187,10 +185,7 @@ class Seed(Flower):
 
     def show(self) -> None:
         super().show()
-        print(f" Seed: {self.seed_count}")
-
-    def get_stats(self) -> None:
-        self._stats.get_stats()
+        print(f" Seeds: {self.seed_count}")
 
 
 def statistics() -> None:
@@ -239,7 +234,7 @@ def statistics() -> None:
     anonymous = Plant.anonymous()
     anonymous.show()
     print("[statistics for Unknown plant]")
-    anonymous._stats.get_stats()
+    anonymous.get_stats()
 
 
 def main() -> None:

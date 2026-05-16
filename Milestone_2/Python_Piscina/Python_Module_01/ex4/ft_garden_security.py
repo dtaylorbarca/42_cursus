@@ -19,12 +19,11 @@ class Plant:
         Args:
             growth (float): The amount of centimeters to add.
         """
-        self.plant_height += round(growth, 1)
+        self._p_height += round(growth, 1)
 
     def age(self) -> None:
         """Increase the plant's age by one day."""
-        self.plant_age += 1
-        self.count += 1
+        self._p_age += 1
 
     def get_height(self) -> float:
         """
@@ -70,12 +69,12 @@ class Plant:
             print("Age update rejected")
         else:
             self._p_age = age
-            print(f"Age updated: {age} days old")
+            print(f"Age updated: {age} days")
 
     def show(self) -> None:
         """Prints the formatted information of the plant."""
-        print(f"{self.p_name}: {self.get_height()}cm,", end=" ")
-        print(f"{self.get_age()} days old")
+        print(f"{self.name}: {self.get_height()}cm, "
+              f"{self.get_age()} days old")
 
 
 def main() -> None:
@@ -89,13 +88,13 @@ def main() -> None:
     print("")
     rose.set_height(25.0)
     rose.set_age(30)
-    print("")
+
+    print(f"\n{rose.name}:", end=" ")
+    rose.set_height(-10)
     print(f"{rose.name}:", end=" ")
     rose.set_age(-10)
-    print(f"{rose.name}", end=" ")
-    rose.set_age(-10)
-    print("")
-    print("Current status:", end=" ")
+
+    print("\nCurrent state:", end=" ")
     rose.show()
 
 
