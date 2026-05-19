@@ -13,14 +13,12 @@ class WaterError(GardenError):
         super().__init__(message)
 
 
-def check_plant(plant_name: str, is_wilting: bool) -> None:
-    if not is_wilting:
-        raise PlantError(f"The {plant_name} plant is wilting!")
+def trigger_plant(plant_name: str) -> None:
+    raise PlantError(f"The {plant_name} plant is wilting!")
 
 
-def check_water(level: int) -> None:
-    if level < 10:
-        raise WaterError("No enough water in the tank!")
+def trigger_water() -> None:
+    raise WaterError("Not enough water in the tank!")
 
 
 def test_custom_errors() -> None:
@@ -28,23 +26,23 @@ def test_custom_errors() -> None:
 
     print("\nTesting PlantError...")
     try:
-        check_plant("tomato", False)
+        trigger_plant("tomato")
     except PlantError as e:
         print(f"Caught PlantError: {e}")
 
     print("\nTesting WaterError...")
     try:
-        check_water(5)
+        trigger_water()
     except WaterError as e:
         print(f"Caught WaterError: {e}")
 
     print("\nTesting catching all garden errors...")
     try:
-        check_plant("tomato", False)
+        trigger_plant("tomato")
     except GardenError as e:
-        print(f"Caught GardenERror: {e}")
+        print(f"Caught GardenError: {e}")
     try:
-        check_water(5)
+        trigger_water()
     except GardenError as e:
         print(f"Caught GardenError: {e}")
 
