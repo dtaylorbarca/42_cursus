@@ -15,14 +15,11 @@ def score_cruncher() -> None:
               " <score1> <score2> ...")
         return
 
-    print("Scores processed: ", end="[")
-    for num in lst[:-1]:
-        print(f"{num}", end=", ")
-    print(f"{lst[-1]}]")
-    print(f"Total players: {len(sys.argv) - 1}")
+    print(f"Scores processed: {lst}")
+    print(f"Total players: {len(lst) - 1}")
     print(f"Total score: {sum(lst)}")
-    average: float = sum(lst) / (len(sys.argv) - 1)
-    print(f"Average score: {average}")
+    average: float = sum(lst) / (len(lst) - 1)
+    print(f"Average score: {average:.1f}")
     print(f"High score: {max(lst)}")
     print(f"Low score: {min(lst)}")
     print(f"Score range = {max(lst) - min(lst)}")

@@ -13,7 +13,7 @@ class ContactType(str, Enum):
 
 class AlienContact(BaseModel):
     contact_id: str = Field(..., min_length=5, max_length=15)
-    timestamp: datetime = Field(default=None)
+    timestamp: datetime = Field()
     location: str = Field(..., min_length=3, max_length=100)
     contact_type: ContactType = Field()
     signal_strength: float = Field(..., ge=0.0, le=10.0)
@@ -25,15 +25,15 @@ class AlienContact(BaseModel):
     @model_validator(mode="after")
     def custom_validation_rules(self) -> Self:
         if self.contact_id[:2] != "AC":
-            raise ValueError('Contact ID must start with "AC" (Alien Contact)')
+            raise ValidationError('Contact ID must start with "AC" (Alien Contact)')
         if not self.is_verified:
-            raise ValueError("Physical contact reports must be verified")
+            raise ValidationError("Physical contact reports must be verified")
         if (self.contact_type == "telepathic" and
                 self.witness_count < 3):
-            raise ValueError(
+            raise ValidationError(
                 "Telepathic contact requires at least 3 witnesses")
         if self.signal_strength > 7.0 and not self.message_received:
-            raise ValueError(
+            raise ValidationError(
                 "Strong signals (> 7.0) should include received messages")
         return self
 
@@ -60,7 +60,7 @@ def main() -> None:
         print(f"Duration: {alien_contact.duration_minutes} minutes")
         print(f"Witnesses: {alien_contact.witness_count}")
         print(f"Message: '{alien_contact.message_received}'")
-    except ValueError as e:
+    except ValidationError as e:
         print(e)
     print("======================================")
     print("Expected validation error:")
@@ -82,7 +82,7 @@ def main() -> None:
         print(f"Duration: {alien_contact.duration_minutes} minutes")
         print(f"Witnesses: {alien_contact.witness_count}")
         print(f"Message: '{alien_contact.message_received}'")
-    except ValueError as e:
+    except ValidationError as e:
         print(e)
 
 
