@@ -32,19 +32,19 @@ def main() -> None:
         for item in inventory:
             percent = round(inventory[item] / total * 100, 1)
             print(f"Item {item} represents {percent:.1f}%")
-            
+
             # mypy easily compares int with int here:
             if inventory[item] > m_qty:
                 m_item = item
                 m_qty = inventory[item]
-                
+
         print(f"Item most abundant: {m_item} with quantity {m_qty}")
 
         for item in inventory:
             if inventory[item] < l_qty:
                 l_item = item
                 l_qty = inventory[item]
-                
+
         print(f"Item least abundant: {l_item} with quantity {l_qty}")
     else:
         print("Got inventory: empty")
