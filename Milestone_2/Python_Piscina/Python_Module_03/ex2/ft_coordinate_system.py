@@ -1,7 +1,7 @@
 import math
 
 
-def get_player_pos() -> tuple:
+def get_player_pos() -> tuple[float, float, float]:
     while True:
         try:
             user_input = input(

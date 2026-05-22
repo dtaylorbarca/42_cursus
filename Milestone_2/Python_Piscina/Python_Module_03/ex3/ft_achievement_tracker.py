@@ -1,6 +1,6 @@
 import random
 
-achievements: list = [
+achievements: list[str] = [
     "Crafting Genius",
     "World savior",
     "Master Explorer",
@@ -19,7 +19,7 @@ achievements: list = [
 ]
 
 
-def gen_player_achievements() -> set:
+def gen_player_achievements() -> set[str]:
     num = random.randrange(1, len(achievements))
     selected = random.sample(achievements, num)
     return set(selected)

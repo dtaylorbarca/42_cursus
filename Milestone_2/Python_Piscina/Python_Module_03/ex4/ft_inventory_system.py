@@ -33,7 +33,6 @@ def main() -> None:
             percent = round(inventory[item] / total * 100, 1)
             print(f"Item {item} represents {percent:.1f}%")
 
-            # mypy easily compares int with int here:
             if inventory[item] > m_qty:
                 m_item = item
                 m_qty = inventory[item]

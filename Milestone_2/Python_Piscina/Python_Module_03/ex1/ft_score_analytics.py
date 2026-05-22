@@ -4,7 +4,7 @@ import sys
 def score_cruncher() -> None:
     print("=== Player Score Analytics ===")
 
-    lst: list = []
+    lst: list[int] = []
     for arg in sys.argv[1:]:
         try:
             lst = lst + [int(arg)]
@@ -16,7 +16,7 @@ def score_cruncher() -> None:
         return
 
     print(f"Scores processed: {lst}")
-    print(f"Total players: {len(lst) - 1}")
+    print(f"Total players: {len(lst)}")
     print(f"Total score: {sum(lst)}")
     average: float = sum(lst) / (len(lst) - 1)
     print(f"Average score: {average:.1f}")
