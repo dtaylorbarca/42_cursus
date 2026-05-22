@@ -23,22 +23,29 @@ def main() -> None:
         total = sum(inventory.values())
         print(f"Total quantity of the {len(inventory)} items: {total}")
         first_item = list(inventory.keys())[0]
-        m_abundant = [first_item, inventory[first_item]]
-        l_abundant = [first_item, inventory[first_item]]
+        m_item: str = first_item
+        m_qty: int = inventory[first_item]
+
+        l_item: str = first_item
+        l_qty: int = inventory[first_item]
+
         for item in inventory:
-            if inventory[item] > m_abundant[1]:
-                m_abundant = [item, inventory[item]]
-            percent = round(inventory[item]/total * 100, 1)
+            percent = round(inventory[item] / total * 100, 1)
             print(f"Item {item} represents {percent:.1f}%")
-        print(
-            f"Item most abundant: {m_abundant[0]} with "
-            f"quantity {m_abundant[1]}")
+            
+            # mypy easily compares int with int here:
+            if inventory[item] > m_qty:
+                m_item = item
+                m_qty = inventory[item]
+                
+        print(f"Item most abundant: {m_item} with quantity {m_qty}")
+
         for item in inventory:
-            if inventory[item] < l_abundant[1]:
-                l_abundant = [item, inventory[item]]
-        print(
-            f"Item least abundant: {l_abundant[0]} with "
-            f"quantity {l_abundant[1]}")
+            if inventory[item] < l_qty:
+                l_item = item
+                l_qty = inventory[item]
+                
+        print(f"Item least abundant: {l_item} with quantity {l_qty}")
     else:
         print("Got inventory: empty")
         print("Item list: empty")
