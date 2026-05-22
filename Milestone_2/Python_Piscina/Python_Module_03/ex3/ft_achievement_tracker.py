@@ -4,7 +4,7 @@ achievements: list = [
     "Crafting Genius",
     "World savior",
     "Master Explorer",
-    "Collector Supreme"
+    "Collector Supreme",
     "Untouchable",
     "Boss Slayer",
     "Strategist",
@@ -20,68 +20,38 @@ achievements: list = [
 
 
 def gen_player_achievements() -> set:
-    count: int = 0
-    for _ in achievements:
-        count += 1
-    selected: list = []
-    num = random.randrange(0, count)
-    for x in range(num):
-        pick: str = random.choice(achievements)
-        if pick not in selected:
-            selected = selected + [pick]
+    num = random.randrange(1, len(achievements))
+    selected = random.sample(achievements, num)
     return set(selected)
 
 
 def achievement_hunter() -> None:
     print("=== Achievement Tracker System ===")
 
-    alice: set = gen_player_achievements()
-    bob: set = gen_player_achievements()
-    charlie: set = gen_player_achievements()
-    dylan: set = gen_player_achievements()
+    alice: set[str] = gen_player_achievements()
+    bob: set[str] = gen_player_achievements()
+    charlie: set[str] = gen_player_achievements()
+    dylan: set[str] = gen_player_achievements()
 
     print(f"\nPlayer Alice: {alice}")
     print(f"Player Bob: {bob}")
     print(f"Player Charlie: {charlie}")
-    print(f"Plyaer Dylan: {dylan}")
+    print(f"Player Dylan: {dylan}")
 
+    total_set = alice.union(bob, charlie, dylan)
     print(f"\nAll distinct achievements: {alice.union(bob, charlie, dylan)}")
 
     print(f"\nCommon achievements: {alice.intersection(charlie, bob, dylan)}")
 
-    others: set = bob.union(charlie, dylan)
-    only_alice: set = alice.difference(others)
-    print(f"\nOnly Alice has: {only_alice}")
-    others: set = alice.union(charlie, dylan)
-    only_bob: set = bob.difference(others)
-    print(f"Only Bob has: {only_bob}")
-    others: set = alice.union(bob, dylan)
-    only_charlie: set = charlie.difference(others)
-    print(f"Only Bob has: {only_charlie}")
-    others: set = alice.union(charlie, bob)
-    only_dylan: set = bob.difference(others)
-    print(f"Only Dylan has: {only_dylan}")
+    print(f"Only Alice has: {alice.difference(bob.union(charlie, dylan))}")
+    print(f"Only Bob has: {bob.difference(alice.union(charlie, dylan))}")
+    print(f"Only Charlie has: {charlie.difference(alice.union(bob, dylan))}")
+    print(f"Only Dylan has: {dylan.difference(alice.union(bob, charlie))}")
 
-    missing_alice: set = set()
-    for x in achievements:
-        if x not in alice:
-            missing_alice = missing_alice.union({x})
-    print(f"\nAlice is missing: {missing_alice}")
-    missing_bob: set = set()
-    for x in achievements:
-        if x not in bob:
-            missing_bob = missing_bob.union({x})
-    print(f"Bob is missing: {missing_bob}")
-    missing_charlie: set = set()
-    for x in achievements:
-        if x not in charlie:
-            missing_charlie = missing_charlie.union({x})
-    print(f"Charlie is missing: {missing_charlie}")
-    missing_dylan: set = set()
-    for x in achievements:
-        if x not in dylan:
-            missing_dylan = missing_dylan.union({x})
-    print(f"Dylan is missing: {missing_dylan}")
+    print(f"Alice is missing: {total_set.difference(alice)}")
+    print(f"Bob is missing: {total_set.difference(bob)}")
+    print(f"Charlie is missing: {total_set.difference(charlie)}")
+    print(f"Dylan is missing: {total_set.difference(dylan)}")
 
 
 if __name__ == "__main__":

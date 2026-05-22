@@ -4,35 +4,27 @@ import math
 def get_player_pos() -> tuple:
     while True:
         try:
-            index = -1
             user_input = input(
                 "Enter new coordinates as floats in format 'x,y,z': ")
-            pos = user_input.split(",")
+            pos = [item.strip() for item in user_input.split(",")]
             count = 0
             for _ in pos:
                 count += 1
             if count != 3:
                 raise IndexError
-            index = 0
-            x = float(pos[0])
-            index = 1
-            y = float(pos[1])
-            index = 2
-            z = float(pos[2])
-            pos = (x, y, z)
+            floats = []
+            for i in range(3):
+                try:
+                    floats.append(float(pos[i]))
+                except ValueError as e:
+                    print(f"Error on parameter '{pos[i]}': {e}")
+                    raise ValueError
+            return (floats[0], floats[1], floats[2])
         except IndexError:
             print("Invalid syntax")
             continue
-        except ValueError as e:
-            if index == 0:
-                print(f"Error on parameter '{pos[0]}': {e}")
-            elif index == 1:
-                print(f"Error on parameter '{pos[1]}': {e}")
-            elif index == 2:
-                print(f"Error on parameter '{pos[2]}': {e}")
+        except ValueError:
             continue
-        else:
-            return pos
 
 
 def position_tracker() -> None:
@@ -43,7 +35,7 @@ def position_tracker() -> None:
     print(f"It includes: X={pos_1[0]}, Y={pos_1[1]}, Z={pos_1[2]}")
     distance_origin = round(
         math.sqrt(pos_1[0] ** 2 + pos_1[1] ** 2 + pos_1[2] ** 2), 4)
-    print(f"Distance to centre: {distance_origin}")
+    print(f"Distance to center: {distance_origin}")
     print("\nGet a second set of coordinates")
     pos_2 = get_player_pos()
     distance_x = pos_1[0] - pos_2[0]
