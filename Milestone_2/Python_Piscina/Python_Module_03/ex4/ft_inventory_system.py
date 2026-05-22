@@ -9,18 +9,19 @@ def main() -> None:
         if len(split) != 2:
             print(f"Error - invalid parameter '{arg}'")
             continue
-        if split[0] in inventory:
+        if split[0].strip() in inventory:
             print(f"Redundant item '{split[0]}' - discarding")
             continue
         try:
             inventory.update(
                 {split[0].strip(): int(split[1].strip())})
         except ValueError as e:
-            print(f"Quantity error for '{split[0]}': {e}")
+            print(f"Quantity error for '{split[0].strip()}': {e}")
     if inventory:
         print(f"Got inventory: {inventory}")
         print(f"Item list: {list(inventory.keys())}")
         total = sum(inventory.values())
+        print(f"Total quantity of the {len(inventory)} items: {total}")
         first_item = list(inventory.keys())[0]
         m_abundant = [first_item, inventory[first_item]]
         l_abundant = [first_item, inventory[first_item]]

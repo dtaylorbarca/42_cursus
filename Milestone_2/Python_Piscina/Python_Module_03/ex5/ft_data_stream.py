@@ -52,6 +52,7 @@ def main() -> None:
         print(f"Event {x}: Player {event[0]} did action {event[1]}")
     event_gen = gen_event()
     events = [next(event_gen) for x in range(10)]
+    print(f"Built list of 10 events: {events}")
     for event in consume_event(events):
         print(f"Got event from list: {event}")
         print(f"Remains in list: {events}")
