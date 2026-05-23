@@ -1,5 +1,5 @@
 import sys
-import typing
+from typing import IO
 
 
 def main() -> None:
@@ -9,20 +9,13 @@ def main() -> None:
     print("=== Cyber Archives Recovery ===")
     print(f"Accessing file '{sys.argv[1]}'")
     try:
-        text: typing.IO = open(sys.argv[1])
+        text: IO = open(sys.argv[1], "r", encoding="utf-8")
         print("---\n")
         content = text.read()
-        index = 0
-        while index < (len(content) - 1):
-            while index < len(content) and content[index] != "\n":
-                print(f"{content[index]}", end="")
-                index += 1
-            if index < len(content):
-                print(f"{content[index]}", end="")
-            index += 1
+        print(content, end="")
 
         text.close()
-        print("\n---")
+        print("---")
         print(f"File '{sys.argv[1]}' closed.")
     except PermissionError as e:
         print(f"Error opening file '{sys.argv[1]}': {e}")
