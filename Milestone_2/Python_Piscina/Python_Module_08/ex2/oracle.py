@@ -22,8 +22,22 @@ def check_harcoded_secrets(file) -> bool:
     return True
 
 
-def env_configuration() -> tuple[bool, list[str]]:
+def check_gitignore_has_env() -> bool:
+    gitignore_path: str = '.gitignore'
+    if not os.path.isfile(gitignore_path):
+        return False
+    try:
+        with open(gitignore_path, 'r', encoding='utf-8') as fh:
+            for line in fh:
+                stripped: str = line.strip()
+                if stripped in ('.env', '*.env', '.env*'):
+                    return True
+    except OSError:
+        return False
+    return False
 
+
+def env_configuration() -> tuple[bool, list[str]]:
     errors = []
     variables = [
         "MATRIX_MODE",
@@ -99,6 +113,12 @@ def main() -> None:
         print("[FAIL] .env file not properly configured")
         for error in configured[1]:
             print(f"    {error}")
+    gitignore_ok: bool = check_gitignore_has_env()
+    if gitignore_ok:
+        print(" [OK] Production overrides available")
+    else:
+        print(" [FAIL] .env is not listed in .gitignore "
+              "- never commit secrets")
 
 
 if __name__ == "__main__":
