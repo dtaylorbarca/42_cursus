@@ -1,14 +1,16 @@
-def secure_archive(file_name: str, action: str = "read", content: str = "") -> tuple[bool, str]:
+def secure_archive(file_name: str, action: str = "read",
+                   content: str = "") -> tuple[bool, str]:
     try:
-        with open(file_name, "r+") as f:
-            if action == "read":
+        if action == "read":
+            with open(file_name, "r") as f:
                 content = f.read()
                 return (True, content)
-            elif action == "write":
+        elif action == "write":
+            with open(file_name, "w") as f:
                 f.write(content)
-                return (True, "Content successfully written to a file")
-            else:
-                return (False, "Only read and write can be performed")
+                return (True, "Content successfully written to file")
+        else:
+            return (False, "Only read and write can be performed")
     except PermissionError as e:
         return (False, str(e))
     except FileNotFoundError as e:
@@ -22,13 +24,14 @@ def main() -> None:
     result: tuple[bool, str] = secure_archive("/non/existing/file")
     print(result)
     print("\nUsing 'secure_archive' to read from an inaccessible file:")
-    result: tuple[bool, str] = secure_archive("/etc/passwd")
+    result = secure_archive("/etc/shadow")
     print(result)
     print("\nUsing 'secure_archive' to read from a regular file:")
-    result: tuple[bool, str] = secure_archive("ancient_fragment.txt", "read")
+    result = secure_archive("ancient_fragment.txt", "read")
     print(result)
     print("\nUsing 'secure_archive' to write previous content to a new file:")
-    result: tuple[bool, str] = secure_archive("ancient_fragment.txt", "write", "Hello this has been overwritten")
+    result = secure_archive("ancient_fragment.txt", "write", "Hello this has "
+                            "been overwritten")
     print(result)
 
 
