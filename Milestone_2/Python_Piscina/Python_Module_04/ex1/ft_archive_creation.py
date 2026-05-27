@@ -7,7 +7,7 @@ def main() -> None:
 
     print(f"Accessing file '{sys.argv[1]}'")
     try:
-        text: typing.IO = open(sys.argv[1])
+        text: typing.IO = open(sys.argv[1], "r", encoding="utf-8")
         print("---\n")
         content = text.read()
         index: int = 0
