@@ -9,7 +9,7 @@ def main() -> None:
     print("=== Cyber Archives Recovery ===")
     print(f"Accessing file '{sys.argv[1]}'")
     try:
-        text: IO = open(sys.argv[1], "r", encoding="utf-8")
+        text: IO[str] = open(sys.argv[1], "r", encoding="utf-8")
         print("---\n")
         content = text.read()
         print(content, end="")
@@ -17,9 +17,7 @@ def main() -> None:
         text.close()
         print("---")
         print(f"File '{sys.argv[1]}' closed.")
-    except PermissionError as e:
-        print(f"Error opening file '{sys.argv[1]}': {e}")
-    except FileNotFoundError as e:
+    except OSError as e:
         print(f"Error opening file '{sys.argv[1]}': {e}")
 
 

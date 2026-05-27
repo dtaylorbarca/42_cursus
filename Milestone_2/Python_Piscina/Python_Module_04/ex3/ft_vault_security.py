@@ -3,17 +3,15 @@ def secure_archive(file_name: str, action: str = "read",
     try:
         if action == "read":
             with open(file_name, "r") as f:
-                content = f.read()
-                return (True, content)
+                data = f.read()
+                return (True, data)
         elif action == "write":
             with open(file_name, "w") as f:
                 f.write(content)
                 return (True, "Content successfully written to file")
         else:
             return (False, "Only read and write can be performed")
-    except PermissionError as e:
-        return (False, str(e))
-    except FileNotFoundError as e:
+    except OSError as e:
         return (False, str(e))
 
 

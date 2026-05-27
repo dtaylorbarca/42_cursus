@@ -2,12 +2,6 @@ import sys
 from typing import IO
 
 
-class UsageError(Exception):
-    def __init__(self, message: str = "UsageError: python3 "
-                 "ft_archive_creation.py <text file>"):
-        super().__init__(message)
-
-
 def main() -> None:
     if len(sys.argv) != 2:
         print("Usage: python3 ft_archive_creation.py <file>")
@@ -17,8 +11,7 @@ def main() -> None:
     print("=== Cyber Archives Recovery & Preservation ===")
     print(f"Accessing file '{filename}'")
     try:
-        print(f"Accessing file '{filename}'")
-        text: IO = open(filename)
+        text: IO[str] = open(filename)
         print("---\n")
         content = text.read()
         print(content, end="")
@@ -26,16 +19,8 @@ def main() -> None:
         text.close()
         print("\n---")
         print(f"File '{filename}' closed.\n")
-    except PermissionError as e:
+    except OSError as e:
         sys.stderr.write(f"[STDERR] Error opening file '{sys.argv[1]}': {e}\n")
-        sys.stderr.flush()
-        return
-    except FileNotFoundError as e:
-        sys.stderr.write(f"[STDERR] Error opening file '{sys.argv[1]}': {e}\n")
-        sys.stderr.flush()
-        return
-    except UsageError as e:
-        sys.stderr.write(f"[STDERR] {e}\n")
         sys.stderr.flush()
         return
 
@@ -51,15 +36,16 @@ def main() -> None:
     sys.stdout.flush()
     new_file = sys.stdin.readline().strip()
     if not new_file:
-        print("Not saving data.")
+        sys.stdout.write("Data not saved.\n")
+        sys.stdout.flush()
         return
     try:
         print(f"Saving data to '{new_file}'")
-        temp = open(sys.argv[1], "r")
+        temp = open(sys.argv[1], "w")
         temp.write(transformed)
         temp.close()
         print(f"Data saved in file '{new_file}'.")
-    except PermissionError as e:
+    except OSError as e:
         sys.stderr.write("[STDERR] Error opening file"
                          f" '{new_file}': {e}\n")
         sys.stderr.flush()

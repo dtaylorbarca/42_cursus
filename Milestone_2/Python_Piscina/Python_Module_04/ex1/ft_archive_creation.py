@@ -11,8 +11,7 @@ def main() -> None:
     print("=== Cyber Archives Recovery & Preservation ===")
     print(f"Accessing file '{filename}'")
     try:
-        print(f"Accessing file '{filename}'")
-        text: IO = open(filename)
+        text: IO[str] = open(filename)
         print("---\n")
         content = text.read()
         print(content, end="")
@@ -20,10 +19,7 @@ def main() -> None:
         text.close()
         print("\n---")
         print(f"File '{filename}' closed.\n")
-    except PermissionError as e:
-        print(f"Error opening file '{filename}': {e}")
-        return
-    except FileNotFoundError as e:
+    except OSError as e:
         print(f"Error opening file '{filename}': {e}")
         return
 
@@ -41,11 +37,11 @@ def main() -> None:
         return
     try:
         print(f"Saving data to '{new_file}'")
-        temp = open(sys.argv[1], "r")
+        temp = open(sys.argv[1], "w")
         temp.write(transformed)
         temp.close()
         print(f"Data saved in file '{new_file}'.")
-    except PermissionError as e:
+    except OSError as e:
         print(f"Error opening file '{new_file}': {e}")
         print("Data not saved.")
 
