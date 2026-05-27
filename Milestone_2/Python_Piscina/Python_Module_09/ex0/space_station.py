@@ -35,11 +35,12 @@ def main() -> None:
             print(f"Crew: {space_station.crew_size} person")
         print(f"Power: {space_station.power_level}%")
         print(f"Oxygen: {space_station.oxygen_level}%")
-        print(
-            f"Status: {"Operational" if space_station.is_operational
-                       else "Nonoperational"}")
+        status = ("Operational" if space_station.is_operational
+                  else "Nonoperational")
+        print(f"Status: {status}")
     except ValidationError as e:
-        print(e)
+        for error in e.errors():
+            print(error['msg'].replace("Value error, ", ""))
     print("====================================")
     print("Expected validation error")
     try:
@@ -53,7 +54,8 @@ def main() -> None:
         )
         print(space_station_2)
     except ValidationError as e:
-        print(e)
+        for error in e.errors():
+            print(error['msg'].replace("Value error, ", ""))
 
 
 if __name__ == "__main__":
