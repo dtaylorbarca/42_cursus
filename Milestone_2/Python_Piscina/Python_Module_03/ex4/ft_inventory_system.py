@@ -2,6 +2,9 @@ import sys
 
 
 def main() -> None:
+    if len(sys.argv) == 1:
+        print("Usage: python3 ft_inventory_system.py <item:quantity>")
+        return
     print("=== Inventory System Analysis ===")
     inventory = {}
     for arg in sys.argv[1:]:
