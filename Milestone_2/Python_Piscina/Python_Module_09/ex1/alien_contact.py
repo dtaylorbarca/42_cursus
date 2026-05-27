@@ -1,7 +1,8 @@
 from enum import Enum
 from pydantic import BaseModel, Field, model_validator, ValidationError
 from datetime import datetime
-from typing import Optional, Self
+from typing import Optional
+from typing_extensions import Self
 
 
 class ContactType(str, Enum):
@@ -13,27 +14,28 @@ class ContactType(str, Enum):
 
 class AlienContact(BaseModel):
     contact_id: str = Field(..., min_length=5, max_length=15)
-    timestamp: datetime = Field()
+    timestamp: Optional[datetime] = Field(default=None)
     location: str = Field(..., min_length=3, max_length=100)
     contact_type: ContactType = Field()
     signal_strength: float = Field(..., ge=0.0, le=10.0)
     duration_minutes: int = Field(..., ge=1, le=1440)
     witness_count: int = Field(..., ge=1, le=100)
-    message_received: Optional[str] = Field(max_length=500)
+    message_received: Optional[str] = Field(default=None, max_length=500)
     is_verified: bool = Field(default=False)
 
     @model_validator(mode="after")
     def custom_validation_rules(self) -> Self:
         if self.contact_id[:2] != "AC":
-            raise ValidationError('Contact ID must start with "AC" (Alien Contact)')
-        if not self.is_verified:
-            raise ValidationError("Physical contact reports must be verified")
-        if (self.contact_type == "telepathic" and
+            raise ValueError('Contact ID must start with "AC" '
+                             '(Alien Contact)')
+        if self.contact_type == ContactType.PHYSICAL and not self.is_verified:
+            raise ValueError("Physical contact reports must be verified")
+        if (self.contact_type == ContactType.TELEPATHIC and
                 self.witness_count < 3):
-            raise ValidationError(
+            raise ValueError(
                 "Telepathic contact requires at least 3 witnesses")
         if self.signal_strength > 7.0 and not self.message_received:
-            raise ValidationError(
+            raise ValueError(
                 "Strong signals (> 7.0) should include received messages")
         return self
 
@@ -46,7 +48,7 @@ def main() -> None:
         alien_contact = AlienContact(
             contact_id="AC_2024_001",
             location="Area 51, Nevada",
-            contact_type="radio",
+            contact_type=ContactType.RADIO,
             signal_strength=8.5,
             duration_minutes=45,
             witness_count=5,
@@ -61,14 +63,14 @@ def main() -> None:
         print(f"Witnesses: {alien_contact.witness_count}")
         print(f"Message: '{alien_contact.message_received}'")
     except ValidationError as e:
-        print(e)
+        for error in e.errors():
+            print(error['msg'].replace("Value error, ", ""))
     print("======================================")
-    print("Expected validation error:")
     try:
         alien_contact = AlienContact(
             contact_id="AC_2024_001",
             location="Area 51, Nevada",
-            contact_type="telepathic",
+            contact_type=ContactType.TELEPATHIC,
             signal_strength=8.5,
             duration_minutes=45,
             witness_count=1,
@@ -83,7 +85,9 @@ def main() -> None:
         print(f"Witnesses: {alien_contact.witness_count}")
         print(f"Message: '{alien_contact.message_received}'")
     except ValidationError as e:
-        print(e)
+        print("Expected validation error:")
+        for error in e.errors():
+            print(error['msg'].replace("Value error, ", ""))
 
 
 if __name__ == "__main__":
