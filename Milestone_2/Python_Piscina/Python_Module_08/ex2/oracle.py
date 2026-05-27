@@ -68,7 +68,10 @@ def main() -> None:
         print("[OK] No hardcoded secrets detected")
     else:
         print("[FAIL] hardcoded secrets detected in source code")
-    if env_configuration()
+    if env_configuration():
+        print("[OK] .env file properly configured")
+    else:
+        print("[FAIL] .env file not properly configured")
 
 
 if __name__ == "__main__":
