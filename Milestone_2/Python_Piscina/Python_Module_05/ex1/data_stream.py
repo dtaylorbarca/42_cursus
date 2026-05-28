@@ -64,7 +64,7 @@ class TextProcessor(DataProcessor):
             return False
         return True
 
-    def ingest(self, data: str | list[str]):
+    def ingest(self, data: str | list[str]) -> None:
         if isinstance(data, list):
             for x in data:
                 if not isinstance(x, str):
@@ -96,7 +96,7 @@ class LogProcessor(DataProcessor):
                     return False
         return True
 
-    def ingest(self, data: dict[str, str] | list[dict[str, str]]):
+    def ingest(self, data: dict[str, str] | list[dict[str, str]]) -> None:
         if isinstance(data, list):
             for x in data:
                 if isinstance(x, dict):
@@ -106,8 +106,8 @@ class LogProcessor(DataProcessor):
                 else:
                     raise Exception("Improper log data")
         elif isinstance(data, dict):
-            for x in data:
-                if not isinstance(x, str) or not isinstance(data[x], str):
+            for j in data:
+                if not isinstance(j, str) or not isinstance(data[j], str):
                     raise Exception("Improper log data")
 
         str_convert = []
@@ -127,19 +127,19 @@ class LogProcessor(DataProcessor):
         elif isinstance(data, dict):
             index = 0
             dict_str = ""
-            for x in data:
+            for j in data:
                 if index < (len(data) - 1):
-                    dict_str = dict_str + data[x] + ": "
+                    dict_str = dict_str + data[j] + ": "
                     index += 1
                 else:
-                    dict_str = dict_str + data[x]
+                    dict_str = dict_str + data[j]
             self.data_queue.append(dict_str)
             self.items_processed += 1
 
 
 class DataStream:
-    def __init__(self):
-        self.processors = []
+    def __init__(self) -> None:
+        self.processors: list[DataProcessor] = []
 
     def register_processor(self, proc: DataProcessor) -> None:
         self.processors.append(proc)
@@ -175,7 +175,7 @@ class DataStream:
                     " processor")
 
 
-def main():
+def main() -> None:
     print("=== Code Nexus - Data Stream ===")
 
     print("\nInitialize Data Stream...")

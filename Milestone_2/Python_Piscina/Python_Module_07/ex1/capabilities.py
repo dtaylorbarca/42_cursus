@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from ex0 import Creature, CreatureFactory
+from ex0.creatures import Creature, CreatureFactory
 
 
 class HealCapability(ABC):
