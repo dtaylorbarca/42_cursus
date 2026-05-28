@@ -12,7 +12,7 @@ def secure_archive(file_name: str, action: str = "read",
         else:
             return (False, "Only read and write can be performed")
     except OSError as e:
-        return (False, str(e))
+        return (False, e.args[1])
 
 
 def main() -> None:

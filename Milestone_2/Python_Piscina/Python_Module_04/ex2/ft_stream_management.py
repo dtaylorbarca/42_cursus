@@ -41,7 +41,7 @@ def main() -> None:
         return
     try:
         print(f"Saving data to '{new_file}'")
-        temp = open(sys.argv[1], "w")
+        temp = open(new_file, "w")
         temp.write(transformed)
         temp.close()
         print(f"Data saved in file '{new_file}'.")

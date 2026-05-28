@@ -9,7 +9,7 @@ def main() -> None:
     print("=== Cyber Archives Recovery ===")
     print(f"Accessing file '{sys.argv[1]}'")
     try:
-        text: IO[str] = open(sys.argv[1], "r", encoding="utf-8")
+        text: IO[str] = open(sys.argv[1], "r")
         print("---\n")
         content = text.read()
         print(content, end="")

@@ -4,11 +4,11 @@ import site
 
 
 def main() -> None:
-    print("MATRIX_STATUS:", end=" ")
+    print("MATRIX STATUS:", end=" ")
     if sys.prefix == sys.base_prefix:
         print("You're still plugged in")
         print(f"\nCurrent Python: {os.path.realpath(sys.executable)}")
-        print("None detected")
+        print("Virtual Environment: None detected")
 
         print("\nWARNING: You're in the global environment!")
         print("The machines can see everything you install.")

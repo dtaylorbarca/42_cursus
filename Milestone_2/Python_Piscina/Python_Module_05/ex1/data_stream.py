@@ -37,7 +37,7 @@ class NumericProcessor(DataProcessor):
             return False
         return True
 
-    def ingest(self, data: int | float | list[int | float]):
+    def ingest(self, data: int | float | list[int | float]) -> None:
         if isinstance(data, list):
             for x in data:
                 if not isinstance(x, int) and not isinstance(x, float):
@@ -91,8 +91,8 @@ class LogProcessor(DataProcessor):
                 else:
                     return False
         elif isinstance(data, dict):
-            for x in data:
-                if not isinstance(x, str) or not isinstance(data[x], str):
+            for j in data:
+                if not isinstance(j, str) or not isinstance(data[j], str):
                     return False
         return True
 
