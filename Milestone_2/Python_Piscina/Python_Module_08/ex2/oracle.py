@@ -3,10 +3,10 @@ import sys
 from dotenv import load_dotenv
 
 
-def check_harcoded_secrets(file) -> bool:
+def check_harcoded_secrets(file_name: str) -> bool:
     secret_keys = ["DATABASE_URL", "API_KEY"]
 
-    with open(file, 'r') as file:
+    with open(file_name, 'r') as file:
         lines = file.readlines()
 
     for line in lines:
@@ -44,7 +44,7 @@ def env_configuration() -> tuple[bool, list[str]]:
         "DATABASE_URL",
         "API_KEY",
         "LOG_LEVEL",
-        "ZION_ENDPOINT_URL"
+        "ZION_ENDPOINT"
     ]
     config = {}
     for key in variables:
@@ -72,10 +72,10 @@ def env_configuration() -> tuple[bool, list[str]]:
     if config["LOG_LEVEL"] not in valid_log_levels:
         errors.append(f"LOG_LEVEL must be one of {valid_log_levels} "
                       f"(Got: '{config['LOG_LEVEL']}')")
-    if (not (config["ZION_ENDPOINT_URL"].startswith("http://") or
-             config["ZION_ENDPOINT_URL"].startswith("https://"))):
+    if (not (config["ZION_ENDPOINT"].startswith("http://") or
+             config["ZION_ENDPOINT"].startswith("https://"))):
         errors.append(
-            "ZION_ENDPOINT_URL must be a valid network URL starting with "
+            "ZION_ENDPOINT must be a valid network URL starting with "
             "http:// or https://")
     if errors:
         return False, errors
@@ -90,7 +90,7 @@ def main() -> None:
     database = os.getenv('DATABASE_URL')
     api = os.getenv('API_KEY')
     log = os.getenv('LOG_LEVEL', 'DEBUG')
-    zion = os.getenv('ZION_ENDPOINT_URL')
+    zion = os.getenv('ZION_ENDPOINT')
 
     print("\nConfiguration loaded:")
     print(f"Mode: {mode}")
@@ -119,6 +119,7 @@ def main() -> None:
     else:
         print(" [FAIL] .env is not listed in .gitignore "
               "- never commit secrets")
+    print("The Oracle sees all configurations.")
 
 
 if __name__ == "__main__":
