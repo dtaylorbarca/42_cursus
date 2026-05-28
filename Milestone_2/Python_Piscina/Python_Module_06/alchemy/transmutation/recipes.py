@@ -5,5 +5,5 @@ from ..potions import strength_potion
 
 def lead_to_gold() -> str:
     return ("Recipe transmuting Lead to Gold: "
-            f"brew '{create_air}' and '{strength_potion}' mixed "
-            f"with '{create_fire}'")
+            f"brew '{create_air()}' and '{strength_potion()}' mixed "
+            f"with '{create_fire()}'")
