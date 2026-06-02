@@ -27,16 +27,18 @@ def main():
     print("---  RUNNING MAGE & ARTIFACT SYSTEM TEST  ---\n")
 
     sample_artifacts = [
-        {'name': 'Amulet of Fire', 'power': 45},
-        {'name': 'Staff of the Archmage', 'power': 99},
-        {'name': 'Orb of Shadows', 'power': 75}
+        {'name': 'Shadow Blade', 'power': 97, 'type': 'accessory'},
+        {'name': 'Ice Wand', 'power': 105, 'type': 'relic'},
+        {'name': 'Storm Crown', 'power': 111, 'type': 'armor'},
+        {'name': 'Storm Crown', 'power': 115, 'type': 'relic'}
     ]
 
     sample_mages = [
-        {'name': 'Gandalf', 'power': 95},
-        {'name': 'Saruman', 'power': 90},
-        {'name': 'Radagast', 'power': 60},
-        {'name': 'Apprentice Ron', 'power': 15}
+        {'name': 'Jordan', 'power': 73, 'element': 'wind'},
+        {'name': 'Morgan', 'power': 76, 'element': 'earth'},
+        {'name': 'Phoenix', 'power': 59, 'element': 'wind'},
+        {'name': 'Sage', 'power': 67, 'element': 'earth'},
+        {'name': 'Alex', 'power': 55, 'element': 'shadow'}
     ]
 
     sample_spells = ['fireball', 'teleport', 'frostbolt']
