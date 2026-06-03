@@ -30,6 +30,7 @@ def partial_enchanter(base_enchantment: Callable) -> dict[str, Callable]:
     enchant_3 = partial(base_enchantment, power=50, element="lightning")
     return {
         "fire": enchant_1,
+
         "ice": enchant_2,
         "lightning": enchant_3
     }
