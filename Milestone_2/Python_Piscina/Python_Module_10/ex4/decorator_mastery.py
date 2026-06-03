@@ -20,11 +20,16 @@ def spell_timer(func: Callable) -> Callable:
 def power_validator(min_power: int) -> Callable:
     def decorater(func: Callable):
         @wraps(func)
-        def wrapper(power: int, spell_name: str) -> str:
-            if power > min_power:
-                return func(power, spell_name)
-            else:
+        def wrapper(*args: Any, **kwargs: Any) -> str:
+            power = kwargs.get("power")
+            if power is None:
+                for arg in args:
+                    if isinstance(arg, int):
+                        power = arg
+                        break
+            if power is not None and power < min_power:
                 return "Insufficient power for this spell"
+            return func(*args, **kwargs)
         return wrapper
     return decorater
 
@@ -60,7 +65,7 @@ class MageGuild:
 
     @power_validator(min_power=10)
     def cast_spell(self, spell_name: str, power: int) -> str:
-        validate = power_validator(min_power=10)
+        return f"Successfully cast {spell_name} with {power} power"
 
 
 def main() -> None:
@@ -69,22 +74,16 @@ def main() -> None:
     print("==================================================")
     print("WARNING: This test may take up to ~1 second due to sleep timers.\n")
 
-    # ==========================================
-    # 1. TESTING SPELL TIMER
-    # ==========================================
     print("--- 1. Testing Spell Timer ---")
     try:
-        # Mock spell function to test execution tracking
         @spell_timer
         def cast_fireball(target: str) -> str:
-            time.sleep(0.1)  # Simulate small delay to verify output formatting
+            time.sleep(0.1)
             return f"Fireball cast at {target}!"
 
-        # Call the decorated function
         result = cast_fireball("Training Dummy")
         print(f"Result: {result}")
 
-        # Verify metadata preservation (functools.wraps test)
         print(
             f"Metadata Integrity Check - Name preserved: {cast_fireball.__name__ == 'cast_fireball'}")
     except NameError:
@@ -93,12 +92,8 @@ def main() -> None:
         print(f"An anomaly occurred during timing evaluation: {e}")
     print()
 
-    # ==========================================
-    # 2. TESTING POWER VALIDATOR (Standalone)
-    # ==========================================
     print("--- 2. Testing Power Validator ---")
     try:
-        # Define a standalone function where the first parameter is power
         @power_validator(min_power=25)
         def basic_incantation(power: int, spell_name: str) -> str:
             return f"Successfully channelled {spell_name} at power {power}"
@@ -113,17 +108,13 @@ def main() -> None:
         print(f"An anomaly occurred during validation processing: {e}")
     print()
 
-    # ==========================================
-    # 3. TESTING RETRY SPELL
-    # ==========================================
     print("--- 3. Testing Retry Spell ---")
     try:
         failure_counter = 0
 
-        # Create a mock spell that intentionally fails to trigger retry mechanics
         @retry_spell(max_attempts=3)
         def unstable_summon() -> str:
-            global failure_counter
+            nonlocal failure_counter
             failure_counter += 1
             if failure_counter < 2:
                 raise RuntimeError("Mana stream unstable")
@@ -133,7 +124,6 @@ def main() -> None:
         print(f"Final Outcome: {unstable_summon()}")
         print()
 
-        # Reset and test absolute failure paths
         @retry_spell(max_attempts=3)
         def doomed_ritual() -> str:
             raise ValueError("Void corruption detected")
@@ -147,31 +137,21 @@ def main() -> None:
         print(f"An anomaly occurred during failure mitigation testing: {e}")
     print()
 
-    # ==========================================
-    # 4. TESTING MAGE GUILD CLASS
-    # ==========================================
     print("--- 4. Testing Mage Guild Class ---")
     try:
-        # Verify staticmethod validation paths
         print("Validating names via Static Method:")
-        # At least 3 chars, letters/spaces
         print(
             f"  Is 'Gandalf' valid? {MageGuild.validate_mage_name('Gandalf')}")
-        # Too short
         print(f"  Is 'X' valid?       {MageGuild.validate_mage_name('X')}")
-        # Contains non-alpha digits
         print(
             f"  Is 'Mage_1' valid?  {MageGuild.validate_mage_name('Mage_1')}")
         print()
 
-        # Instantiate the guild to evaluate bound instance methods and method decoration
         print("Testing instance method execution with integrated power validator:")
         guild_instance = MageGuild()
 
-        # Test valid power trajectory (>= 10)
         print(
             f"  High power call (15): {guild_instance.cast_spell('Lightning', 15)}")
-        # Test invalid power trajectory (< 10)
         print(
             f"  Low power call (5):   {guild_instance.cast_spell('Lightning', 5)}")
     except NameError:

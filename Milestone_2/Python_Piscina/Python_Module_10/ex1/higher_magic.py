@@ -16,13 +16,17 @@ def shadow_bind(target: str, power: int) -> str:
     return f"Shadow Bind immobilizes {target} for {power} seconds."
 
 
-def spell_combiner(spell1: Callable, spell2: Callable) -> Callable:
-    def combined_spell(target: str, power: int) -> tuple[str, str]:
+def spell_combiner(spell1: Callable[[str, int], tuple[str, str]],
+                   spell2: Callable[[str, int], tuple[str, str]]
+                   ) -> Callable[[str, int],
+                                 tuple[tuple[str, str], tuple[str, str]]]:
+    def combined_spell(target: str, power: int
+                       ) -> tuple[tuple[str, str], tuple[str, str]]:
         return (spell1(target, power), spell2(target, power))
     return combined_spell
 
 
-def power_amplifier(base_spell: Callable, multiplier: int) -> Callable:
+def power_amplifier(base_spell: Callable[[str, int]], multiplier: int) -> Callable:
     def amplified_power(target: str, power: int) -> Callable:
         return base_spell(target, power * multiplier)
     return amplified_power
