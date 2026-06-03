@@ -8,6 +8,7 @@ class DataProcessor(ABC):
         self.data_rank: int = -1
         self.outputted: int = 0
         self.items_processed: int = 0
+        self.name = "Generic Processor"
 
     @abstractmethod
     def validate(self, data: Any) -> bool:
@@ -28,6 +29,10 @@ class DataProcessor(ABC):
 
 
 class NumericProcessor(DataProcessor):
+    def __init__(self) -> None:
+        super().__init__()
+        self.name = "Numeric Processor"
+
     def validate(self, data: Any) -> bool:
         if isinstance(data, list):
             for x in data:
@@ -54,6 +59,9 @@ class NumericProcessor(DataProcessor):
 
 
 class TextProcessor(DataProcessor):
+    def __init__(self) -> None:
+        super().__init__()
+        self.name = "Text Processor"
 
     def validate(self, data: Any) -> bool:
         if isinstance(data, list):
@@ -80,6 +88,9 @@ class TextProcessor(DataProcessor):
 
 
 class LogProcessor(DataProcessor):
+    def __init__(self) -> None:
+        super().__init__()
+        self.name = "Log Proccessor"
 
     def validate(self, data: Any) -> bool:
         if isinstance(data, list):
@@ -155,24 +166,16 @@ class DataStream:
             if not found:
                 print(
                     "DataStream error - "
-                    f"Can't procecss element in stream: {data}")
+                    f"Can't process element in stream: {data}")
 
     def print_processors_stats(self) -> None:
         if len(self.processors) == 0:
             print("No processor found, no data")
         else:
             for proc in self.processors:
-                if isinstance(proc, NumericProcessor):
-                    print("Numeric Processor:", end=" ")
-                elif isinstance(proc, TextProcessor):
-                    print("Text Processor:", end=" ")
-                elif isinstance(proc, LogProcessor):
-                    print("Log Processor:", end=" ")
-                print(
-                    f"total {proc.items_processed} items processed,", end=" ")
-                print(
-                    f"remaining {proc.items_processed - proc.outputted} on"
-                    " processor")
+                print(f"{proc.name}: total {proc.items_processed} items "
+                      "processed, remaining "
+                      f"{proc.items_processed - proc.outputted} on processor")
 
 
 def main() -> None:

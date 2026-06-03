@@ -8,6 +8,7 @@ class DataProcessor(ABC):
         self.data_rank: int = -1
         self.outputted: int = 0
         self.items_processed: int = 0
+        self.name: str = "Generic Processor"
 
     @abstractmethod
     def validate(self, data: Any) -> bool:
@@ -28,6 +29,10 @@ class DataProcessor(ABC):
 
 
 class NumericProcessor(DataProcessor):
+    def __init__(self) -> None:
+        super().__init__()
+        self.name = "Numeric Processor"
+
     def validate(self, data: Any) -> bool:
         if isinstance(data, list):
             for x in data:
@@ -54,6 +59,9 @@ class NumericProcessor(DataProcessor):
 
 
 class TextProcessor(DataProcessor):
+    def __init__(self) -> None:
+        super().__init__()
+        self.name = "Text Processor"
 
     def validate(self, data: Any) -> bool:
         if isinstance(data, list):
@@ -80,6 +88,9 @@ class TextProcessor(DataProcessor):
 
 
 class LogProcessor(DataProcessor):
+    def __init__(self) -> None:
+        super().__init__()
+        self.name = "Log Proccessor"
 
     def validate(self, data: Any) -> bool:
         if isinstance(data, list):
@@ -160,7 +171,7 @@ class DataStream:
             if not found:
                 print(
                     "DataStream error"
-                    f" - Can't procecss element in stream: {data}")
+                    f" - Can't process element in stream: {data}")
 
     def print_processors_stats(self) -> None:
         if len(self.processors) == 0:
@@ -181,9 +192,7 @@ class DataStream:
 
     def output_pipeline(self, nb: int, plugin: ExportPlugin) -> None:
 
-        outputs: list[list[tuple[int, str]]] = [[]]
-        for x in range(len(self.processors) - 1):
-            outputs.append([])
+        outputs: list[list[tuple[int, str]]] = [[] for _ in self.processors]
 
         index = 0
         for proc in self.processors:
@@ -198,30 +207,16 @@ class DataStream:
 
 class CSVPlugin:
     def process_output(self, data: list[tuple[int, str]]) -> None:
-        index = 0
         print("CSV Output:")
-        valid = [x for x in data if x[1] != ""]
-        for x in valid:
-            if index < (len(valid) - 1):
-                print(f"{x[1]}", end=",")
-                index += 1
-            else:
-                print(f"{x[1]}")
+        vals = [item[1] for item in data]
+        print(",".join(vals))
 
 
 class JSONPlugin:
     def process_output(self, data: list[tuple[int, str]]) -> None:
-        index = 0
         print("JSON Output:")
-        valid = [x for x in data if x[1] != ""]
-        print("{", end="")
-        for x in valid:
-            if index < (len(valid) - 1):
-                print(f"\"item_{x[0]}\": \"{x[1]}\"", end=", ")
-                index += 1
-            else:
-                print(f"\"item_{x[0]}\": \"{x[1]}\"", end="")
-        print("}")
+        segments = [f'"item_{item[0]}": "{item[1]}"' for item in data]
+        print("{" + ", ".join(segments) + "}")
 
 
 def main() -> None:
@@ -267,8 +262,7 @@ def main() -> None:
     data.print_processors_stats()
 
     print("\nSend 3 processed data from each processor to a CSV plugin:")
-    csv = CSVPlugin()
-    data.output_pipeline(3, csv)
+    data.output_pipeline(3, CSVPlugin())
 
     print("\n== DataStream statistics ==")
     data.print_processors_stats()
@@ -297,8 +291,7 @@ def main() -> None:
     data.print_processors_stats()
 
     print("Send 5 processed data from each processor to a JSON plugin:")
-    json = JSONPlugin()
-    data.output_pipeline(5, json)
+    data.output_pipeline(5, JSONPlugin())
 
     print("\n== DataStream statistics ==")
     data.print_processors_stats()
