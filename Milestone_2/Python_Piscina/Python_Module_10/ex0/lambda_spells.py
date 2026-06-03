@@ -23,7 +23,7 @@ def mage_stats(mages: list[dict]) -> dict:
             'avg_power': average}
 
 
-def main():
+def main() -> None:
     print("---  RUNNING MAGE & ARTIFACT SYSTEM TEST  ---\n")
 
     sample_artifacts = [
