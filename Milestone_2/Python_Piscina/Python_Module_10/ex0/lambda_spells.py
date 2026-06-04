@@ -32,14 +32,14 @@ def mage_stats(mages: list[dict[str, Any]]) -> dict[str, int | float]:
 def main() -> None:
     print("---  RUNNING MAGE & ARTIFACT SYSTEM TEST  ---\n")
 
-    sample_artifacts = [
+    sample_artifacts: list[dict[str, str | int]] = [
         {'name': 'Shadow Blade', 'power': 97, 'type': 'accessory'},
         {'name': 'Ice Wand', 'power': 105, 'type': 'relic'},
         {'name': 'Storm Crown', 'power': 111, 'type': 'armor'},
         {'name': 'Storm Crown', 'power': 115, 'type': 'relic'}
     ]
 
-    sample_mages = [
+    sample_mages: list[dict[str, str | int]] = [
         {'name': 'Jordan', 'power': 73, 'element': 'wind'},
         {'name': 'Morgan', 'power': 76, 'element': 'earth'},
         {'name': 'Phoenix', 'power': 59, 'element': 'wind'},
