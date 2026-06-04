@@ -1,4 +1,4 @@
-from typing import cast
+from typing import cast, Any
 
 
 def artifact_sorter(
@@ -20,7 +20,7 @@ def spell_transformer(spells: list[str]) -> list[str]:
     return changed
 
 
-def mage_stats(mages: list[dict]) -> dict:
+def mage_stats(mages: list[dict[str, Any]]) -> dict[str, int | float]:
     max_power: int = max(mages, key=lambda x: x['power'])['power']
     min_power: int = min(mages, key=lambda x: x['power'])['power']
     average = round((max_power + min_power) / 2, 2)

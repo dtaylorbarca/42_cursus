@@ -5,9 +5,9 @@ from functools import wraps
 from time import perf_counter
 
 
-def spell_timer(func: Callable) -> Callable:
+def spell_timer(func: Callable[[str], str]) -> Callable[[str], None]:
     @wraps(func)
-    def wrapper(target: str):
+    def wrapper(target: str) -> None:
         print(f"Casting {func}...")
         start = perf_counter()
         func(target)
@@ -17,8 +17,9 @@ def spell_timer(func: Callable) -> Callable:
     return wrapper
 
 
-def power_validator(min_power: int) -> Callable:
-    def decorater(func: Callable):
+def power_validator(min_power: int
+                    ) -> Callable[[Callable[..., str]], Callable[..., str]]:
+    def decorater(func: Callable[..., str]) -> Callable[..., str]:
         @wraps(func)
         def wrapper(*args: Any, **kwargs: Any) -> str:
             power = kwargs.get("power")
@@ -34,10 +35,11 @@ def power_validator(min_power: int) -> Callable:
     return decorater
 
 
-def retry_spell(max_attempts: int) -> Callable:
-    def decorator(func: Callable):
+def retry_spell(max_attempts: int
+                ) -> Callable[[Callable[..., str]], Callable[..., str]]:
+    def decorator(func: Callable[..., str]) -> Callable[..., str]:
         @wraps(func)
-        def wrapper():
+        def wrapper() -> str:
             attempts = 0
             while attempts < max_attempts:
                 try:
@@ -47,7 +49,9 @@ def retry_spell(max_attempts: int) -> Callable:
                     print("Spell failed, retrying ... "
                           f"(attempt {attempts}/{max_attempts})")
                     if attempts >= max_attempts:
-                        return f"Spell casting failed after {max_attempts} attempts"
+                        return ("Spell casting failed after "
+                                f"{max_attempts} attempts")
+            return "Spell casting failed"
         return wrapper
     return decorator
 
@@ -85,7 +89,8 @@ def main() -> None:
         print(f"Result: {result}")
 
         print(
-            f"Metadata Integrity Check - Name preserved: {cast_fireball.__name__ == 'cast_fireball'}")
+            "Metadata Integrity Check - "
+            f"Name preserved: {cast_fireball.__name__ == 'cast_fireball'}")
     except NameError:
         print("Error: spell_timer decorator is missing or not declared.")
     except Exception as e:
@@ -101,7 +106,8 @@ def main() -> None:
         print(f"Valid power check (30): {basic_incantation(30, 'Teleport')}")
         print(f"Invalid power check (15): {basic_incantation(15, 'Teleport')}")
         print(
-            f"Metadata Integrity Check - Name preserved: {basic_incantation.__name__ == 'basic_incantation'}")
+            "Metadata Integrity Check - Name preserved: "
+            f"{basic_incantation.__name__ == 'basic_incantation'}")
     except NameError:
         print("Error: power_validator decorator is missing or not declared.")
     except Exception as e:
@@ -147,13 +153,16 @@ def main() -> None:
             f"  Is 'Mage_1' valid?  {MageGuild.validate_mage_name('Mage_1')}")
         print()
 
-        print("Testing instance method execution with integrated power validator:")
+        print("Testing instance method execution with integrated "
+              "power validator:")
         guild_instance = MageGuild()
 
         print(
-            f"  High power call (15): {guild_instance.cast_spell('Lightning', 15)}")
+            "  High power call (15): "
+            f"{guild_instance.cast_spell('Lightning', 15)}")
         print(
-            f"  Low power call (5):   {guild_instance.cast_spell('Lightning', 5)}")
+            "  Low power call (5):   "
+            f"{guild_instance.cast_spell('Lightning', 5)}")
     except NameError:
         print("Error: MageGuild class definition is missing or not declared.")
     except Exception as e:

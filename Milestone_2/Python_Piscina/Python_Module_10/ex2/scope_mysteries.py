@@ -1,7 +1,8 @@
 from collections.abc import Callable
 from typing import Any
 
-def mage_counter() -> Callable[[], int]:
+
+def mage_counter() -> Callable[..., int]:
     calls = 0
 
     def counter() -> int:

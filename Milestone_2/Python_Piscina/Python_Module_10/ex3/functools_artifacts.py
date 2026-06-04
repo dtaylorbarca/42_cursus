@@ -24,7 +24,8 @@ def spell_reducer(spells: list[int], operation: str) -> int:
         raise OperationError
 
 
-def partial_enchanter(base_enchantment: Callable) -> dict[str, Callable]:
+def partial_enchanter(base_enchantment: Callable[[int, str, str], str]
+                      ) -> dict[str, Callable[[str], str]]:
     enchant_1 = partial(base_enchantment, 50, "fire")
     enchant_2 = partial(base_enchantment, 50, "ice")
     enchant_3 = partial(base_enchantment, 50, "lightning")
@@ -57,8 +58,8 @@ def spell_dispatcher() -> Callable[[Any], str]:
     def _(spell: str) -> str:
         return spell
 
-    @cast.register(list)
-    def _(spell: list) -> str:
+    @cast.register(list[str])
+    def _(spell: list[str]) -> str:
         return f"{len(spell)} spells"
 
     return cast
