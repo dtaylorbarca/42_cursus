@@ -34,15 +34,15 @@ class SpaceMission(BaseModel):
 
     @model_validator(mode='after')
     def mission_validation_rules(self) -> Self:
-        if self.mission_id[0] != "M":
+        if not self.mission_id.startswith("M"):
             raise ValueError('Mission ID must start with "M"')
-        has_leader = any(
-            member.rank in (Rank.CAPTAIN, Rank.COMMANDER)
-            for member in self.crew
-        )
-        if not has_leader:
-            raise ValueError(
-                "Must have at least one Commander or Captain")
+        active_leaders = [
+            m for m in self.crew
+            if m.rank in (Rank.CAPTAIN, Rank.COMMANDER) and m.is_active
+        ]
+        if not active_leaders:
+            raise ValueError("Mission must have at least one active "
+                             "Commander or Captain")
         if self.duration_days > 365:
             experienced_crew = 0
             for person in self.crew:

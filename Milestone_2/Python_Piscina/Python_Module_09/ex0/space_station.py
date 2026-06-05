@@ -24,6 +24,7 @@ def main() -> None:
             crew_size=6,
             power_level=85.5,
             oxygen_level=92.3,
+            last_maintenance="2024-01-01T00:00:00",
             is_operational=True
         )
         print("Valid station created")
@@ -35,6 +36,7 @@ def main() -> None:
             print(f"Crew: {space_station.crew_size} person")
         print(f"Power: {space_station.power_level}%")
         print(f"Oxygen: {space_station.oxygen_level}%")
+        print(f"Last Maintenance: {space_station.last_maintenance}")
         status = ("Operational" if space_station.is_operational
                   else "Nonoperational")
         print(f"Status: {status}")
