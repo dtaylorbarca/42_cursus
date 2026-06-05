@@ -5,15 +5,16 @@ from functools import wraps
 from time import perf_counter
 
 
-def spell_timer(func: Callable[[str], str]) -> Callable[[str], None]:
+def spell_timer(func: Callable[[str], str]) -> Callable[[str], str]:
     @wraps(func)
-    def wrapper(target: str) -> None:
-        print(f"Casting {func}...")
+    def wrapper(target: str) -> str:
+        print(f"Casting {func.__name__}...")
         start = perf_counter()
-        func(target)
+        result = func(target)
         end = perf_counter()
         execution_time = end - start
         print(f"Spell completed in {execution_time:.3f} seconds")
+        return result
     return wrapper
 
 
