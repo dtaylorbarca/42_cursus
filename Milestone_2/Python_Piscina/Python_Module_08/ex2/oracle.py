@@ -3,7 +3,7 @@ import sys
 from dotenv import load_dotenv
 
 
-def check_harcoded_secrets(file_name: str) -> bool:
+def check_hardcoded_secrets(file_name: str) -> bool:
     secret_keys = ["DATABASE_URL", "API_KEY"]
 
     with open(file_name, 'r') as file:
@@ -102,7 +102,7 @@ def main() -> None:
     print(f"Zion Network: {'Online' if zion else 'Offline'}")
 
     print("\nEnvironment security check:")
-    if check_harcoded_secrets(sys.argv[0]):
+    if check_hardcoded_secrets(sys.argv[0]):
         print("[OK] No hardcoded secrets detected")
     else:
         print("[FAIL] hardcoded secrets detected in source code")
@@ -115,9 +115,9 @@ def main() -> None:
             print(f"    {error}")
     gitignore_ok: bool = check_gitignore_has_env()
     if gitignore_ok:
-        print(" [OK] Production overrides available")
+        print("[OK] Production overrides available")
     else:
-        print(" [FAIL] .env is not listed in .gitignore "
+        print("[FAIL] .env is not listed in .gitignore "
               "- never commit secrets")
     print("The Oracle sees all configurations.")
 

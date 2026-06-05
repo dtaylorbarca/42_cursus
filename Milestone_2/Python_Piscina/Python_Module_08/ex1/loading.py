@@ -1,33 +1,26 @@
 import importlib.metadata
+import importlib.util
 
 
-missing: list[str] = []
-
-
-def check_dependencies() -> bool:
+def check_dependencies() -> list[str]:
+    missing: list[str] = []
     print("Checking dependencies:")
-    try:
-        import pandas as pd
-        print(f"[OK] pandas ({importlib.metadata.version('pandas')})"
-              " - Data manipulation ready")
-    except ImportError:
-        print("[MISSING] pandas - Data manipulation not ready")
-        missing.append('pandas')
-    try:
-        import numpy as np
-        print(f"[OK] numpy ({importlib.metadata.version('numpy')})"
-              " - Numerical computation ready")
-    except ImportError:
-        print("[MISSING] numpy - Numerical computation not ready")
-        missing.append('numpy')
-    try:
-        import matplotlib.pyplot as plt
-        print(f"[OK] matplotlib ({importlib.metadata.version('matplotlib')})"
-              " - Visualization ready")
-    except ImportError:
-        print("[MISSING] matplotlib - Visualization not ready")
-        missing.append('matplotlib')
-    return len(missing) == 0
+    packages = ["pandas", "numpy", "matplotlib"]
+    descriptions = {
+        "pandas": "Data manipulation ready",
+        "numpy": "Numerical computation ready",
+        "matplotlib": "Visualization ready"
+    }
+    for package in packages:
+        if importlib.util.find_spec(package) is not None:
+            print(f"[OK] {package}"
+                  f" ({importlib.metadata.version(package)})"
+                  f" - {descriptions[package]}")
+        else:
+            print(f"[MISSING] {package} - "
+                  f"{descriptions[package].replace('ready', 'not ready')}")
+            missing.append(package)
+    return missing
 
 
 def analyze() -> None:
@@ -36,22 +29,32 @@ def analyze() -> None:
     import matplotlib.pyplot as plt
 
     print("\nAnalyzing Matrix data...")
-    raw_data = np.random.randn(1000)
+    x = np.linspace(0, 4 * np.pi, 1000)
+    raw_data = np.sin(x)
     print("Processing 1000 data points...")
-    data = pd.DataFrame(raw_data, columns=["signal"])
+    data = pd.DataFrame({"x": x, "signal": raw_data})
     print("Generating visualization...")
-    plt.title('Matrix Signal Analysis')
-    plt.xlabel('Index')
-    plt.ylabel('Value')
-    plt.plot(data)
+    plt.plot(data["x"], data["signal"])
+    plt.title("Matrix Signal Analysis")
+    plt.xlabel("Radians")
+    plt.ylabel("Amplitude")
+    plt.axhline(
+        y=data["signal"].mean(),
+        color="r",
+        label=f'Mean: {data["signal"].mean():.2f}'
+    )
+    plt.grid(True, which='both')
+    plt.legend()
+    plt.tight_layout()
     print("\nAnalysis complete!")
     plt.savefig("matrix_analysis.png")
     print("Results saved to: matrix_analysis.png")
 
 
 def main() -> None:
-    print("LOADING STATUS: Loading programs...\n")
-    if check_dependencies():
+    print("\nLOADING STATUS: Loading programs...\n")
+    missing = check_dependencies()
+    if not missing:
         analyze()
     else:
         missed = ' '.join(missing)

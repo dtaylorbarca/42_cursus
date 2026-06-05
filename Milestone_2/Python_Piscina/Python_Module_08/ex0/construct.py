@@ -14,13 +14,13 @@ def main() -> None:
         print("The machines can see everything you install.")
 
         print("\nTo enter the construct, run:")
-        print("python -m venv matrix_env")
+        print("python3 -m venv matrix_env")
         print("source matrix_env/bin/activate # On Unix")
         print("matrix_env\\Scripts\\activate # On Windows")
 
         print("\nThen run this program again.")
     else:
-        print("Welcome to the construct")
+        print("Welcome to the construct\n")
         print(f"Current Python: {sys.executable}")
         print(f"Virtual Environment: {os.path.split(sys.prefix)[1]}")
         print(f"Environment Path: {sys.prefix}")
@@ -30,7 +30,10 @@ def main() -> None:
         print("the global system.")
 
         print("\nPackage installation path:")
-        print(site.getsitepackages()[0])
+        try:
+            print(site.getsitepackages()[0])
+        except AttributeError:
+            print(site.getusersitepackages())
 
 
 if __name__ == "__main__":
