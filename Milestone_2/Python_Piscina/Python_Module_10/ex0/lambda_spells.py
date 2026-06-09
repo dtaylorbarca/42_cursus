@@ -2,21 +2,21 @@ from typing import cast, Any
 
 
 def artifact_sorter(
-        artifacts: list[
-            dict[str, str | int]]) -> list[dict[str, str | int]]:
+        artifacts: list[dict[str, str | int]]) -> list[dict[str, str | int]]:
     changed = sorted(artifacts, key=lambda x: x['power'], reverse=True)
     return changed
 
 
-def power_filter(mages: list[dict[str, str | int]],
-                 min_power: int) -> list[dict[str, str | int]]:
+def power_filter(
+        mages: list[dict[str, str | int]], min_power: int
+) -> list[dict[str, str | int]]:
     filtered: list[dict[str, str | int]] = list(
         filter(lambda x: cast(int, x['power']) >= min_power, mages))
     return filtered
 
 
 def spell_transformer(spells: list[str]) -> list[str]:
-    changed = list(map(lambda x: f"*{x}*", spells))
+    changed = list(map(lambda x: f"* {x} *", spells))
     return changed
 
 

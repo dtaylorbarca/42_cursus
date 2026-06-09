@@ -43,8 +43,7 @@ def memory_vault() -> dict[str, Callable[..., Any]]:
     return {"store": store, "recall": recall}
 
 
-if __name__ == "__main__":
-    # Ensure standard types are used for type hint enforcement
+def main() -> None:
     print("==================================================")
     print("        BEGINNING EX2: MEMORY DEPTHS TESTS        ")
     print("==================================================\n")
@@ -131,3 +130,7 @@ if __name__ == "__main__":
     print("==================================================")
     print("             END OF EVALUATION MATRIX             ")
     print("==================================================")
+
+
+if __name__ == "__main__":
+    main()

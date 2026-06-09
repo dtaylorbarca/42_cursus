@@ -1,7 +1,7 @@
 from functools import reduce, partial, lru_cache, singledispatch
 from collections.abc import Callable
 from typing import Any
-from operator import add, mul
+from operator import add, mul, gt, lt
 
 
 class OperationError(Exception):
@@ -9,19 +9,26 @@ class OperationError(Exception):
         super().__init__(message)
 
 
+def _op_max(a: int, b: int) -> int:
+    return a if gt(a, b) else b
+
+
+def _op_min(a: int, b: int) -> int:
+    return a if lt(a, b) else b
+
+
 def spell_reducer(spells: list[int], operation: str) -> int:
     if not spells:
         return 0
-    if operation == "add":
-        return reduce(add, spells)
-    elif operation == "multiply":
-        return reduce(mul, spells)
-    elif operation == "max":
-        return reduce(max, spells)
-    elif operation == "min":
-        return reduce(min, spells)
-    else:
+    operations = {
+        "add": add,
+        "multiply": mul,
+        "max": _op_max,
+        "min": _op_min,
+    }
+    if operation not in operations:
         raise OperationError
+    return reduce(operations[operation], spells)
 
 
 def partial_enchanter(base_enchantment: Callable[[int, str, str], str]
@@ -30,9 +37,9 @@ def partial_enchanter(base_enchantment: Callable[[int, str, str], str]
     enchant_2 = partial(base_enchantment, 50, "ice")
     enchant_3 = partial(base_enchantment, 50, "lightning")
     return {
-        "fire": enchant_1,
-        "ice": enchant_2,
-        "lightning": enchant_3
+        "fire_enchant": enchant_1,
+        "ice_enchant": enchant_2,
+        "lightning_enchant": enchant_3
     }
 
 
@@ -65,7 +72,7 @@ def spell_dispatcher() -> Callable[[Any], str]:
     return cast
 
 
-if __name__ == "__main__":
+def main() -> None:
     print("==================================================")
     print("       BEGINNING EX3: ANCIENT LIBRARY TESTS       ")
     print("==================================================\n")
@@ -155,3 +162,7 @@ if __name__ == "__main__":
     print("==================================================")
     print("             END OF EVALUATION MATRIX             ")
     print("==================================================")
+
+
+if __name__ == "__main__":
+    main()

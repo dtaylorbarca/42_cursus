@@ -7,10 +7,10 @@ from time import perf_counter
 
 def spell_timer(func: Callable[[str], str]) -> Callable[[str], str]:
     @wraps(func)
-    def wrapper(target: str) -> str:
+    def wrapper(*args: Any, **kwargs: Any) -> str:
         print(f"Casting {func.__name__}...")
         start = perf_counter()
-        result = func(target)
+        result = func(*args, **kwargs)
         end = perf_counter()
         execution_time = end - start
         print(f"Spell completed in {execution_time:.3f} seconds")
@@ -47,7 +47,7 @@ def retry_spell(max_attempts: int
                     return func()
                 except Exception:
                     attempts += 1
-                    print("Spell failed, retrying ... "
+                    print("Spell failed, retrying... "
                           f"(attempt {attempts}/{max_attempts})")
                     if attempts >= max_attempts:
                         return ("Spell casting failed after "
@@ -77,7 +77,6 @@ def main() -> None:
     print("==================================================")
     print("        BEGINNING EX4: MASTER'S TOWER TESTS       ")
     print("==================================================")
-    print("WARNING: This test may take up to ~1 second due to sleep timers.\n")
 
     print("--- 1. Testing Spell Timer ---")
     try:
