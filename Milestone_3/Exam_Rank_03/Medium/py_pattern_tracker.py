@@ -18,8 +18,12 @@ def pattern_tracker(text: str) -> int:
 if __name__ == "__main__":
     print(True if 2 == pattern_tracker("123") else pattern_tracker("123"))
     print(True if 2 == pattern_tracker("12a34") else pattern_tracker("12a34"))
-    print(True if 0 == pattern_tracker("987654321") else pattern_tracker("987654321"))
-    print(True if 7 == pattern_tracker("01234567") else pattern_tracker("01234567"))
+    print(True if 0 == pattern_tracker("987654321") else
+          pattern_tracker("987654321"))
+    print(True if 7 == pattern_tracker("01234567") else
+          pattern_tracker("01234567"))
     print(True if 0 == pattern_tracker("abc") else pattern_tracker("abc"))
-    print(True if 0 == pattern_tracker("1a2b3c4") else pattern_tracker("1a2b3c4"))
-    print(True if 2 == pattern_tracker("112233") else pattern_tracker("112233"))
+    print(True if 0 == pattern_tracker("1a2b3c4") else
+          pattern_tracker("1a2b3c4"))
+    print(True if 2 == pattern_tracker("112233") else
+          pattern_tracker("112233"))
