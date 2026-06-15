@@ -1,4 +1,5 @@
 from sys import argv
+from typing import cast
 
 
 class ParseConstraints:
@@ -18,17 +19,30 @@ class ParseConstraints:
 
         def metadata(self, data: dict[str, str]) -> None:
             try:
+                zone_types = ["normal", "blocked", "restricted", "priorty"]
+                if data.get("zone"):
+                    if data.get("zone") not in zone_types:
+                        raise Exception("Zone types can only be one of: normal"
+                                        ", blocked, restricted, priority")
                 self.zone = data["zone"]
             except KeyError:
                 pass
             try:
+                if data.get("color"):
+                    color = cast(str, data.get("color"))
+                    if len(color.strip().split(" ")) != 1:
+                        raise Exception("Color must be a single-word string")
                 self.color = data["color"]
             except KeyError:
                 pass
             try:
+                if int(data["max_drones"]) <= 0:
+                    raise Exception("")
                 self.max_drones = data["max_drones"]
             except KeyError:
                 pass
+            except ValueError:
+                raise Exception("Max drons needs to be a positive integer")
 
     def nb_drones_parse(self, key: str, value: str) -> None:
         if key != "nb_drones":
