@@ -209,8 +209,6 @@ class Parser:
         if (self.start_hub.x == self.end_hub.x and
                 self.start_hub.y == self.end_hub.y):
             raise SyntaxError("Start and end zone must be unique")
-        print(hubs)
-
 
 def main() -> None:
     if len(argv) != 2:
@@ -218,6 +216,10 @@ def main() -> None:
     parser = Parser(argv[1])
     try:
         parser.parse_lines()
+        from pathfinder import PathFinder
+        path_finder = PathFinder(parser.start_hub, parser.end_hub)
+        path = path_finder.find_path()
+        print(path)
     except (ValueError, SyntaxError) as e:
         print(f"Error: {e}")
         exit(1)
