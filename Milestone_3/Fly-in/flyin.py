@@ -10,6 +10,7 @@ class Hub:
         self.zone = "normal"
         self.color = "none"
         self.max_drones = 1
+        self.drones = 0
         self.connections: list[Connection] = []
 
     def __lt__(self, other: Hub) -> bool:
@@ -57,6 +58,8 @@ class Parser:
         self.map = map
         self.first_line = True
         self.nb_drones = 0
+        self.coordinates: set[tuple[int, int]] = set()
+        self.names: set[str] = set()
 
     def nb_drones_parse(self, key: str, value: str, line_number: int) -> None:
         if key != "nb_drones":
@@ -86,6 +89,11 @@ class Parser:
         if "-" in name or " " in name:
             raise SyntaxError("Zone names cannot use dashes or spaces. Line:"
                               f" {line_number}")
+        if name in self.names:
+            raise SyntaxError(f"Duplicated hub name '{name}'. Line: "
+                              f"{line_number}")
+        self.names.add(name)
+
         for axis, raw in (("x", data[1]), ("y", data[2])):
             try:
                 int(raw.strip())
@@ -97,6 +105,10 @@ class Parser:
 
         x = int(data[1].strip())
         y = int(data[2].strip())
+        if (x, y) in self.coordinates:
+            raise SyntaxError("Duplicated hub coordinates. Line: "
+                              f"{line_number}")
+        self.coordinates.add((x, y))
         hub = Hub(name, x, y)
 
         if len(data) == 4:
@@ -160,6 +172,9 @@ class Parser:
         if hub_b_name not in hubs:
             raise ValueError(f"Unknown hub: '{hub_b_name}'. Line: "
                              f"{line_number}")
+        if hub_a_name == hub_b_name:
+            raise SyntaxError("Connection paths must be between two distinct "
+                              f"hubs. Line: {line_number}")
         connected = Connection(hubs[hub_a_name], hubs[hub_b_name])
         if len(raw) == 2:
             if not raw[1].startswith("[") or not raw[1].endswith("]"):
@@ -238,15 +253,9 @@ def main() -> None:
     parser = Parser(argv[1])
     try:
         parser.parse_lines()
-        from pathfinder import PathFinder
-        path_finder = PathFinder(parser.start_hub, parser.end_hub)
-        path = path_finder.find_path()
-        if not path:
-            raise ValueError("No valid path exists between "
-                             f"{parser.start_hub.name} and "
-                             f"{parser.end_hub.name}")
-        for hub in path:
-            print(hub.name)
+        from simulator import Simulator
+        sim = Simulator(parser)
+        print(sim.run())
     except (ValueError, SyntaxError) as e:
         print(f"Error: {e}")
         exit(1)
@@ -254,3 +263,8 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
+
+"""
+GENERATORS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+"""
