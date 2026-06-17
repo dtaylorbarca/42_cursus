@@ -16,7 +16,7 @@ class Hub:
         return self.name < other.name
 
     def metadata(self, data: dict[str, str]) -> None:
-        zone_types = ["normal", "blocked", "restricted", "priority"]
+        zone_types = {"normal", "blocked", "restricted", "priority"}
 
         if "zone" in data:
             if data["zone"] not in zone_types:
@@ -58,37 +58,41 @@ class Parser:
         self.first_line = True
         self.nb_drones = 0
 
-    def nb_drones_parse(self, key: str, value: str) -> None:
+    def nb_drones_parse(self, key: str, value: str, line_number: int) -> None:
         if key != "nb_drones":
             raise SyntaxError("The first line must be of syntax "
-                              "'nb_drones: <positive_integer>'")
+                              "'nb_drones: <positive_integer>'. Line:"
+                              f" {line_number}")
         else:
             try:
                 self.nb_drones = int(value)
                 if self.nb_drones <= 0:
                     raise ValueError
             except ValueError:
-                raise ValueError("The number of drones must be an integer")
+                raise ValueError("The number of drones must be an integer. "
+                                 f"Line: {line_number}")
 
-    def _parse_hub(self, value: str, hub_type: str) -> Hub:
+    def parse_hub(self, value: str, hub_type: str, line_number: int) -> Hub:
         data = value.split(" ", 3)
         if len(data) not in (3, 4):
             raise ValueError(
                 f"{hub_type.capitalize()} must be in the format "
-                f"'{hub_type.replace(' ', '_')}: <name> <x> <y> [metadata]'"
+                f"'{hub_type.replace(' ', '_')}: <name> <x> <y> [metadata]'."
+                f"Line: {line_number}"
             )
 
         name = data[0].strip()
 
+        if "-" in name or " " in name:
+            raise SyntaxError("Zone names cannot use dashes or spaces. Line:"
+                              f" {line_number}")
         for axis, raw in (("x", data[1]), ("y", data[2])):
             try:
-                val = int(raw.strip())
-                if val < 0:
-                    raise ValueError
+                int(raw.strip())
             except ValueError:
                 raise ValueError(
-                    f"The {axis} value in the {hub_type} must be a positive "
-                    f"integer - received: {raw.strip()}"
+                    f"The {axis} value in the {hub_type} must be an"
+                    f"integer - received: {raw.strip()}. Line: {line_number}"
                 )
 
         x = int(data[1].strip())
@@ -96,17 +100,17 @@ class Parser:
         hub = Hub(name, x, y)
 
         if len(data) == 4:
-            hub = self._parse_metadata(hub, data[3], hub_type)
+            hub = self._parse_metadata(hub, data[3], hub_type, line_number)
 
         return hub
 
-    def _parse_metadata(self, hub: Hub, raw: str,
-                        hub_type: str) -> Hub:
+    def _parse_metadata(self, hub: Hub, raw: str, hub_type: str,
+                        line_number: int) -> Hub:
         raw = raw.strip()
         if not raw.startswith("[") or not raw.endswith("]"):
             raise SyntaxError(
                 f"{hub_type.capitalize()} metadata must be enclosed "
-                "with square brackets - []"
+                f"with square brackets - []. Line: {line_number}"
             )
 
         pos_metadata = {"zone", "color", "max_drones"}
@@ -116,7 +120,7 @@ class Parser:
             raise ValueError(
                 f"{hub_type.capitalize()} metadata can only receive a maximum "
                 f"of {len(pos_metadata)} variables: "
-                f"{', '.join(pos_metadata)}"
+                f"{', '.join(pos_metadata)}. Line: {line_number}"
             )
 
         meta: dict[str, str] = {}
@@ -124,84 +128,100 @@ class Parser:
             if "=" not in pair:
                 raise SyntaxError(
                     f"{hub_type.capitalize()} metadata must have syntax "
-                    f"key=value - received: {pair}"
+                    f"key=value - received: {pair}. Line: {line_number}"
                 )
             key, val = pair.split("=", 1)
             if key not in pos_metadata:
                 raise ValueError(
                     f"{hub_type.capitalize()} metadata only accepts: "
-                    f"{', '.join(pos_metadata)} - received: {key}"
+                    f"{', '.join(pos_metadata)} - received: {key}. Line: "
+                    f"{line_number}"
                 )
             meta[key] = val
 
         hub.metadata(meta)
         return hub
 
-    def _connection_parse(self, value: str, hubs: dict[str, Hub]) -> None:
+    def connection_parse(self, value: str, hubs: dict[str, Hub],
+                         line_number: int) -> None:
         raw = value.strip().split()
         connection = raw[0].split("-")
         if len(connection) < 2:
             raise SyntaxError("Connections must be in the format: connection:"
-                              " <name1>-<name2> [metadata]")
+                              " <name1>-<name2> [metadata]. Line: "
+                              f"{line_number}")
         elif len(connection) > 2:
             raise ValueError("The connection syntax forbids dashes in zone"
-                             " names")
+                             f" names. Line: {line_number}")
         hub_a_name, hub_b_name = connection
         if hub_a_name not in hubs:
-            raise ValueError(f"Unknown hub; '{hub_a_name}")
+            raise ValueError(f"Unknown hub; '{hub_a_name}'. Line: "
+                             f"{line_number}")
         if hub_b_name not in hubs:
-            raise ValueError(f"Unknown hub: '{hub_b_name}'")
+            raise ValueError(f"Unknown hub: '{hub_b_name}'. Line: "
+                             f"{line_number}")
         connected = Connection(hubs[hub_a_name], hubs[hub_b_name])
         if len(raw) == 2:
-            connected.metadata(raw[1])
+            if not raw[1].startswith("[") or not raw[1].endswith("]"):
+                raise SyntaxError("Connection metadata must be enclosed with "
+                                  f"square brackets - []. Line: {line_number}")
+            meta = raw[1][1:-1].split("=")
+            if meta[0] != "max_link_capacity":
+                raise SyntaxError("Only optional metadata for connections is "
+                                  f"'max_link_capacity'. Received - {meta[0]}"
+                                  f". Line: {line_number}")
+            connected.metadata(meta[1])
         hubs[hub_a_name].connections.append(connected)
         hubs[hub_b_name].connections.append(connected)
 
-    def start_hub_parse(self, value: str) -> None:
-        self.start_hub = self._parse_hub(value, "start hub")
+    def start_hub_parse(self, value: str, line_number: int) -> None:
+        self.start_hub = self.parse_hub(value, "start hub", line_number)
 
-    def end_hub_parse(self, value: str) -> None:
-        self.end_hub = self._parse_hub(value, "end hub")
+    def end_hub_parse(self, value: str, line_number: int) -> None:
+        self.end_hub = self.parse_hub(value, "end hub", line_number)
 
     def parse_lines(self) -> None:
         with open(self.map, "r") as f:
             file = f.read().splitlines()
+        line_number = 0
         start_hubs = 0
         end_hubs = 0
         hubs: dict[str, Hub] = {}
         for row in file:
+            line_number += 1
             if not row.strip():
                 continue
             if row[0].strip().startswith("#"):
                 continue
             if ":" not in row:
                 raise SyntaxError("All lines must in the format "
-                                  "'key: value'")
+                                  f"'key: value'. Line: {line_number}")
             key, value = map(str.strip, row.split(":", 1))
             if self.first_line:
-                self.nb_drones_parse(key, value)
+                self.nb_drones_parse(key, value, line_number)
                 self.first_line = False
                 continue
             if key == "start_hub":
                 start_hubs += 1
-                self.start_hub_parse(value)
+                self.start_hub_parse(value, line_number)
                 hubs[self.start_hub.name] = self.start_hub
             elif key == "end_hub":
                 end_hubs += 1
-                self.end_hub_parse(value)
+                self.end_hub_parse(value, line_number)
                 hubs[self.end_hub.name] = self.end_hub
             elif key == "hub":
-                hub = self._parse_hub(value, "hub")
+                hub = self.parse_hub(value, "hub", line_number)
                 hubs[hub.name] = hub
-                print("hub")
             elif key == "connection":
-                print("connection")
+                self.connection_parse(value, hubs, line_number)
             else:
-                raise SyntaxError(f"Unkown key: '{key}'")
+                raise SyntaxError(f"Unknown key: '{key}'. Line: {line_number}")
             if start_hubs > 1:
-                raise ValueError("Only one start hub is allowed")
+                raise ValueError("Only one start hub is allowed. Line: "
+                                 f"{line_number}")
             if end_hubs > 1:
-                raise ValueError("Only one end hub is allowed")
+                raise ValueError("Only one end hub is allowed. Line: "
+                                 f"{line_number}")
         if not start_hubs:
             raise SyntaxError("Start hub must be included in the map")
         if not end_hubs:
@@ -210,16 +230,23 @@ class Parser:
                 self.start_hub.y == self.end_hub.y):
             raise SyntaxError("Start and end zone must be unique")
 
+
 def main() -> None:
     if len(argv) != 2:
         print("Usage: python flyin.py <map_file>")
+        return
     parser = Parser(argv[1])
     try:
         parser.parse_lines()
         from pathfinder import PathFinder
         path_finder = PathFinder(parser.start_hub, parser.end_hub)
         path = path_finder.find_path()
-        print(path)
+        if not path:
+            raise ValueError("No valid path exists between "
+                             f"{parser.start_hub.name} and "
+                             f"{parser.end_hub.name}")
+        for hub in path:
+            print(hub.name)
     except (ValueError, SyntaxError) as e:
         print(f"Error: {e}")
         exit(1)

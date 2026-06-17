@@ -6,7 +6,7 @@ class PathFinder:
     ZONE_COSTS: dict[str, float] = {
         "normal": 1.0,
         "priority": 1.0,
-        "resricted": 2.0,
+        "restricted": 2.0,
         "blocked": float('inf')
     }
 
@@ -35,7 +35,7 @@ class PathFinder:
     def find_path(self) -> list[Hub]:
         while self.open_set:
             _, current_hub = heappop(self.open_set)
-            if current_hub == self.end.name:
+            if current_hub.name == self.end.name:
                 return self._reconstruct_path(current_hub)
             if current_hub.name in self.closed_set:
                 continue
@@ -43,7 +43,7 @@ class PathFinder:
 
             for connection in current_hub.connections:
                 neighbour = (connection.hub_b if
-                             connection.hub_a == current_hub.name else
+                             connection.hub_a.name == current_hub.name else
                              connection.hub_a)
                 if neighbour.name in self.closed_set:
                     continue
@@ -56,3 +56,4 @@ class PathFinder:
                     f_score = temp_g + self._heuristic(neighbour)
                     self.f_scores[neighbour.name] = f_score
                     heappush(self.open_set, (f_score, neighbour))
+        return []
