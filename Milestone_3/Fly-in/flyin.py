@@ -10,7 +10,7 @@ class Hub:
         self.zone = "normal"
         self.color = "none"
         self.max_drones = 1
-        self.drones = 0
+        self.drones = {}
         self.connections: list[Connection] = []
 
     def __lt__(self, other: Hub) -> bool:
@@ -254,8 +254,9 @@ def main() -> None:
     try:
         parser.parse_lines()
         from simulator import Simulator
-        sim = Simulator(parser)
-        print(sim.run())
+        simulator = Simulator(parser)
+        for turn_moves in simulator.simulate():
+            print(' '.join(turn_moves))
     except (ValueError, SyntaxError) as e:
         print(f"Error: {e}")
         exit(1)
@@ -263,8 +264,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-
-
-"""
-GENERATORS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-"""

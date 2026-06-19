@@ -1,6 +1,5 @@
 from flyin import Hub
 from heapq import heappop, heappush
-from typing import Generator
 
 
 class PathFinder:
@@ -38,35 +37,68 @@ class PathFinder:
         return path
 
     def find_path(self) -> list[Hub]:
+        closed_set: set[tuple[str, int]] = set()
+
         while self.open_set:
             _, current_hub, current_turn = heappop(self.open_set)
+
             if current_hub.name == self.end.name:
                 return self._reconstruct_path(current_hub, current_turn)
-            if current_hub.name in self.reservations:
+
+            if (current_hub.name, current_turn) in closed_set:
                 continue
-            self.reservations.add((current_hub.name, current_turn))
+            closed_set.add((current_hub.name, current_turn))
+
+            found_move = False
 
             for connection in current_hub.connections:
                 neighbour = (connection.hub_b if
                              connection.hub_a.name == current_hub.name else
                              connection.hub_a)
-                if neighbour.name in self.reservations:
-                    continue
-                temp_g = self.g_scores[(current_hub.name, current_turn)] + \
-                    self.ZONE_COSTS[neighbour.zone]
-
                 arrival_turn = current_turn + \
                     int(self.ZONE_COSTS[neighbour.zone])
-                if (temp_g <
-                    self.g_scores.get((neighbour.name, arrival_turn),
-                                      float('inf'))
-                        and (neighbour.name, arrival_turn) not in
-                        self.reservations):
-                    self.came_from[
-                        (neighbour.name, arrival_turn)] = (current_hub,
-                                                           current_turn)
+
+                if (neighbour.name, arrival_turn) in closed_set:
+                    continue
+                if neighbour.zone == "blocked":
+                    continue
+
+                if (neighbour.drones.get(arrival_turn, 0) >=
+                        neighbour.max_drones):
+                    continue
+
+                temp_g = (self.g_scores[(current_hub.name, current_turn)] +
+                          self.ZONE_COSTS[neighbour.zone])
+
+                if temp_g < self.g_scores.get((neighbour.name, arrival_turn),
+                                              float('inf')):
+                    found_move = True
+                    self.reservations.add((neighbour.name, arrival_turn))
+                    neighbour.drones[arrival_turn] = (
+                        neighbour.drones.get(arrival_turn, 0) + 1
+                    )
+                    self.came_from[(neighbour.name, arrival_turn)] = (
+                        current_hub, current_turn
+                    )
                     self.g_scores[(neighbour.name, arrival_turn)] = temp_g
                     f_score = temp_g + self._heuristic(neighbour)
                     self.f_scores[(neighbour.name, arrival_turn)] = f_score
                     heappush(self.open_set, (f_score, neighbour, arrival_turn))
+
+            # if no valid move found, wait at current hub for one turn
+            if not found_move:
+                wait_turn = current_turn + 1
+                if (current_hub.name, wait_turn) not in closed_set:
+                    wait_g = (
+                        self.g_scores[(current_hub.name, current_turn)] + 1)
+                    if wait_g < self.g_scores.get(
+                            (current_hub.name, wait_turn), float('inf')):
+                        self.came_from[(current_hub.name, wait_turn)] = (
+                            current_hub, current_turn
+                        )
+                        self.g_scores[(current_hub.name, wait_turn)] = wait_g
+                        f_score = wait_g + self._heuristic(current_hub)
+                        heappush(self.open_set,
+                                 (f_score, current_hub, wait_turn))
+
         return []
