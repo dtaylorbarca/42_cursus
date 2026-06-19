@@ -85,7 +85,6 @@ class PathFinder:
                     self.f_scores[(neighbour.name, arrival_turn)] = f_score
                     heappush(self.open_set, (f_score, neighbour, arrival_turn))
 
-            # if no valid move found, wait at current hub for one turn
             if not found_move:
                 wait_turn = current_turn + 1
                 if (current_hub.name, wait_turn) not in closed_set:
@@ -95,6 +94,9 @@ class PathFinder:
                             (current_hub.name, wait_turn), float('inf')):
                         self.came_from[(current_hub.name, wait_turn)] = (
                             current_hub, current_turn
+                        )
+                        current_hub.drones[current_turn] = (
+                            current_hub.drones.get(current_turn, 0) + 1
                         )
                         self.g_scores[(current_hub.name, wait_turn)] = wait_g
                         f_score = wait_g + self._heuristic(current_hub)
