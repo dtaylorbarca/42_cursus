@@ -16,28 +16,32 @@ class Hub:
     def __lt__(self, other: Hub) -> bool:
         return self.name < other.name
 
-    def metadata(self, data: dict[str, str]) -> None:
+    def metadata(self, data: dict[str, str], line_number: int) -> None:
         zone_types = {"normal", "blocked", "restricted", "priority"}
 
         if "zone" in data:
             if data["zone"] not in zone_types:
                 raise ValueError(
                     f"Zone type must be one of: {', '.join(zone_types)}"
+                    f". Line: {line_number}"
                 )
             self.zone = data["zone"]
 
         if "color" in data:
             if len(data["color"].split()) != 1:
-                raise ValueError("Color must be a single-word string")
+                raise ValueError("Color must be a single-word string"
+                                 f". Line: {line_number}")
             self.color = data["color"]
 
         if "max_drones" in data:
             try:
                 value = int(data["max_drones"])
             except ValueError:
-                raise ValueError("max_drones must be a positive integer")
+                raise ValueError("max_drones must be a positive integer"
+                                 f". Line: {line_number}")
             if value <= 0:
-                raise ValueError("max_drones must be a positive integer")
+                raise ValueError("max_drones must be a positive integer"
+                                 f". Line: {line_number}")
             self.max_drones = value
 
 
@@ -47,21 +51,22 @@ class Connection:
         self.hub_b = hub_b
         self.max_link_capacity = 1
 
-    def metadata(self, max_link_capacity: str) -> None:
+    def metadata(self, max_link_capacity: str, line_number: int) -> None:
         if int(max_link_capacity) <= 0:
-            raise ValueError("max_link_capacity must be a positive integer")
+            raise ValueError("max_link_capacity must be a positive integer."
+                             f"Line: {line_number}")
         self.max_link_capacity = int(max_link_capacity)
 
 
 class Parser:
     def __init__(self, map: str) -> None:
         self.map = map
-        self.first_line = True
         self.nb_drones = 0
         self.coordinates: set[tuple[int, int]] = set()
         self.names: set[str] = set()
+        self.connections: set[tuple[str, str]] = set()
 
-    def nb_drones_parse(self, key: str, value: str, line_number: int) -> None:
+    def _nb_drones_parse(self, key: str, value: str, line_number: int) -> None:
         if key != "nb_drones":
             raise SyntaxError("The first line must be of syntax "
                               "'nb_drones: <positive_integer>'. Line:"
@@ -72,10 +77,10 @@ class Parser:
                 if self.nb_drones <= 0:
                     raise ValueError
             except ValueError:
-                raise ValueError("The number of drones must be an integer. "
-                                 f"Line: {line_number}")
+                raise ValueError("The number of drones must be a positive"
+                                 f" integer. Line: {line_number}")
 
-    def parse_hub(self, value: str, hub_type: str, line_number: int) -> Hub:
+    def _parse_hub(self, value: str, hub_type: str, line_number: int) -> Hub:
         data = value.split(" ", 3)
         if len(data) not in (3, 4):
             raise ValueError(
@@ -137,7 +142,7 @@ class Parser:
 
         meta: dict[str, str] = {}
         for pair in pairs:
-            if "=" not in pair:
+            if len(pair.split("=")) != 2:
                 raise SyntaxError(
                     f"{hub_type.capitalize()} metadata must have syntax "
                     f"key=value - received: {pair}. Line: {line_number}"
@@ -151,11 +156,11 @@ class Parser:
                 )
             meta[key] = val
 
-        hub.metadata(meta)
+        hub.metadata(meta, line_number)
         return hub
 
-    def connection_parse(self, value: str, hubs: dict[str, Hub],
-                         line_number: int) -> None:
+    def _connection_parse(self, value: str, hubs: dict[str, Hub],
+                          line_number: int) -> None:
         raw = value.strip().split()
         connection = raw[0].split("-")
         if len(connection) < 2:
@@ -175,6 +180,14 @@ class Parser:
         if hub_a_name == hub_b_name:
             raise SyntaxError("Connection paths must be between two distinct "
                               f"hubs. Line: {line_number}")
+        if (hub_a_name, hub_b_name) in self.connections:
+            raise ValueError("The same connection must not appear more than "
+                             f"once. Line: {line_number}")
+        elif (hub_b_name, hub_a_name) in self.connections:
+            raise ValueError("The same connection must not appear more than "
+                             f"once (even reversed). Line: {line_number}")
+        else:
+            self.connections.add((hub_a_name, hub_b_name))
         connected = Connection(hubs[hub_a_name], hubs[hub_b_name])
         if len(raw) == 2:
             if not raw[1].startswith("[") or not raw[1].endswith("]"):
@@ -185,19 +198,20 @@ class Parser:
                 raise SyntaxError("Only optional metadata for connections is "
                                   f"'max_link_capacity'. Received - {meta[0]}"
                                   f". Line: {line_number}")
-            connected.metadata(meta[1])
+            connected.metadata(meta[1], line_number)
         hubs[hub_a_name].connections.append(connected)
         hubs[hub_b_name].connections.append(connected)
 
-    def start_hub_parse(self, value: str, line_number: int) -> None:
-        self.start_hub = self.parse_hub(value, "start hub", line_number)
+    def _start_hub_parse(self, value: str, line_number: int) -> None:
+        self.start_hub = self._parse_hub(value, "start hub", line_number)
 
-    def end_hub_parse(self, value: str, line_number: int) -> None:
-        self.end_hub = self.parse_hub(value, "end hub", line_number)
+    def _end_hub_parse(self, value: str, line_number: int) -> None:
+        self.end_hub = self._parse_hub(value, "end hub", line_number)
 
     def parse_lines(self) -> None:
         with open(self.map, "r") as f:
             file = f.read().splitlines()
+        first_line = True
         line_number = 0
         start_hubs = 0
         end_hubs = 0
@@ -212,23 +226,26 @@ class Parser:
                 raise SyntaxError("All lines must in the format "
                                   f"'key: value'. Line: {line_number}")
             key, value = map(str.strip, row.split(":", 1))
-            if self.first_line:
-                self.nb_drones_parse(key, value, line_number)
-                self.first_line = False
+            if first_line:
+                self._nb_drones_parse(key, value, line_number)
+                first_line = False
                 continue
             if key == "start_hub":
                 start_hubs += 1
-                self.start_hub_parse(value, line_number)
+                self._start_hub_parse(value, line_number)
                 hubs[self.start_hub.name] = self.start_hub
             elif key == "end_hub":
                 end_hubs += 1
-                self.end_hub_parse(value, line_number)
+                self._end_hub_parse(value, line_number)
                 hubs[self.end_hub.name] = self.end_hub
             elif key == "hub":
-                hub = self.parse_hub(value, "hub", line_number)
+                hub = self._parse_hub(value, "hub", line_number)
                 hubs[hub.name] = hub
             elif key == "connection":
-                self.connection_parse(value, hubs, line_number)
+                self._connection_parse(value, hubs, line_number)
+            elif key == "nb_drones" and not first_line:
+                raise SyntaxError("nb_drones can only be defined in the first "
+                                  f"line. Line: {line_number}")
             else:
                 raise SyntaxError(f"Unknown key: '{key}'. Line: {line_number}")
             if start_hubs > 1:
