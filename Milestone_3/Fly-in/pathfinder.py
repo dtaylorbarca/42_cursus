@@ -35,29 +35,6 @@ class PathFinder:
     def _heuristic(self, hub: Hub) -> float:
         return abs(hub.x - self.end.x) + abs(hub.y - self.end.y)
 
-    def _reconstruct_path(self, current: Hub, turn: int) -> list[PathStep]:
-        path: list[PathStep] = []
-        state = (current.name, turn)
-        while state in self.came_from:
-            prev_hub, prev_turn = self.came_from[state]
-            cost = turn - prev_turn
-            if cost == 2:
-                path.append(PathStep(
-                    hub=None,
-                    connection=self._find_connection(prev_hub, current),
-                    turn=prev_turn + 1,
-                    in_transit=True
-                ))
-            path.append(PathStep(hub=current, connection=None,
-                                 turn=turn))
-            current = prev_hub
-            turn = prev_turn
-            state = (current.name, turn)
-        path.append(PathStep(hub=self.start, connection=None,
-                             turn=-1))
-        path.reverse()
-        return path
-
     def _find_connection(self, hub_a: Hub, hub_b: Hub) -> Connection | None:
         for connection in hub_a.connections:
             if (connection.hub_b.name == hub_b.name or
@@ -85,67 +62,99 @@ class PathFinder:
                 continue
             closed_set.add((current_hub.name, current_turn))
 
-            found_move = False
-
             for connection in current_hub.connections:
                 neighbour = (connection.hub_b if
                              connection.hub_a.name == current_hub.name else
                              connection.hub_a)
+
                 arrival_turn = current_turn + \
                     int(self.ZONE_COSTS[neighbour.zone])
 
                 if self._is_dead_end(neighbour):
                     continue
-                if (connection.drones.get(current_turn, 0) >=
-                        connection.max_link_capacity):
-                    continue
-                if (neighbour.name, arrival_turn) in closed_set:
-                    continue
                 if neighbour.zone == "blocked":
                     continue
                 if neighbour.name == "start":
                     continue
-                if (neighbour.drones.get(arrival_turn, 0) >=
-                        neighbour.max_drones):
+                if (neighbour.name, arrival_turn) in closed_set:
                     continue
 
-                temp_g = (self.g_scores[(current_hub.name, current_turn)] +
-                          self.ZONE_COSTS[neighbour.zone])
+                link_res_key = (f"link_{connection.name}", current_turn)
+                hub_res_key = (f"hub_{neighbour.name}", arrival_turn)
 
-                if temp_g < self.g_scores.get((neighbour.name, arrival_turn),
-                                              float('inf')):
-                    found_move = True
-                    self.reservations.add((neighbour.name, arrival_turn))
-                    connection.drones[current_turn] = (
-                        connection.drones.get(current_turn, 0) + 1
-                    )
-                    neighbour.drones[arrival_turn] = (
-                        neighbour.drones.get(arrival_turn, 0) + 1
-                    )
+                if (link_res_key in self.reservations or
+                        hub_res_key in self.reservations):
+                    continue
+
+                current_g = self.g_scores.get(
+                    (current_hub.name, current_turn), float('inf'))
+                temp_g = current_g + self.ZONE_COSTS[neighbour.zone]
+
+                if (temp_g <
+                        self.g_scores.get((neighbour.name, arrival_turn),
+                                          float('inf'))):
                     self.came_from[(neighbour.name, arrival_turn)] = (
-                        current_hub, current_turn
-                    )
+                        current_hub, current_turn)
                     self.g_scores[(neighbour.name, arrival_turn)] = temp_g
                     f_score = temp_g + self._heuristic(neighbour)
                     self.f_scores[(neighbour.name, arrival_turn)] = f_score
                     heappush(self.open_set, (f_score, neighbour, arrival_turn))
 
-            if not found_move:
-                wait_turn = current_turn + 1
-                if (current_hub.name, wait_turn) not in closed_set:
-                    wait_g = (
-                        self.g_scores[(current_hub.name, current_turn)] + 1)
-                    if wait_g < self.g_scores.get(
-                            (current_hub.name, wait_turn), float('inf')):
-                        self.came_from[(current_hub.name, wait_turn)] = (
-                            current_hub, current_turn
-                        )
-                        current_hub.drones[current_turn] = (
-                            current_hub.drones.get(current_turn, 0) + 1
-                        )
-                        self.g_scores[(current_hub.name, wait_turn)] = wait_g
-                        f_score = wait_g + self._heuristic(current_hub)
-                        heappush(self.open_set,
-                                 (f_score, current_hub, wait_turn))
+            wait_turn = current_turn + 1
+            hub_wait_res_key = (f"hub_{current_hub.name}", wait_turn)
+
+            if ((current_hub.name, wait_turn) not in closed_set and
+                    hub_wait_res_key not in self.reservations):
+                current_g = self.g_scores.get(
+                    (current_hub.name, current_turn), float('inf'))
+                wait_g = current_g + 1
+
+                if (wait_g <
+                        self.g_scores.get((current_hub.name, wait_turn),
+                                          float('inf'))):
+                    self.came_from[(current_hub.name, wait_turn)] = (
+                        current_hub, current_turn)
+                    self.g_scores[(current_hub.name, wait_turn)] = wait_g
+                    f_score = wait_g + self._heuristic(current_hub)
+                    heappush(self.open_set, (f_score, current_hub, wait_turn))
 
         return []
+
+    def _reconstruct_path(self, current: Hub, turn: int) -> list[PathStep]:
+        path: list[PathStep] = []
+        state = (current.name, turn)
+
+        while state in self.came_from:
+            prev_hub, prev_turn = self.came_from[state]
+            cost = turn - prev_turn
+            connection = self._find_connection(prev_hub, current)
+
+            # Commit reservations only to the true chosen path
+            self.reservations.add((f"hub_{current.name}", turn))
+
+            if cost == 2:
+                if connection:
+                    self.reservations.add(
+                        (f"link_{connection.name}", prev_turn))
+                    self.reservations.add(
+                        (f"link_{connection.name}", prev_turn + 1))
+                path.append(PathStep(hub=None, connection=connection,
+                            turn=prev_turn + 1, in_transit=True))
+            else:
+                if connection and current.name != prev_hub.name:
+                    self.reservations.add(
+                        (f"link_{connection.name}", prev_turn))
+                else:
+                    self.reservations.add((f"hub_{prev_hub.name}", prev_turn))
+
+            path.append(PathStep(hub=current, connection=None, turn=turn))
+
+            current = prev_hub
+            turn = prev_turn
+            state = (current.name, turn)
+
+        # Guarantee origin registration
+        self.reservations.add((f"hub_{self.start.name}", 0))
+        path.append(PathStep(hub=self.start, connection=None, turn=0))
+        path.reverse()
+        return path

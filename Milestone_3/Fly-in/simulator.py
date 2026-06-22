@@ -36,10 +36,8 @@ class Simulator:
                         turn_moves.append(current_connection.name)
                     elif (not drone[current_turn].in_transit and
                           current_hub is not None):
-                        if current_hub.name == "start":
-                            continue
-                        elif (prev_hub is not None and current_hub.name !=
-                              prev_hub.name):
+                        if (current_hub.name != "start" and prev_hub is not
+                                None and current_hub.name != prev_hub.name):
                             turn_moves.append(
                                 f"D{drone_id}-{current_hub.name}")
             if turn_moves:
