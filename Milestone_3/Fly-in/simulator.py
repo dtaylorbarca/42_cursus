@@ -1,5 +1,5 @@
-from flyin import Parser, Hub
-from pathfinder import PathFinder
+from flyin import Parser
+from pathfinder import PathFinder, PathStep
 from typing import Generator
 
 
@@ -8,8 +8,8 @@ class Simulator:
         self.parser = parser
         self.reservations: set[tuple[str, int]] = set()
 
-    def simulate(self) -> Generator[list[str], None, None]:
-        drone_states: list[list[Hub]] = []
+    def simulate(self) -> Generator[str, None, None]:
+        drone_states: list[list[PathStep]] = []
 
         for _ in range(self.parser.nb_drones):
             pathfinder = PathFinder(
@@ -26,9 +26,23 @@ class Simulator:
         while current_turn < max_turns:
             turn_moves: list[str] = []
             for drone_id, drone in enumerate(drone_states, 1):
+
                 if current_turn < len(drone):
-                    hub = drone[current_turn]
-                    turn_moves.append(f"D{drone_id}-{hub.name}")
+                    current_connection = drone[current_turn].connection
+                    current_hub = drone[current_turn].hub
+                    prev_hub = drone[current_turn - 1].hub
+                    if (drone[current_turn].in_transit and
+                            current_connection is not None):
+                        turn_moves.append(current_connection.name)
+                    elif (not drone[current_turn].in_transit and
+                          current_hub is not None):
+                        if current_hub.name == "start":
+                            continue
+                        elif (prev_hub is not None and current_hub.name !=
+                              prev_hub.name):
+                            turn_moves.append(
+                                f"D{drone_id}-{current_hub.name}")
             if turn_moves:
-                yield turn_moves
+                result = f"Turn {current_turn}: {' '.join(turn_moves)}"
+                yield result
             current_turn += 1

@@ -10,7 +10,7 @@ class Hub:
         self.zone = "normal"
         self.color = "none"
         self.max_drones = 1
-        self.drones = {}
+        self.drones: dict[int, int] = {}
         self.connections: list[Connection] = []
 
     def __lt__(self, other: Hub) -> bool:
@@ -50,6 +50,12 @@ class Connection:
         self.hub_a = hub_a
         self.hub_b = hub_b
         self.max_link_capacity = 1
+        self.drones: dict[int, int] = {}
+
+    @property
+    def name(self) -> str:
+        names = sorted([self.hub_a.name, self.hub_b.name])
+        return f"{names[0]}-{names[1]}"
 
     def metadata(self, max_link_capacity: str, line_number: int) -> None:
         if int(max_link_capacity) <= 0:
@@ -273,7 +279,7 @@ def main() -> None:
         from simulator import Simulator
         simulator = Simulator(parser)
         for turn_moves in simulator.simulate():
-            print(' '.join(turn_moves))
+            print(turn_moves)
     except (ValueError, SyntaxError) as e:
         print(f"Error: {e}")
         exit(1)

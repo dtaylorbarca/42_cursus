@@ -1,5 +1,14 @@
-from flyin import Hub
+from flyin import Hub, Connection
 from heapq import heappop, heappush
+from dataclasses import dataclass
+
+
+@dataclass
+class PathStep:
+    hub: Hub | None
+    connection: Connection | None
+    turn: int
+    in_transit: bool = False
 
 
 class PathFinder:
@@ -26,17 +35,44 @@ class PathFinder:
     def _heuristic(self, hub: Hub) -> float:
         return abs(hub.x - self.end.x) + abs(hub.y - self.end.y)
 
-    def _reconstruct_path(self, current: Hub, turn: int) -> list[Hub]:
-        path = [current]
+    def _reconstruct_path(self, current: Hub, turn: int) -> list[PathStep]:
+        path: list[PathStep] = []
         state = (current.name, turn)
         while state in self.came_from:
-            current, turn = self.came_from[state]
-            path.append(current)
+            prev_hub, prev_turn = self.came_from[state]
+            cost = turn - prev_turn
+            if cost == 2:
+                path.append(PathStep(
+                    hub=None,
+                    connection=self._find_connection(prev_hub, current),
+                    turn=prev_turn + 1,
+                    in_transit=True
+                ))
+            path.append(PathStep(hub=current, connection=None,
+                                 turn=turn))
+            current = prev_hub
+            turn = prev_turn
             state = (current.name, turn)
+        path.append(PathStep(hub=self.start, connection=None,
+                             turn=-1))
         path.reverse()
         return path
 
-    def find_path(self) -> list[Hub]:
+    def _find_connection(self, hub_a: Hub, hub_b: Hub) -> Connection | None:
+        for connection in hub_a.connections:
+            if (connection.hub_b.name == hub_b.name or
+                    connection.hub_a.name == hub_b.name):
+                return connection
+        return None
+
+    def _is_dead_end(self, hub: Hub) -> bool:
+        if hub.name == self.end.name:
+            return False
+        if len(hub.connections) == 1:
+            return True
+        return False
+
+    def find_path(self) -> list[PathStep]:
         closed_set: set[tuple[str, int]] = set()
 
         while self.open_set:
@@ -58,11 +94,17 @@ class PathFinder:
                 arrival_turn = current_turn + \
                     int(self.ZONE_COSTS[neighbour.zone])
 
+                if self._is_dead_end(neighbour):
+                    continue
+                if (connection.drones.get(current_turn, 0) >=
+                        connection.max_link_capacity):
+                    continue
                 if (neighbour.name, arrival_turn) in closed_set:
                     continue
                 if neighbour.zone == "blocked":
                     continue
-
+                if neighbour.name == "start":
+                    continue
                 if (neighbour.drones.get(arrival_turn, 0) >=
                         neighbour.max_drones):
                     continue
@@ -74,6 +116,9 @@ class PathFinder:
                                               float('inf')):
                     found_move = True
                     self.reservations.add((neighbour.name, arrival_turn))
+                    connection.drones[current_turn] = (
+                        connection.drones.get(current_turn, 0) + 1
+                    )
                     neighbour.drones[arrival_turn] = (
                         neighbour.drones.get(arrival_turn, 0) + 1
                     )
