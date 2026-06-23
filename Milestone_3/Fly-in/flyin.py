@@ -215,8 +215,11 @@ class Parser:
         self.end_hub = self._parse_hub(value, "end hub", line_number)
 
     def parse_lines(self) -> None:
-        with open(self.map, "r") as f:
-            file = f.read().splitlines()
+        try:
+            with open(self.map, "r") as f:
+                file = f.read().splitlines()
+        except OSError as e:
+            raise OSError(e)
         first_line = True
         line_number = 0
         start_hubs = 0
@@ -280,7 +283,7 @@ def main() -> None:
         simulator = Simulator(parser)
         for turn_moves in simulator.simulate():
             print(turn_moves)
-    except (ValueError, SyntaxError) as e:
+    except (ValueError, SyntaxError, OSError) as e:
         print(f"Error: {e}")
         exit(1)
 

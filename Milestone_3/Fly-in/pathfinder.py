@@ -19,21 +19,20 @@ class PathFinder:
         "blocked": float('inf')
     }
 
-    def __init__(self, start: Hub, end: Hub, reservations: set[tuple[str, int]]
-                 ) -> None:
+    def __init__(self, start: Hub, end: Hub) -> None:
         self.start = start
         self.end = end
-        self.current = start
         self.open_set: list[tuple[float, Hub, int]] = []
         self.came_from: dict[tuple[str, int], tuple[Hub, int]] = {}
         self.g_scores: dict[tuple[str, int], float] = {(start.name, 0): 0.0}
-        self.f_scores: dict[tuple[str, int], float] = {(start.name, 0):
-                                                       self._heuristic(start)}
-        self.reservations: set[tuple[str, int]] = reservations
         heappush(self.open_set, (0.0, start, 0))
 
     def _heuristic(self, hub: Hub) -> float:
-        return abs(hub.x - self.end.x) + abs(hub.y - self.end.y)
+        distance = abs(hub.x - self.end.x) + abs(hub.y - self.end.y)
+        if (len(hub.connections) == 1 and hub.name != self.end.name and
+                hub.name != self.start.name):
+            distance += 100
+        return distance
 
     def _find_connection(self, hub_a: Hub, hub_b: Hub) -> Connection | None:
         for connection in hub_a.connections:
@@ -74,16 +73,16 @@ class PathFinder:
                     continue
                 if neighbour.zone == "blocked":
                     continue
-                if neighbour.name == "start":
+                if neighbour.name == self.start.name:
                     continue
                 if (neighbour.name, arrival_turn) in closed_set:
                     continue
 
-                link_res_key = (f"link_{connection.name}", current_turn)
-                hub_res_key = (f"hub_{neighbour.name}", arrival_turn)
-
-                if (link_res_key in self.reservations or
-                        hub_res_key in self.reservations):
+                if (connection.drones.get(current_turn, 0) >=
+                        connection.max_link_capacity):
+                    continue
+                if (neighbour.drones.get(arrival_turn, 0) >=
+                        neighbour.max_drones):
                     continue
 
                 current_g = self.g_scores.get(
@@ -97,26 +96,21 @@ class PathFinder:
                         current_hub, current_turn)
                     self.g_scores[(neighbour.name, arrival_turn)] = temp_g
                     f_score = temp_g + self._heuristic(neighbour)
-                    self.f_scores[(neighbour.name, arrival_turn)] = f_score
                     heappush(self.open_set, (f_score, neighbour, arrival_turn))
 
             wait_turn = current_turn + 1
-            hub_wait_res_key = (f"hub_{current_hub.name}", wait_turn)
+            current_g = self.g_scores.get(
+                (current_hub.name, current_turn), float('inf'))
+            wait_g = current_g + 1
 
-            if ((current_hub.name, wait_turn) not in closed_set and
-                    hub_wait_res_key not in self.reservations):
-                current_g = self.g_scores.get(
-                    (current_hub.name, current_turn), float('inf'))
-                wait_g = current_g + 1
-
-                if (wait_g <
-                        self.g_scores.get((current_hub.name, wait_turn),
-                                          float('inf'))):
-                    self.came_from[(current_hub.name, wait_turn)] = (
-                        current_hub, current_turn)
-                    self.g_scores[(current_hub.name, wait_turn)] = wait_g
-                    f_score = wait_g + self._heuristic(current_hub)
-                    heappush(self.open_set, (f_score, current_hub, wait_turn))
+            if (wait_g <
+                    self.g_scores.get((current_hub.name, wait_turn),
+                                      float('inf'))):
+                self.came_from[(current_hub.name, wait_turn)] = (
+                    current_hub, current_turn)
+                self.g_scores[(current_hub.name, wait_turn)] = wait_g
+                f_score = wait_g + self._heuristic(current_hub)
+                heappush(self.open_set, (f_score, current_hub, wait_turn))
 
         return []
 
@@ -129,32 +123,40 @@ class PathFinder:
             cost = turn - prev_turn
             connection = self._find_connection(prev_hub, current)
 
-            # Commit reservations only to the true chosen path
-            self.reservations.add((f"hub_{current.name}", turn))
-
             if cost == 2:
-                if connection:
-                    self.reservations.add(
-                        (f"link_{connection.name}", prev_turn))
-                    self.reservations.add(
-                        (f"link_{connection.name}", prev_turn + 1))
-                path.append(PathStep(hub=None, connection=connection,
-                            turn=prev_turn + 1, in_transit=True))
+                if connection is not None:
+                    connection.drones[prev_turn] = (
+                        connection.drones.get(prev_turn, 0) + 1
+                    )
+                    connection.drones[prev_turn + 1] = (
+                        connection.drones.get(prev_turn + 1, 0) + 1
+                    )
+                    path.append(PathStep(
+                        hub=None,
+                        connection=connection,
+                        turn=prev_turn + 1,
+                        in_transit=True
+                    ))
+            elif current.name != prev_hub.name:
+                if connection is not None:
+                    connection.drones[prev_turn] = (
+                        connection.drones.get(prev_turn, 0) + 1
+                    )
             else:
-                if connection and current.name != prev_hub.name:
-                    self.reservations.add(
-                        (f"link_{connection.name}", prev_turn))
-                else:
-                    self.reservations.add((f"hub_{prev_hub.name}", prev_turn))
+                current.drones[prev_turn] = (
+                    current.drones.get(prev_turn, 0) + 1
+                )
 
+            current.drones[turn] = (
+                current.drones.get(turn, 0) + 1
+            )
             path.append(PathStep(hub=current, connection=None, turn=turn))
 
             current = prev_hub
             turn = prev_turn
             state = (current.name, turn)
 
-        # Guarantee origin registration
-        self.reservations.add((f"hub_{self.start.name}", 0))
+        self.start.drones[0] = self.start.drones.get(0, 0) + 1
         path.append(PathStep(hub=self.start, connection=None, turn=0))
         path.reverse()
         return path

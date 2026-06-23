@@ -6,7 +6,6 @@ from typing import Generator
 class Simulator:
     def __init__(self, parser: Parser) -> None:
         self.parser = parser
-        self.reservations: set[tuple[str, int]] = set()
 
     def simulate(self) -> Generator[str, None, None]:
         drone_states: list[list[PathStep]] = []
@@ -15,7 +14,6 @@ class Simulator:
             pathfinder = PathFinder(
                 start=self.parser.start_hub,
                 end=self.parser.end_hub,
-                reservations=self.reservations
             )
             path = pathfinder.find_path()
             drone_states.append(path)
