@@ -10,8 +10,10 @@ ARGS       ?= $(filter-out $@,$(MAKECMDGOALS))
 all: install
 
 install:
+	@echo "Installing poetry..."
+	$(PIP) install poetry
 	@echo "Installing project dependencies..."
-	$(PIP) install -r requirements.txt
+	poetry install
 
 run:
 	@echo "Running simulation with arguments: $(ARGS)"
