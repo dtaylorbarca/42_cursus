@@ -272,10 +272,10 @@ class Parser:
             raise SyntaxError("Start and end zone must be unique")
 
 
-def main() -> None:
+if __name__ == "__main__":
     if len(argv) != 2:
         print("Usage: python flyin.py <map_file>")
-        return
+        exit(1)
     parser = Parser(argv[1])
     try:
         parser.parse_lines()
@@ -283,10 +283,9 @@ def main() -> None:
         simulator = Simulator(parser)
         for turn_moves in simulator.simulate():
             print(turn_moves)
+        from visualisation import Visual
+        vis = Visual(list(parser.coordinates))
+        vis.mapping()
     except (ValueError, SyntaxError, OSError) as e:
         print(f"Error: {e}")
         exit(1)
-
-
-if __name__ == "__main__":
-    main()
