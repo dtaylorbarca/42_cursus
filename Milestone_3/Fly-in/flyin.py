@@ -71,6 +71,7 @@ class Parser:
         self.coordinates: set[tuple[int, int]] = set()
         self.names: set[str] = set()
         self.connections: set[tuple[str, str]] = set()
+        self.hubs: list[Hub] = []
 
     def _nb_drones_parse(self, key: str, value: str, line_number: int) -> None:
         if key != "nb_drones":
@@ -124,7 +125,7 @@ class Parser:
 
         if len(data) == 4:
             hub = self._parse_metadata(hub, data[3], hub_type, line_number)
-
+        self.hubs.append(hub)
         return hub
 
     def _parse_metadata(self, hub: Hub, raw: str, hub_type: str,
@@ -284,7 +285,8 @@ if __name__ == "__main__":
         for turn_moves in simulator.simulate():
             print(turn_moves)
         from visualisation import Visual
-        vis = Visual(list(parser.coordinates))
+        vis = Visual(list(parser.coordinates), parser.hubs,
+                     simulator.drone_states)
         vis.mapping()
     except (ValueError, SyntaxError, OSError) as e:
         print(f"Error: {e}")

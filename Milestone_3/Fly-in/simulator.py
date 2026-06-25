@@ -8,7 +8,7 @@ class Simulator:
         self.parser = parser
 
     def simulate(self) -> Generator[str, None, None]:
-        drone_states: list[list[PathStep]] = []
+        self.drone_states: list[list[PathStep]] = []
 
         for _ in range(self.parser.nb_drones):
             pathfinder = PathFinder(
@@ -16,14 +16,14 @@ class Simulator:
                 end=self.parser.end_hub,
             )
             path = pathfinder.find_path()
-            drone_states.append(path)
+            self.drone_states.append(path)
 
         current_turn = 0
-        max_turns = max(len(path) for path in drone_states)
+        max_turns = max(len(path) for path in self.drone_states)
 
         while current_turn < max_turns:
             turn_moves: list[str] = []
-            for drone_id, drone in enumerate(drone_states, 1):
+            for drone_id, drone in enumerate(self.drone_states, 1):
 
                 if current_turn < len(drone):
                     current_connection = drone[current_turn].connection
