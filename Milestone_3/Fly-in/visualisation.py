@@ -1,5 +1,7 @@
 from flyin import Hub
 from pathfinder import PathStep
+from time import sleep
+from copy import deepcopy
 
 
 class Visual:
@@ -23,6 +25,10 @@ class Visual:
             "none": "\033[97m"
         }
         self.RESET: str = "\033[0m"
+
+    def _clear_map(self, num_lines: int) -> None:
+        print(f"\033[{num_lines}A", end="")
+        print("\033[J", end="")
 
     def _draw_hub(self, cell: list[str], color: str) -> None:
         c = self.COLORS.get(color, self.COLORS["none"])
@@ -48,14 +54,38 @@ class Visual:
         min_y = min(self.hub_coordinates, key=lambda x: x[1])[1]
         range_x = max_x - min_x + 1
         range_y = max_y - min_y + 1
-        map = [[["               " for _ in range(4)]
+        grid = [[["               " for _ in range(4)]
                 for _ in range(range_x * 2 - 1)]
-               for _ in range(range_y * 2 - 1)]
+                for _ in range(range_y * 2 - 1)]
         for hub in self.hubs:
-            self._draw_hub(map[(max_y - hub.y) * 2][(hub.x - min_x) * 2],
+            self._draw_hub(grid[(max_y - hub.y) * 2][(hub.x - min_x) * 2],
                            hub.color)
         turns = len(max(self.paths, key=len))
+        num_lines = 4 * (range_y * 2 - 1)
+        for turn in range(1, turns):
+            grid_turn = deepcopy(grid)
+            for drone in self.paths:
+                if turn >= len(drone):
+                    continue
+                current_drone = drone[turn]
+                if (current_drone.in_transit and
+                        current_drone.connection is not None):
+                    hub_a = current_drone.connection.hub_a
+                    hub_b = current_drone.connection.hub_b
+                    x = ((hub_a.x + hub_b.x) // 2 - min_x) * 2
+                    y = (max_y - (hub_a.y + hub_b.y) // 2) * 2
 
-        for row in map:
-            for internal_line in zip(*row):
-                print(' '.join(internal_line))
+                    self._draw_drone_connection(grid_turn[y][x])
+                elif (not current_drone.in_transit and
+                        current_drone.hub is not None):
+                    x = (current_drone.hub.x - min_x) * 2
+                    y = (max_y - current_drone.hub.y) * 2
+
+                    self._draw_drone_hub(grid_turn[y][x],
+                                         current_drone.hub.color)
+            if turn > 1:
+                self._clear_map(num_lines)
+            for row in grid_turn:
+                for internal_line in zip(*row):
+                    print(''.join(internal_line))
+            sleep(0.5)
