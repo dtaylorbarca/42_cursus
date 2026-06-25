@@ -33,18 +33,19 @@ class Visual:
     def _draw_hub(self, cell: list[str], color: str) -> None:
         c = self.COLORS.get(color, self.COLORS["none"])
         r = self.RESET
-        cell[2] = f"  {c}│         │{r}  "
-        cell[3] = f"  {c}└─────────┘{r}  "
+        cell[1] = f"{c}│         │{r}"
+        cell[2] = f"{c}│         │{r}"
+        cell[3] = f"{c}└─────────┘{r}"
 
     def _draw_drone_connection(self, cell: list[str]) -> None:
-        cell[1] = "   --- ---   "
-        cell[2] = "    │───│    "
+        cell[1] = "  --- ---  "
+        cell[2] = "   │───│   "
 
     def _draw_drone_hub(self, cell: list[str], color: str) -> None:
         c = self.COLORS.get(color, self.COLORS["none"])
         r = self.RESET
-        cell[1] = "    --- ---  "
-        cell[2] = f"  {c}│{r}  │───│  {c}│{r}  "
+        cell[1] = f"{c}│{r} --- --- {c}│{r}"
+        cell[2] = f"{c}│{r}  │───│  {c}│{r}"
 
     def mapping(self) -> None:
         max_x = max(self.hub_coordinates, key=lambda x: x[0])[0]
@@ -54,7 +55,7 @@ class Visual:
         min_y = min(self.hub_coordinates, key=lambda x: x[1])[1]
         range_x = max_x - min_x + 1
         range_y = max_y - min_y + 1
-        grid = [[["               " for _ in range(4)]
+        grid = [[["           " for _ in range(4)]
                 for _ in range(range_x * 2 - 1)]
                 for _ in range(range_y * 2 - 1)]
         for hub in self.hubs:
@@ -72,8 +73,8 @@ class Visual:
                         current_drone.connection is not None):
                     hub_a = current_drone.connection.hub_a
                     hub_b = current_drone.connection.hub_b
-                    x = ((hub_a.x + hub_b.x) // 2 - min_x) * 2
-                    y = (max_y - (hub_a.y + hub_b.y) // 2) * 2
+                    x = hub_a.x + hub_b.x - min_x * 2
+                    y = 2 * max_y - hub_a.y - hub_b.y
 
                     self._draw_drone_connection(grid_turn[y][x])
                 elif (not current_drone.in_transit and
