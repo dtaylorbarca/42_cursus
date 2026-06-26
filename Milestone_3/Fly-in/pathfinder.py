@@ -50,6 +50,7 @@ class PathFinder:
 
     def find_path(self) -> list[PathStep]:
         closed_set: set[tuple[str, int]] = set()
+        max_turns = 1000
 
         while self.open_set:
             _, current_hub, current_turn = heappop(self.open_set)
@@ -66,6 +67,8 @@ class PathFinder:
                              connection.hub_a.name == current_hub.name else
                              connection.hub_a)
 
+                if self.ZONE_COSTS[neighbour.zone] == float('inf'):
+                    continue
                 arrival_turn = current_turn + \
                     int(self.ZONE_COSTS[neighbour.zone])
 
@@ -99,6 +102,8 @@ class PathFinder:
                     heappush(self.open_set, (f_score, neighbour, arrival_turn))
 
             wait_turn = current_turn + 1
+            if wait_turn >= max_turns:
+                continue
             current_g = self.g_scores.get(
                 (current_hub.name, current_turn), float('inf'))
             wait_g = current_g + 1
@@ -110,7 +115,8 @@ class PathFinder:
                     current_hub, current_turn)
                 self.g_scores[(current_hub.name, wait_turn)] = wait_g
                 f_score = wait_g + self._heuristic(current_hub)
-                heappush(self.open_set, (f_score, current_hub, wait_turn))
+                heappush(self.open_set,
+                         (f_score, current_hub, wait_turn))
 
         return []
 
@@ -131,12 +137,20 @@ class PathFinder:
                     connection.drones[prev_turn + 1] = (
                         connection.drones.get(prev_turn + 1, 0) + 1
                     )
+                    current.drones[turn] = current.drones.get(turn, 0) + 1
+                    path.append(PathStep(hub=current, connection=None,
+                                         turn=turn))
                     path.append(PathStep(
                         hub=None,
                         connection=connection,
                         turn=prev_turn + 1,
                         in_transit=True
                     ))
+                    current = prev_hub
+                    turn = prev_turn
+                    state = (current.name, turn)
+                    continue
+
             elif current.name != prev_hub.name:
                 if connection is not None:
                     connection.drones[prev_turn] = (
@@ -147,11 +161,8 @@ class PathFinder:
                     current.drones.get(prev_turn, 0) + 1
                 )
 
-            current.drones[turn] = (
-                current.drones.get(turn, 0) + 1
-            )
+            current.drones[turn] = current.drones.get(turn, 0) + 1
             path.append(PathStep(hub=current, connection=None, turn=turn))
-
             current = prev_hub
             turn = prev_turn
             state = (current.name, turn)

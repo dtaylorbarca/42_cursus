@@ -16,6 +16,8 @@ class Simulator:
                 end=self.parser.end_hub,
             )
             path = pathfinder.find_path()
+            if not path:
+                raise ValueError("Path was not found for this drone")
             self.drone_states.append(path)
 
         current_turn = 0
@@ -31,7 +33,8 @@ class Simulator:
                     prev_hub = drone[current_turn - 1].hub
                     if (drone[current_turn].in_transit and
                             current_connection is not None):
-                        turn_moves.append(current_connection.name)
+                        turn_moves.append(f"D{drone_id}-"
+                                          f"{current_connection.name}")
                     elif (not drone[current_turn].in_transit and
                           current_hub is not None):
                         if (current_hub.name != "start" and prev_hub is not

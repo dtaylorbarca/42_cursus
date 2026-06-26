@@ -11,16 +11,23 @@ class Visual:
         self.hubs = hubs
         self.paths = paths
         self.COLORS: dict[str, str] = {
+            "darkred": "\033[38;5;88m",
+            "maroon": "\033[38;5;124m",
+            "crimson": "\033[38;5;196m",
             "red": "\033[91m",
-            "green": "\033[92m",
+            "orange": "\033[38;5;208m",
+            "gold": "\033[38;5;220m",
             "yellow": "\033[93m",
-            "blue": "\033[94m",
-            "magenta": "\033[95m",
+            "green": "\033[92m",
             "cyan": "\033[96m",
+            "blue": "\033[94m",
+            "violet": "\033[38;5;99m",
+            "purple": "\033[38;5;129m",
+            "magenta": "\033[95m",
+            "pink": "\033[95m",
+            "brown": "\033[38;5;94m",
             "white": "\033[97m",
             "gray": "\033[90m",
-            "orange": "\033[33m",
-            "pink": "\033[95m",
             "black": "\033[30m",
             "none": "\033[97m"
         }
