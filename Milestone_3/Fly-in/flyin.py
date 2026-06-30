@@ -162,7 +162,7 @@ class Parser:
                     f"{line_number}"
                 )
             meta[key] = val
-        
+
         if hub_type in ("start hub", "end hub") and "max_drones" in meta:
             if hub.max_drones < self.nb_drones:
                 raise ValueError(
