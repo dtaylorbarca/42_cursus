@@ -31,29 +31,6 @@ class Hub:
             if len(data["color"].split()) != 1:
                 raise ValueError("Color must be a single-word string"
                                  f". Line: {line_number}")
-            colors = {
-                "darkred",
-                "maroon",
-                "crimson",
-                "red",
-                "orange",
-                "gold",
-                "yellow",
-                "green",
-                "cyan",
-                "blue",
-                "violet",
-                "purple",
-                "magenta",
-                "pink",
-                "brown",
-                "white",
-                "gray",
-                "black"
-            }
-            if data["color"] not in colors:
-                raise SyntaxError("Invalid color used. Colors must be one of: "
-                                  f"{colors}. Line: {line_number}")
             self.color = data["color"]
 
         if "max_drones" in data:

@@ -16,7 +16,7 @@ install:
 	poetry install
 
 run:
-	@echo "Running simulation with arguments: $(ARGS)"
+	clear
 	$(PYTHON) $(MAIN_SCRIPT) $(ARGS)
 
 debug:
