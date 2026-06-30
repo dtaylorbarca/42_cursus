@@ -6,11 +6,11 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 11:44:03 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/02/11 12:41:49 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/06/30 15:08:40 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
