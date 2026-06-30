@@ -18,14 +18,22 @@ This repository serves as a centralized archive for my journey through the **42 
 | :--- | :--- | :--- | :--- | :--- |
 | **ft_printf** | C | Recreating the printf function using variadic functions. | [`/Milestone_1/ft_printf`](./Milestone_1/ft_printf) | Finished |
 | **get_next_line** | C | Developing a function to read lines from a file descriptor. | [`/Milestone_1/get_next_line`](./Milestone_1/get_next_line) | Finished |
-| **push_swap** | C | Optimized stack sorting using a limited set of operations and complex algorithms | [`/Mileston_1/push_swap`](./Milestone_1/push_swap) | Finished |
+| **push_swap** | C | Optimized stack sorting using a limited set of operations and complex algorithms. | [`/Milestone_1/push_swap`](./Milestone_1/push_swap) | Finished |
 
 ### Milestone 2
 
 | Project | Language | Description | Folder | Status |
 | :--- | :--- | :--- | :--- | :--- |
-| **Exam Rank 02**   | C      | | [`/Mileston_2/Exam_Rank_02`](./Milestone_2/Exam_Rank_02/) | Finished |
-| **Python Piscina** | Python | | [`/Mileston_2/Piscina_Python`](./Milestone_2/Python_Piscina/)| In Progress |
+| **Exam Rank 02**   | C      | | [`/Milestone_2/Exam_Rank_02`](./Milestone_2/Exam_Rank_02/) | Finished |
+| **Python Piscina** | Python | | [`/Milestone_2/Piscina_Python`](./Milestone_2/Python_Piscina/)| Finished |
+| **A-Maze-ing**     | Python | A configuration-driven maze generator and visualizer that exports perfect, hexadecimal-encoded structures.| [`/Milestone_2/A-Maze-ing`](./Milestone_2/A-Maze-ing/) | Finished |
+| **Born2beroot**    | Shell  | A strictly secured Debian server deployed on a VirtualBox VM featuring encrypted LVM partitioning, SSH, and a UFW firewall. | [`/Milestone_2/Born2beroot`](./Milestone_2/Born2beroot/) | Finished |
+
+### Milestone 3
+
+| Project | Language | Description | Folder | Status |
+| :--- | :--- | :--- | :--- | :--- |
+| **Fly-in**         | Python | An optimization system that routes a multi-drone fleet through network zones while minimizing simulation turns. | [`/Milestone_3/`](./Milestone_3/Fly-in/) | In progress |
 
 
 
