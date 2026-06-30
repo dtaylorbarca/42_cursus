@@ -2,17 +2,17 @@
 
 ## Description
 
-[cite_start]**Fly-in** is an optimization and simulation system designed to route a fleet of autonomous drones through a dynamic network of zones from a starting hub to a target destination in the fewest possible simulation turns[cite: 274, 387, 439]. [cite_start]The project models a graph network where vertices represent distinct operational zones (with varying passage costs and drone capacities) and edges represent bidirectional connections between them[cite: 388, 389, 435]. 
+**Fly-in** is an optimization and simulation system designed to route a fleet of autonomous drones through a dynamic network of zones from a starting hub to a target destination in the fewest possible simulation turns. The project models a graph network where vertices represent distinct operational zones (with varying passage costs and drone capacities) and edges represent bidirectional connections between them. 
 
-[cite_start]The core challenge lies in maximizing throughput and preventing deadlocks under tight movement constraints [cite: 441, 443][cite_start], such as localized zone capacity limits (`max_drones`) and connection bottleneck limitations (`max_link_capacity`)[cite: 445].
+The core challenge lies in maximizing throughput and preventing deadlocks under tight movement constraints, such as localized zone capacity limits (`max_drones`) and connection bottleneck limitations (`max_link_capacity`).
 
 ---
 
 ## Instructions
 
 ### Prerequisites
-* [cite_start]**Python**: Version 3.10 or later is strictly required[cite: 351].
-* [cite_start]**Quality & Standards**: The codebase adheres to the `flake8` coding standard and uses `mypy` for mandatory, static type safety[cite: 352, 359, 393].
+* **Python**: Version 3.10 or later is strictly required.
+* **Quality & Standards**: The codebase adheres to the `flake8` coding standard and uses `mypy` for mandatory, static type safety.
 
 ### Installation
 To install the required environment dependencies, run:
@@ -21,12 +21,12 @@ make install
 ```
 ## Execution
 
-To execute the main simulation interpreter[cite: 94]:
+To execute the main simulation interpreter:
 ```bash
 make run
 ```
 
-To run the project in debug mode utilizing Python's built-in debugger (`pdb`)[cite: 95]:  
+To run the project in debug mode utilizing Python's built-in debugger (`pdb`):  
 ```bash
 make debug
 ```
