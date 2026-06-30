@@ -13,7 +13,7 @@ class PathStep:
 
 class PathFinder:
     ZONE_COSTS: dict[str, float] = {
-        "normal": 1.0,
+        "normal": 1.1,
         "priority": 1.0,
         "restricted": 2.0,
         "blocked": float('inf')

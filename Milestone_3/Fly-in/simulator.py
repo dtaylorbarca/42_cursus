@@ -6,6 +6,29 @@ from typing import Generator
 class Simulator:
     def __init__(self, parser: Parser) -> None:
         self.parser = parser
+        self.COLORS: dict[str, str] = {
+            "darkred": "\033[38;5;88m",
+            "maroon": "\033[38;5;124m",
+            "crimson": "\033[38;5;196m",
+            "red": "\033[91m",
+            "orange": "\033[38;5;208m",
+            "gold": "\033[38;5;220m",
+            "yellow": "\033[93m",
+            "green": "\033[92m",
+            "lime": "\033[38;5;154m",
+            "cyan": "\033[96m",
+            "blue": "\033[94m",
+            "violet": "\033[38;5;99m",
+            "purple": "\033[38;5;129m",
+            "magenta": "\033[95m",
+            "pink": "\033[95m",
+            "brown": "\033[38;5;94m",
+            "white": "\033[97m",
+            "gray": "\033[90m",
+            "black": "\033[30m",
+            "none": "\033[97m"
+        }
+        self.RESET: str = "\033[0m"
 
     def simulate(self) -> Generator[str, None, None]:
         self.drone_states: list[list[PathStep]] = []
@@ -31,16 +54,26 @@ class Simulator:
                     current_connection = drone[current_turn].connection
                     current_hub = drone[current_turn].hub
                     prev_hub = drone[current_turn - 1].hub
+                    if prev_hub is None and current_hub is not None:
+                        c = self.COLORS[current_hub.color]
+                        r = self.RESET
+                        turn_moves.append(
+                            f"{c}D{drone_id}-{current_hub.name}{r}"
+                        )
                     if (drone[current_turn].in_transit and
                             current_connection is not None):
-                        turn_moves.append(f"D{drone_id}-"
-                                          f"{current_connection.name}")
+                        c = self.COLORS["none"]
+                        r = self.RESET
+                        turn_moves.append(f"{c}D{drone_id}-"
+                                          f"{current_connection.name}{r}")
                     elif (not drone[current_turn].in_transit and
                           current_hub is not None):
                         if (current_hub.name != "start" and prev_hub is not
                                 None and current_hub.name != prev_hub.name):
+                            c = self.COLORS[current_hub.color]
+                            r = self.RESET
                             turn_moves.append(
-                                f"D{drone_id}-{current_hub.name}")
+                                f"{c}D{drone_id}-{current_hub.name}{r}")
             if turn_moves:
                 result = f"Turn {current_turn}: {' '.join(turn_moves)}"
                 yield result
