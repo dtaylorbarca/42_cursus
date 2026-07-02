@@ -111,7 +111,7 @@ class Parser:
                 int(raw.strip())
             except ValueError:
                 raise ValueError(
-                    f"The {axis} value in the {hub_type} must be an"
+                    f"The {axis} value in the {hub_type} must be an "
                     f"integer - received: {raw.strip()}. Line: {line_number}"
                 )
 
