@@ -163,6 +163,13 @@ class Parser:
                 )
             meta[key] = val
 
+        if hub_type in ("start hub", "end hub") and "max_drones" in meta:
+            if hub.max_drones < self.nb_drones:
+                raise ValueError(
+                    f"Max drones of {hub_type} hub must be equal or greater"
+                    f" than number of drones. Line: {line_number}"
+                )
+
         hub.metadata(meta, line_number)
         return hub
 
