@@ -5,6 +5,12 @@ from dataclasses import dataclass
 
 @dataclass
 class PathStep:
+    """A single step in a reconstructed path.
+
+    Represents either a drone occupying a hub at a given turn (`hub`
+    set, `connection` None) or a drone in transit along a connection
+    between turns (`connection` set, `hub` None, `in_transit` True).
+    """
     hub: Hub | None
     connection: Connection | None
     turn: int
@@ -12,14 +18,29 @@ class PathStep:
 
 
 class PathFinder:
+    """Finds a time-aware shortest path between two hubs using A*.
+
+    The search accounts for per-zone travel costs, hub/connection
+    capacity limits at specific turns, and dead-end/blocked-zone
+    avoidance, allowing drones to wait in place when no valid move
+    is currently available.
+    """
+
     ZONE_COSTS: dict[str, float] = {
-        "normal": 1.1,
+        "normal": 1.0,
         "priority": 1.0,
         "restricted": 2.0,
         "blocked": float('inf')
     }
 
     def __init__(self, start: Hub, end: Hub) -> None:
+        """Initialize the A* search state for a path from start to end.
+
+        Sets up the open set (priority queue) seeded with the start
+        hub at turn 0, an empty came_from map for path reconstruction,
+        and a g_scores map initialized with the start state's cost of
+        0.
+        """
         self.start = start
         self.end = end
         self.open_set: list[tuple[float, Hub, int]] = []
@@ -28,6 +49,13 @@ class PathFinder:
         heappush(self.open_set, (0.0, start, 0))
 
     def _heuristic(self, hub: Hub) -> float:
+        """Estimate the remaining cost from `hub` to the end hub.
+
+        Uses Manhattan distance as the base estimate, with a large
+        penalty added for hubs that are dead ends (only one
+        connection) other than the start or end hub, to discourage
+        the search from routing through them.
+        """
         distance = abs(hub.x - self.end.x) + abs(hub.y - self.end.y)
         if (len(hub.connections) == 1 and hub.name != self.end.name and
                 hub.name != self.start.name):
@@ -35,6 +63,12 @@ class PathFinder:
         return distance
 
     def _find_connection(self, hub_a: Hub, hub_b: Hub) -> Connection | None:
+        """Return the Connection object linking hub_a and hub_b, if any.
+
+        Searches hub_a's connections for one whose other endpoint
+        matches hub_b's name; returns None if no such connection
+        exists.
+        """
         for connection in hub_a.connections:
             if (connection.hub_b.name == hub_b.name or
                     connection.hub_a.name == hub_b.name):
@@ -42,6 +76,12 @@ class PathFinder:
         return None
 
     def _is_dead_end(self, hub: Hub) -> bool:
+        """Return True if `hub` is a dead end that should be avoided.
+
+        A hub counts as a dead end when it has only one connection
+        and is not the destination (end) hub; the end hub is never
+        treated as a dead end.
+        """
         if hub.name == self.end.name:
             return False
         if len(hub.connections) == 1:
@@ -49,6 +89,15 @@ class PathFinder:
         return False
 
     def find_path(self) -> list[PathStep]:
+        """Run the A* search and return the resulting path as PathSteps.
+
+        Explores neighbouring hubs turn by turn, skipping blocked
+        zones, dead ends, the start hub, and moves that would exceed
+        a connection's or hub's capacity at the relevant turn. Also
+        considers "waiting" in place for a turn as a valid move. Stops
+        as soon as the end hub is reached and reconstructs the path;
+        returns an empty list if no path is found.
+        """
         closed_set: set[tuple[str, int]] = set()
         max_turns = 1000
 
@@ -121,6 +170,15 @@ class PathFinder:
         return []
 
     def _reconstruct_path(self, current: Hub, turn: int) -> list[PathStep]:
+        """Walk the came_from chain backward to build the final path.
+
+        Starting from the end hub/turn, follows the recorded
+        predecessors back to the start, marking drone occupancy on
+        each hub and connection it passes through (splitting
+        two-turn "restricted zone" hops into a transit step on the
+        connection plus an arrival step on the hub), then reverses the
+        collected steps so the path runs from start to end.
+        """
         path: list[PathStep] = []
         state = (current.name, turn)
 
@@ -131,10 +189,10 @@ class PathFinder:
 
             if cost == 2:
                 if connection is not None:
-                    connection.drones[prev_turn] = (
+                    connection.drones[prev_turn - 1] = (
                         connection.drones.get(prev_turn, 0) + 1
                     )
-                    connection.drones[prev_turn + 1] = (
+                    connection.drones[prev_turn] = (
                         connection.drones.get(prev_turn + 1, 0) + 1
                     )
                     current.drones[turn] = current.drones.get(turn, 0) + 1

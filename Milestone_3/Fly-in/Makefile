@@ -3,13 +3,25 @@ PIP        := pip
 SRC_DIR    := .
 MAIN_SCRIPT:= flyin.py
 
+VENV_DIR    := .venv
+VENV_PYTHON := $(VENV_DIR)/bin/python
+VENV_PIP    := $(VENV_DIR)/bin/pip
+
 ARGS       ?= $(filter-out $@,$(MAKECMDGOALS))
 
 .PHONY: install run debug clean lint lint-strict
 
 all: install
 
-install:
+venv:
+	@if [ ! -d "$(VENV_DIR)" ]; then \
+		echo "Creating virtual environment in $(VENV_DIR)..."; \
+		$(PYTHON) -m venv $(VENV_DIR); \
+	else \
+		echo "Virtual environment already exists in $(VENV_DIR)."; \
+	fi
+
+install: venv
 	@echo "Installing poetry..."
 	$(PIP) install poetry
 	@echo "Installing project dependencies..."

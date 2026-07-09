@@ -5,8 +5,23 @@ from copy import deepcopy
 
 
 class Visual:
+    """Renders an animated, terminal-based map of the drone simulation.
+
+    Builds a text/ANSI-color grid from the hubs' coordinates, draws
+    each hub as a small box, and then, turn by turn, redraws the grid
+    with drones overlaid on the hubs and connections they currently
+    occupy, animating the result in place in the terminal.
+    """
+
     def __init__(self, coordinates: list[tuple[int, int]],
                  hubs: list[Hub], paths: list[list[PathStep]]) -> None:
+        """Initialize the visualizer with map geometry and drone paths.
+
+        Stores the list of hub coordinates (used to size the grid),
+        the hubs themselves (used to draw their boxes and colors),
+        and each drone's computed path (used to animate their
+        movement), plus the color palette used for rendering.
+        """
         self.hub_coordinates = coordinates
         self.hubs = hubs
         self.paths = paths
@@ -35,10 +50,22 @@ class Visual:
         self.RESET: str = "\033[0m"
 
     def _clear_map(self, num_lines: int) -> None:
+        """Move the cursor up and clear the previously printed map.
+
+        Uses ANSI escape codes to move the cursor up `num_lines`
+        lines and erase everything from there to the end of the
+        screen, so the next frame can be redrawn in place.
+        """
         print(f"\033[{num_lines}A", end="")
         print("\033[J", end="")
 
     def _draw_hub(self, cell: list[str], color: str) -> None:
+        """Draw an empty (drone-less) hub box into a grid cell.
+
+        Fills the middle and bottom lines of the 4-line cell with a
+        colored box outline, using the color mapped from `color`
+        (falling back to "none" if unrecognized).
+        """
         c = self.COLORS.get(color, self.COLORS["none"])
         r = self.RESET
         cell[1] = f"{c}│         │{r}"
@@ -46,16 +73,41 @@ class Visual:
         cell[3] = f"{c}└─────────┘{r}"
 
     def _draw_drone_connection(self, cell: list[str]) -> None:
+        """Draw a drone-in-transit marker onto a connection grid cell.
+
+        Overwrites the middle two lines of the cell with a simple
+        dashed/line glyph representing a drone traveling along a
+        connection between two hubs.
+        """
         cell[1] = "  --- ---  "
         cell[2] = "   │───│   "
 
     def _draw_drone_hub(self, cell: list[str], color: str) -> None:
+        """Draw a drone marker inside a hub box grid cell.
+
+        Overwrites the middle two lines of the hub's box with a
+        drone glyph, keeping the box's colored side borders intact
+        using the color mapped from `color` (falling back to "none"
+        if unrecognized).
+        """
         c = self.COLORS.get(color, self.COLORS["none"])
         r = self.RESET
         cell[1] = f"{c}│{r} --- --- {c}│{r}"
         cell[2] = f"{c}│{r}  │───│  {c}│{r}"
 
     def mapping(self) -> None:
+        """Build the map grid and animate the simulation turn by turn.
+
+        Computes the grid dimensions from the hubs' min/max
+        coordinates, initializes a blank grid, and draws every hub's
+        box onto it. Then, for each turn (starting at 1) up to the
+        length of the longest drone path, makes a fresh copy of the
+        base grid, overlays each active drone as either a
+        connection-transit marker or a hub marker depending on its
+        current PathStep, clears the previously printed frame (after
+        the first), prints the new frame, and pauses briefly before
+        moving to the next turn.
+        """
         max_x = max(self.hub_coordinates, key=lambda x: x[0])[0]
         min_x = min(self.hub_coordinates, key=lambda x: x[0])[0]
 
