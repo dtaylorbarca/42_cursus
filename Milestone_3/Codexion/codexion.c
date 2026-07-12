@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/06 17:57:08 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/07/06 21:08:19 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/07/09 17:34:42 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,49 +14,53 @@
 #include <string.h>
 #include <pthread.h>
 
-int find_digit(char digit)
+int	num_check(char *num)
 {
-	char *digits;
-	int	index;
-
-	digits = "0123456789";
-	index = 0;
-	while (digits[index])
-	{
-		if (digit == digits[index])
-			return (index);
-		index ++;
-	}
-	return -1;
-}
-
-int numtostr(char *num_str)
-{
-	int len;
-	int	result;
 	int	i;
-	char *digits;
+	int	number;
 
-	digits = "0123456789";
-	len = strlen(num_str);
 	i = 0;
-	result = 0;
-	while (num_str[i])
+	while (num[i])
 	{
-		result = result * 10 + find_digit(num_str[i]);
-		i++;
+		if ('9' <= num ||  num <= '0')
+			return (-1);
 	}
-	return result;
+	number = atoi(num);
+	if (number < 1)
+		return (-1);
+	return (number);
 }
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
-	int num_coders;
+	int		num_coders;
+	int		time_to_burnout;
+	int		time_to_compile;
+	int		time_to_debug;
+	int		time_to_refactor;
+	int		number_of_compiles_required;
+	int		dongle_cooldown;
+	char	*scheduler;
+
 	if (argc != 9)
 	{
 		printf("8 arguments must be provided");
 		return (1);
 	}
-	num_coders = numtostr(argv[1]);
+	num_coders = num_check(argv[1]);
+	time_to_burnout = atoi(argv[2]);
+	time_to_compile = atoi(argv[3]);
+	time_to_debug = atoi(argv[4]);
+	time_to_refactor = atoi(argv[5]);
+	number_of_compiles_required = atoi(argv[6]);
+	dongle_cooldown = atoi(argv[7]);
+	if (strcmp("fifo", argv[8]) || strcmp("edf", argv[8]))
+		scheduler = argv[8];
+	else
+	{
+		printf("Scheduler must be either fifo (First In, First Out)"
+			"or edf (Earliest Deadline First)");
+		return (-1);
+	}
 	return (0);
 }
