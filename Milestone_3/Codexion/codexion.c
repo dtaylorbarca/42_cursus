@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/06 17:57:08 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/07/12 17:20:37 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/07/12 18:33:42 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void*	compiling(void* arg)
 	t_thread_data	*coder;
 	long long		time;
 
-	*coder = *(t_thread_data*) arg;
+	coder = (t_thread_data*) arg;
 	pthread_mutex_lock(&coder -> mutex);
 	time = get_time() - coder -> start_time;
 	printf("%lld %d is compiling\n", time, coder -> id);
