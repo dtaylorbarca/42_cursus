@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/12 18:21:21 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/07/12 18:21:22 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/07/13 18:39:39 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ typedef struct s_data
 	long long		dongle_cooldown;
 	char			*scheduler;
 	int				simulation_over;
-	pthread_mutex_t	mutex;
+	pthread_mutex_t	mutex_data;
 	pthread_cond_t	condition;
 }			   t_data;
 
@@ -41,6 +41,7 @@ typedef struct s_thread_data
 	int				id;
 	long long 		start_time;
 	pthread_t		thread_id;
+	pthread_mutex_t	mutex_coder;
 	t_data			*data;
 }			   t_thread_data;
 

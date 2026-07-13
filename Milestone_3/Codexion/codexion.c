@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/06 17:57:08 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/07/13 17:03:15 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/07/13 18:41:37 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,54 +15,65 @@
 void*	routine(void* arg)
 {
 	t_thread_data	*coder;
+	t_data			*data;
 	long long		time;
 
 	coder = (t_thread_data*) arg;
+	data = coder->data;
 	while (1)
 	{
-		pthread_mutex_lock(&coder -> data -> mutex);
+		pthread_mutex_lock(&data -> mutex_data);
 		time = get_time() - coder -> start_time;
 		printf("%lld %d is compiling\n", time, coder -> id);
-		usleep(coder -> data->time_to_compile * 1000);
-		pthread_mutex_unlock(&coder -> data -> mutex);
+		usleep(data->time_to_compile * 1000);
+		pthread_mutex_unlock(&data -> mutex_data);
 
-		pthread_mutex_lock(&coder -> data -> mutex);
+		pthread_mutex_lock(&data -> mutex_data);
 		time = get_time() - coder -> start_time;
 		printf("%lld %d is debugging\n", time, coder -> id);
-		usleep(coder -> data->time_to_debug * 1000);
-		pthread_mutex_unlock(&coder -> data -> mutex);
+		usleep(data->time_to_debug * 1000);
+		pthread_mutex_unlock(&data -> mutex_data);
 
-		pthread_mutex_lock(&coder -> data -> mutex);
+		pthread_mutex_lock(&data -> mutex_data);
 		time = get_time() - coder -> start_time;
 		printf("%lld %d is refactoring\n", time, coder -> id);
-		usleep(coder -> data->time_to_refactor * 1000);
-		pthread_mutex_unlock(&coder -> data -> mutex);
+		usleep(data->time_to_refactor * 1000);
+		pthread_mutex_unlock(&data -> mutex_data);
 
-		pthread_mutex_lock(&coder -> data -> mutex);
-		while (!dongle_is_availalbe(coder) && !coder -> data -> simulation_over)
+		pthread_mutex_lock(&data -> mutex_data);
+		// while (!data -> simulation_over)
+		// {
+		// 	pthread_cond_wait(&data -> condition,
+		// 		&data -> mutex_data);
+		// }
+		if (data->simulation_over)
 		{
-			thread_cond_wait(&coder -> data -> condition,
-				&coder -> data -> mutex);
-		}
-		if (coder ->data->simulation_over)
-		{
-			pthread_mutex_unlock(&coder->data->mutex);
+			pthread_mutex_unlock(&data->mutex_data);
 			break ;
 		}
-		pthread_mutex_unlock(&coder->data->mutex);
+		pthread_mutex_unlock(&data->mutex_data);
 	}
 	return (NULL);
 }
 
 void*	monitor(void* arg)
 {
+	t_thread_data	*coders;
 	t_data	*data;
-	
+	long long start_time;
+
 	data = (t_data*) arg;
-	pthread_mutex_lock(&data -> mutex);
-	data -> simulation_over = 1;
-	pthread_cond_broadcast(&data->condition);
-	pthread_mutex_unlock(&data -> mutex);
+	start_time = get_time();
+	while (1)
+	{
+		pthread_mutex_lock(
+		pthread_mutex_lock(&data -> mutex_data);
+		data -> simulation_over = 1;
+		pthread_cond_broadcast(&data->condition);
+		pthread_mutex_unlock(&data -> mutex_data);
+	}
+
+	return (NULL);
 }
 
 int	data_setup(t_data ** data, char **argv)
