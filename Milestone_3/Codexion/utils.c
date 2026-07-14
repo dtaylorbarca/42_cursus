@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/12 18:21:24 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/07/12 18:21:25 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/07/14 18:27:28 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,12 @@ int	num_check(char *num)
 	i = 0;
 	while (num[i])
 	{
-		if ('9' <= num[i] ||  num[i] <= '0')
-			return (-1);
+		if ('9' < num[i] ||  num[i] < '0')
+			return (0);
 		i++;
 	}
 	number = atoi(num);
 	if (number < 1)
-		return (-1);
+		return (0);
 	return (number);
 }

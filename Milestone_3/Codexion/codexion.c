@@ -6,74 +6,127 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/06 17:57:08 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/07/13 18:41:37 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/07/14 19:08:27 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
-void*	routine(void* arg)
+void* routine(void* arg)
 {
-	t_thread_data	*coder;
-	t_data			*data;
-	long long		time;
+    t_thread_data   *coder;
+    t_data          *data;
+    long long       time;
 
-	coder = (t_thread_data*) arg;
-	data = coder->data;
-	while (1)
-	{
-		pthread_mutex_lock(&data -> mutex_data);
-		time = get_time() - coder -> start_time;
-		printf("%lld %d is compiling\n", time, coder -> id);
-		usleep(data->time_to_compile * 1000);
-		pthread_mutex_unlock(&data -> mutex_data);
-
-		pthread_mutex_lock(&data -> mutex_data);
-		time = get_time() - coder -> start_time;
-		printf("%lld %d is debugging\n", time, coder -> id);
-		usleep(data->time_to_debug * 1000);
-		pthread_mutex_unlock(&data -> mutex_data);
-
-		pthread_mutex_lock(&data -> mutex_data);
-		time = get_time() - coder -> start_time;
-		printf("%lld %d is refactoring\n", time, coder -> id);
-		usleep(data->time_to_refactor * 1000);
-		pthread_mutex_unlock(&data -> mutex_data);
-
-		pthread_mutex_lock(&data -> mutex_data);
-		// while (!data -> simulation_over)
-		// {
-		// 	pthread_cond_wait(&data -> condition,
-		// 		&data -> mutex_data);
-		// }
-		if (data->simulation_over)
+    coder = (t_thread_data*) arg;
+    data = coder->data;
+    while (1)
+    {
+        pthread_mutex_lock(&data->mutex_data);
+        if (data->simulation_over)
+        {
+            pthread_mutex_unlock(&data->mutex_data);
+            break;
+        }
+		if (coder->times_compiled > data->number_of_compiles_required)
 		{
 			pthread_mutex_unlock(&data->mutex_data);
-			break ;
+			break;
 		}
-		pthread_mutex_unlock(&data->mutex_data);
-	}
-	return (NULL);
+        time = get_time() - data->start_time;
+        printf("%lld %d is compiling\n", time, coder->id);
+        pthread_mutex_unlock(&data->mutex_data);
+
+        pthread_mutex_lock(&coder->mutex_coder);
+        coder->last_compile_start = get_time();
+		coder->times_compiled++;
+        pthread_mutex_unlock(&coder->mutex_coder);
+
+        usleep(data->time_to_compile * 1000);
+
+        pthread_mutex_lock(&data->mutex_data);
+        if (data->simulation_over)
+        {
+            pthread_mutex_unlock(&data->mutex_data);
+            break;
+        }
+        time = get_time() - data->start_time;
+        printf("%lld %d is debugging\n", time, coder->id);
+        pthread_mutex_unlock(&data->mutex_data);
+
+        usleep(data->time_to_debug * 1000);
+
+        pthread_mutex_lock(&data->mutex_data);
+        if (data->simulation_over)
+        {
+            pthread_mutex_unlock(&data->mutex_data);
+            break;
+        }
+        time = get_time() - data->start_time;
+        printf("%lld %d is refactoring\n", time, coder->id);
+        pthread_mutex_unlock(&data->mutex_data);
+
+        usleep(data->time_to_refactor * 1000);
+    }
+    return (NULL);
 }
 
-void*	monitor(void* arg)
+void* monitor(void* arg)
 {
-	t_thread_data	*coders;
-	t_data	*data;
-	long long start_time;
+    t_data          *data;
+    t_thread_data   *coders;
+    int             i;
+	int				j;
+    long long       current_time;
+	int				threads_done;
 
-	data = (t_data*) arg;
-	start_time = get_time();
+    coders = (t_thread_data*) arg;
+    data = coders[0].data;
+
 	while (1)
-	{
-		pthread_mutex_lock(
-		pthread_mutex_lock(&data -> mutex_data);
-		data -> simulation_over = 1;
-		pthread_cond_broadcast(&data->condition);
-		pthread_mutex_unlock(&data -> mutex_data);
-	}
+    {
+		j = 0;
+		threads_done = 0;
+		pthread_mutex_lock(&data->mutex_data);
+		while (j < data->num_coders)
+		{
+			if (coders[j].times_compiled > data->number_of_compiles_required)
+				threads_done++;
+			j++;
+		}
+		if (threads_done == data->num_coders)
+		{
+			data->simulation_over = 1;
+			pthread_cond_broadcast(&data->condition);
+			printf("Ended due to all coders compiling\n");
+			pthread_mutex_unlock(&data->mutex_data);
+			return (NULL);
+		}
+		pthread_mutex_unlock(&data->mutex_data);
+        i = 0;
+        while (i < data->num_coders)
+        {
+            pthread_mutex_lock(&coders[i].mutex_coder);
+            current_time = get_time();
 
-	return (NULL);
+            if (current_time - coders[i].last_compile_start >= data->time_to_burnout)
+            {
+
+                pthread_mutex_lock(&data->mutex_data);
+                data->simulation_over = 1;
+                pthread_cond_broadcast(&data->condition);
+                pthread_mutex_unlock(&data->mutex_data);
+                
+                pthread_mutex_unlock(&coders[i].mutex_coder);
+				printf("Ended due to burnout\n");
+                return (NULL);
+            }
+            pthread_mutex_unlock(&coders[i].mutex_coder);
+            i++;
+        }
+		usleep(2000); 
+    }
+    return (NULL);
 }
 
 int	data_setup(t_data ** data, char **argv)
@@ -103,8 +156,6 @@ int	data_setup(t_data ** data, char **argv)
 
 int	main(int argc, char **argv)
 {
-	pthread_mutex_t mutex;
-	pthread_cond_t	cond;
 	t_thread_data 	*coders;
 	t_data  		*data;
 	long long 		start_time;
@@ -127,30 +178,48 @@ int	main(int argc, char **argv)
 	}
 	i = 0;
 	coders = (t_thread_data *) malloc((data -> num_coders) * sizeof(t_thread_data));
-	pthread_mutex_init(&mutex, NULL);
-	pthread_cond_init(&cond, NULL);
-	data -> mutex = mutex;
-	data -> condition = cond;
+	pthread_mutex_init(&data->mutex_data, NULL);
+	pthread_cond_init(&data->condition, NULL);
+	data -> start_time = start_time;
 	while (i < data -> num_coders)
 	{
 		coders[i].id = i + 1;
 		coders[i].data = data;
-		coders[i].start_time = start_time;
-		if (pthread_create(&coders[i].thread_id, NULL, &routine, &coders[i]) != 0)
-		{
-			printf("Failed to create thread");
-			return (1);
-		}
+		coders[i].last_compile_start = start_time;
+		coders[i].times_compiled = 0;
+		pthread_mutex_init(&coders[i].mutex_coder, NULL);
 		i++;
+	}
+	if (pthread_create(&data->thread_id, NULL, &monitor, (void *) coders) != 0)
+	{
+		printf("Failed to create thread");
+		return (1);
+	}
+	i = 0;
+	while (i < data -> num_coders)
+	{
+		if (pthread_create(&coders[i].thread_id, NULL, &routine, &coders[i]) != 0)
+        {
+            printf("Failed to create coder thread");
+            return (1);
+        }
+        i++;
 	}
 	i = 0;
 	while (i < data -> num_coders)
 	{
 		pthread_join(coders[i].thread_id, NULL);
-		printf("Coder %d has finished\n", coders[i].id);
 		i++;
 	}
-	pthread_mutex_destroy(&mutex);
+	pthread_join(data->thread_id, NULL);
+	i = 0;
+	while (i < data -> num_coders)
+	{
+		pthread_mutex_destroy(&coders[i].mutex_coder);
+		i++;
+	}
+	pthread_cond_destroy(&data->condition);
+	pthread_mutex_destroy(&data->mutex_data);
 	free(data);
 	return (0);
 }
