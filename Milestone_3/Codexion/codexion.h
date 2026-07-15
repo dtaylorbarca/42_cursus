@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/12 18:21:21 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/07/14 18:51:15 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/07/15 15:24:30 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef struct s_data
 	char			*scheduler;
 	int				simulation_over;
 	long long 		start_time;
+	int*			dongles;
 	pthread_mutex_t	mutex_data;
 	pthread_cond_t	condition;
 	pthread_t		thread_id;
