@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/12 18:21:21 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/07/15 15:24:30 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/07/17 18:35:43 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <stdlib.h>
 # include <sys/time.h>
 # include <unistd.h>
+# include <limits.h>
 
 typedef struct s_data
 {

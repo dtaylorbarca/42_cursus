@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/06 17:57:08 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/07/16 17:54:24 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/07/17 18:38:46 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,6 @@ void* monitor(void* arg)
 		{
 			pthread_mutex_lock(&coders[i].mutex_coder);
 			current_time = get_time();
-
 			if (current_time - coders[i].last_compile_start >= data->time_to_burnout)
 			{
 
@@ -222,7 +221,7 @@ int	main(int argc, char **argv)
 	{
 		coders[i].id = i + 1;
 		coders[i].data = data;
-		coders[i].last_compile_start = -1;
+		coders[i].last_compile_start = LLONG_MAX;
 		coders[i].times_compiled = 0;
 		pthread_mutex_init(&coders[i].mutex_coder, NULL);
 		i++;
