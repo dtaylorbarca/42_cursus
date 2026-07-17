@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/06 17:57:08 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/07/15 17:19:38 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/07/16 17:54:24 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ void* routine(void* arg)
 		pthread_mutex_lock(&data->mutex_data);
 		data->dongles[left_dongle] = -1;
 		data->dongles[right_dongle] = -1;
+		pthread_cond_broadcast(&data->condition);
 		pthread_mutex_unlock(&data->mutex_data);
 
 		usleep(data->time_to_refactor * 1000);
@@ -221,7 +222,7 @@ int	main(int argc, char **argv)
 	{
 		coders[i].id = i + 1;
 		coders[i].data = data;
-		coders[i].last_compile_start = 0;
+		coders[i].last_compile_start = -1;
 		coders[i].times_compiled = 0;
 		pthread_mutex_init(&coders[i].mutex_coder, NULL);
 		i++;
