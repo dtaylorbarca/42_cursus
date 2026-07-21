@@ -6,7 +6,7 @@
 /*   By: dtaylor- <dtaylor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/06 17:57:08 by dtaylor-          #+#    #+#             */
-/*   Updated: 2026/07/17 18:38:46 by dtaylor-         ###   ########.fr       */
+/*   Updated: 2026/07/21 19:26:02 by dtaylor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void* routine(void* arg)
 	t_thread_data	*coder;
 	t_data			*data;
 	long long		time;
-	int				i;
 	int				left_dongle;
     int				right_dongle;
 
@@ -25,7 +24,6 @@ void* routine(void* arg)
 	data = coder->data;
 	left_dongle = coder->id - 1;
 	right_dongle = coder->id % data->num_coders;
-	i = 0;
 	while (1)
 	{
 		while (1)
@@ -37,10 +35,14 @@ void* routine(void* arg)
                 return (NULL); 
             }
 
-            if (data->dongles[left_dongle] == -1 && data->dongles[right_dongle] == -1)
+            if (data->dongles[left_dongle] == -1 && data->dongles[right_dongle] == -1 && left_dongle != right_dongle)
             {
                 data->dongles[left_dongle] = coder->id;
+				time = get_time() - data->start_time;
+				printf("%lld %d got a dongle\n", time, coder->id);
                 data->dongles[right_dongle] = coder->id;
+				time = get_time() - data->start_time;
+				printf("%lld %d got a dongle\n", time, coder->id);
                 pthread_mutex_unlock(&data->mutex_data);
                 break;
             }
@@ -72,6 +74,12 @@ void* routine(void* arg)
 		usleep(data->time_to_compile * 1000);
 
 		pthread_mutex_lock(&data->mutex_data);
+		data->dongles[left_dongle] = -1;
+		data->dongles[right_dongle] = -1;
+		pthread_cond_broadcast(&data->condition);
+		pthread_mutex_unlock(&data->mutex_data);
+
+		pthread_mutex_lock(&data->mutex_data);
 		if (data->simulation_over)
 		{
 			pthread_mutex_unlock(&data->mutex_data);
@@ -93,13 +101,8 @@ void* routine(void* arg)
 		printf("%lld %d is refactoring\n", time, coder->id);
 		pthread_mutex_unlock(&data->mutex_data);
 
-		pthread_mutex_lock(&data->mutex_data);
-		data->dongles[left_dongle] = -1;
-		data->dongles[right_dongle] = -1;
-		pthread_cond_broadcast(&data->condition);
-		pthread_mutex_unlock(&data->mutex_data);
-
 		usleep(data->time_to_refactor * 1000);
+
 	}
 	return (NULL);
 }
@@ -169,6 +172,16 @@ int	data_setup(t_data ** data, char **argv)
 	i = 1;
 	while (i < 8)
 	{
+		if (i == 6 && argv[i][0] == '0' && strlen(argv[i]) == 1)
+		{
+			i++;
+			continue;
+		}
+		if (i == 7 && argv[i][0] == '0' && strlen(argv[i]) == 1)
+		{
+			i++;
+			continue;
+		}
 		if (!num_check(argv[i]))
 			return (0);
 		i++;
@@ -180,8 +193,14 @@ int	data_setup(t_data ** data, char **argv)
 	(*data) -> time_to_compile = num_check(argv[3]);
 	(*data) -> time_to_debug = num_check(argv[4]);
 	(*data) -> time_to_refactor = num_check(argv[5]);
-	(*data) -> number_of_compiles_required = num_check(argv[6]);
-	(*data) -> dongle_cooldown = num_check(argv[7]);
+	if (argv[6][0] == '0' && strlen(argv[6]) == 1)
+		(*data) -> number_of_compiles_required = 0;
+	else
+		(*data) -> number_of_compiles_required = num_check(argv[6]);
+	if (argv[7][0] == '0' && strlen(argv[7]) == 1)
+		(*data) -> dongle_cooldown = 0;
+	else
+		(*data) -> dongle_cooldown = num_check(argv[7]);
 	(*data) -> scheduler = argv[8];
 	(*data) -> simulation_over = 0;
 	(*data) -> dongles = malloc((*data) -> num_coders * sizeof(int) + 1);
@@ -221,7 +240,7 @@ int	main(int argc, char **argv)
 	{
 		coders[i].id = i + 1;
 		coders[i].data = data;
-		coders[i].last_compile_start = LLONG_MAX;
+		coders[i].last_compile_start = get_time();
 		coders[i].times_compiled = 0;
 		pthread_mutex_init(&coders[i].mutex_coder, NULL);
 		i++;
